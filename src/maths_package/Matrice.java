@@ -1,32 +1,40 @@
 package maths_package;
 
 import exceptions.MatriceNotCorrespondingException;
+import exceptions.VectorException;
 
 public class Matrice {
 
-	private int nColonnes;
 	private int nLignes;
+	private int nColonnes;
 	private double[][] elem;
 	
-	public Matrice(int c, int l) {
-		this.nColonnes = c;
+	//initilaise une matrice a 0
+	public Matrice(int l, int c) {
 		this.nLignes = l;
-		elem = new double[nColonnes][nLignes];
-		for (int i = 0; i < nColonnes; i++) {
-			for (int j = 0; j < nLignes; j++) {
-				elem[nColonnes - 1][nLignes - 1] = 0.0;
+		this.nColonnes = c;
+		elem = new double[nLignes][nColonnes];
+		for (int i = 0; i < nLignes; i++) {
+			for (int j = 0; j < nColonnes; j++) {
+				elem[nLignes - 1][nColonnes - 1] = 0.0;
 			}
 		}
 	}
+	//initialise une matrice aux valeurs du tableau 
+	public Matrice(double[][] tab){
+		this.elem=tab;
+		this.nLignes=tab.length;
+		this.nColonnes=tab[0].length;
+	}
 
 	//renvoie la largeur d'une matrice
-	public int getnColonnes() {
-		return nColonnes;
+	public int getnLignes() {
+		return nLignes;
 	}
 
 	//renvoie la hauteur d'une matrice
-	public int getnLignes() {
-		return nLignes;
+	public int getnColonnes() {
+		return nColonnes;
 	}
 
 	//renvoie les valeurs de la matrice
@@ -36,23 +44,27 @@ public class Matrice {
 
 	//permet d'instancier une matrice avec un tableau de double
 	public void setElem(double[][] elem) throws MatriceNotCorrespondingException {
-		if(elem[0].length != this.nColonnes && elem[1].length != this.nLignes)
+		if(elem.length != this.nLignes && elem[0].length != this.nColonnes)
 			throw new MatriceNotCorrespondingException();
 		this.elem = elem;
 	}
 
-	//permet d'insérer une valeur dans uen case de la matrice 
-	public void putElem(int c, int l, double x) {
-		this.elem[c][l] = x;
+	//permet d'insérer une valeur dans une case de la matrice 
+	public void setElem(int l, int c, double x) {
+		this.elem[l][c] = x;
+	}
+	
+	//permet de récupérer la valeur d'uen case de la matrice
+	public double getElem(int l, int c){
+		return this.elem[l][c];
 	}
 
 	//affiche les donnees de la matrice
 	public String toString() {
 
-		String res;
-		res = "";
-		for (int i = 0; i < nColonnes; i++) {
-			for (int j = 0; j < nLignes; j++) {
+		String res="";
+		for (int i = 0; i < nLignes; i++) {
+			for (int j = 0; j < nColonnes; j++) {
 				res += " " + elem[i][j];
 			}
 			res += "\n";
@@ -64,14 +76,14 @@ public class Matrice {
 	// permet de multiplier 2 matrices
 	public static Matrice multiplier(Matrice m1, Matrice m2)
 			throws MatriceNotCorrespondingException {
-		if (m1.nLignes != m2.nColonnes)
+		if (m1.getnColonnes() != m2.getnLignes())
 			throw new MatriceNotCorrespondingException();
-		Matrice res = new Matrice(m1.nColonnes, m2.nLignes);
+		Matrice res = new Matrice(m1.nLignes, m2.nColonnes);
 		double somme;
-		for (int i = 0; i < m1.nColonnes; i++) {
-			for (int j = 0; j < m2.nLignes; j++) {
+		for (int i = 0; i < m1.nLignes; i++) {
+			for (int j = 0; j < m2.nColonnes; j++) {
 				somme = 0.0;
-				for (int k = 0; k < m1.nLignes; k++) {
+				for (int k = 0; k < m1.nColonnes; k++) {
 					somme += m1.elem[i][k] * m2.elem[k][j];
 				}
 				res.elem[i][j] = somme;
@@ -83,11 +95,11 @@ public class Matrice {
 	// Permet d'additionner 2 matrices
 	public static Matrice add(Matrice m1, Matrice m2)
 			throws MatriceNotCorrespondingException {
-		if ((m1.nColonnes != m2.nColonnes) || (m1.nLignes != m2.nLignes))
+		if ((m1.nLignes != m2.nLignes) || (m1.nColonnes != m2.nColonnes))
 			throw new MatriceNotCorrespondingException();
-		Matrice res = new Matrice(m1.nColonnes, m1.nLignes);
-		for (int i = 0; i < m1.nColonnes; i++) {
-			for (int j = 0; j < m1.nLignes; j++) {
+		Matrice res = new Matrice(m1.nLignes, m1.nColonnes);
+		for (int i = 0; i < m1.nLignes; i++) {
+			for (int j = 0; j < m1.nColonnes; j++) {
 				res.elem[i][j] += m1.elem[i][j] + m2.elem[i][j];
 			}
 		}
@@ -96,12 +108,29 @@ public class Matrice {
 
 	// permet de multiplier une matrice par un réel
 	public static Matrice multiplierParReel(Matrice m1, int x) {
-		Matrice res = new Matrice(m1.nColonnes, m1.nLignes);
-		for (int i = 0; i < m1.nColonnes; i++) {
-			for (int j = 0; j < m1.nLignes; j++) {
+		Matrice res = new Matrice(m1.nLignes, m1.nColonnes);
+		for (int i = 0; i < m1.nLignes; i++) {
+			for (int j = 0; j < m1.nColonnes; j++) {
 				res.elem[i][j] = m1.elem[i][j] * x;
 			}
 		}
+		return res;
+	}
+	
+	//permet d'obtenir une matrice de translation a partir d'un vecteur
+	public static Matrice getTranslation(Matrice m1) throws VectorException {
+		if ((m1.nLignes != 3) || (m1.nColonnes != 1))
+			throw new VectorException();
+		Matrice res = new Matrice(4,4);
+		for (int i = 0; i < res.getnLignes(); i++) {
+			for (int j = 0; j < res.getnColonnes(); j++) {
+				if(i==j)
+				res.setElem(i, j, 1.0);
+			}
+		}
+		res.setElem(0,res.nColonnes-1,m1.getElem(0, 0));
+		res.setElem(1,res.nColonnes-1,m1.getElem(1, 0));
+		res.setElem(2,res.nColonnes-1,m1.getElem(2, 0));
 		return res;
 	}
 }
