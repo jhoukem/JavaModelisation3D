@@ -1,4 +1,4 @@
-package affichage;
+package affichages;
 import java.awt.Polygon;
 
 import javax.swing.JPanel;

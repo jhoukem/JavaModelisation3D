@@ -37,7 +37,7 @@ public class FModelisation extends JPanel {
 
 
 		for(int i=0;i<f.size();i++){			
-			g.fillPolygon(f.get(i));			
+				
 		}
 	}
 }
