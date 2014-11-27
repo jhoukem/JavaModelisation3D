@@ -1,4 +1,4 @@
-package affichage;
+package affichages;
 
 public class Point {
 	

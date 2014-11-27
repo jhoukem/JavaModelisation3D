@@ -1,10 +1,7 @@
 package main_package;
 
-import javax.swing.JFrame;
-
+import affichages.Fenetre3D;
 import exceptions.SegmentException;
-import affichage.FModelisation;
-import affichage.Fenetre3D;
 
 public class Main {
 

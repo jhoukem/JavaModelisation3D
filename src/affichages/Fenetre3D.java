@@ -1,4 +1,4 @@
-package affichage;
+package affichages;
 
 import java.awt.BorderLayout;
 

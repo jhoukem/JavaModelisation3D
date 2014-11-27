@@ -4,9 +4,9 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import affichage.Face;
-import affichage.Point;
-import affichage.Segment;
+import affichages.Face;
+import affichages.Point;
+import affichages.Segment;
 import exceptions.SegmentException;
 
 
