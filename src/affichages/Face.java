@@ -1,4 +1,4 @@
-package affichages;
+package affichage;
 import java.awt.Polygon;
 
 import javax.swing.JPanel;
@@ -6,33 +6,33 @@ import javax.swing.JPanel;
 import exceptions.SegmentException;
 
 @SuppressWarnings("serial")
-public class Face extends Polygon implements Comparable<Face> {
-	int[] zpoints;
-	//GtsReader gts= new GtsReader("x_wings");
+public class Face implements Comparable<Face> {
+	
+	double[] xpoints=new double[3];
+	double[] ypoints=new double[3];
+	double[] zpoints=new double[3];
 
 	public Face(Segment s1, Segment s2, Segment s3) throws SegmentException {
-		this.npoints=3;
-		this.xpoints=new int[3];
-		this.ypoints=new int[3];
-		this.zpoints=new int[3];
+		
+		
 
-		xpoints[0] = (int) s1.getDebut().getX();
-		xpoints[1] = (int) s1.getFin().getX();
-		ypoints[0] = (int) s1.getDebut().getY();
-		ypoints[1] = (int) s1.getFin().getY();
-		zpoints[0] = (int) s1.getDebut().getZ();
-		zpoints[1] = (int) s1.getFin().getZ();
+		xpoints[0] =  s1.getDebut().getX();
+		xpoints[1] =  s1.getFin().getX();
+		ypoints[0] =  s1.getDebut().getY();
+		ypoints[1] =  s1.getFin().getY();
+		zpoints[0] =  s1.getDebut().getZ();
+		zpoints[1] =  s1.getFin().getZ();
 
-		if(s2.getDebut().getX()==xpoints[0] && s2.getDebut().getY()==ypoints[0] && s2.getDebut().getZ()==zpoints[0]){
-			xpoints[2]=(int) s2.getFin().getX();
-			ypoints[2]=(int) s2.getFin().getY();
-			zpoints[2] = (int) s2.getFin().getZ();
+		if(s2.getDebut().equalsCoord(s1.getDebut()) && s2.getDebut().equalsCoord(s1.getFin()) ){
+			xpoints[2]= s2.getFin().getX();
+			ypoints[2]= s2.getFin().getY();
+			zpoints[2]= s2.getFin().getZ();
 
 		}
 		else{		
-			xpoints[2]=(int) s2.getDebut().getX();
-			ypoints[2]=(int) s2.getDebut().getY();	
-			zpoints[2] = (int) s2.getDebut().getZ();
+			xpoints[2]= s2.getDebut().getX();
+			ypoints[2]= s2.getDebut().getY();	
+			zpoints[2]= s2.getDebut().getZ();
 		}
 
 
@@ -52,39 +52,39 @@ public class Face extends Polygon implements Comparable<Face> {
 		return new Point(x/3,y/3,z/3);
 	}
 
-	private int getX3() {
+	private double getX3() {
 		return xpoints[2];
 	}
 
-	private int getX2() {
+	private double getX2() {
 		return xpoints[1];	
 	}
 
-	private int getX1() {
+	private double getX1() {
 		return xpoints[0];	
 	}
 
-	private int getY3() {
+	private double getY3() {
 		return ypoints[2];
 	}
 
-	private int getY2() {
+	private double getY2() {
 		return ypoints[1];	
 	}
 
-	private int getY1() {
+	private double getY1() {
 		return ypoints[0];	
 	}
 
-	private int getZ3() {
+	private double getZ3() {
 		return zpoints[2];
 	}
 
-	private int getZ2() {
+	private double getZ2() {
 		return zpoints[1];	
 	}
 
-	private int getZ1() {
+	private double getZ1() {
 		return zpoints[0];	
 	}
 

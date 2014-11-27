@@ -1,4 +1,4 @@
-package affichages;
+package affichage;
 
 public class Point {
 	
@@ -37,7 +37,6 @@ public class Point {
 		return new Point(p1.x + p2.x, p1.y + p2.y, p1.z + p2.z);
 	}
 	
-	public boolean equalsCoord(double x1, double x2, double y1, double y2, double z1, double z2){
-		return (x1 == x2 && y1==y2 && z1==z2);
-	}
+	public boolean equalsCoord(Point p){
+		return (this.x == p.x && this.y==p.y && this.z==p.z);	}
 }
