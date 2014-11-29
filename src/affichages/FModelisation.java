@@ -1,17 +1,23 @@
 package affichages;
 
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.util.ArrayList;
 import java.util.Collections;
+
 import javax.swing.JPanel;
+
 import maths_package.Matrice;
 import exceptions.MatriceNotCorrespondingException;
 import exceptions.SegmentException;
 import exceptions.VectorException;
 
-public class FModelisation extends JPanel implements MouseWheelListener {
+public class FModelisation extends JPanel implements MouseWheelListener,MouseListener,MouseMotionListener{
 
 	private static final long serialVersionUID = 1L;
 	private int xSize, ySize;
@@ -25,12 +31,15 @@ public class FModelisation extends JPanel implements MouseWheelListener {
 	private Segment[] sgmts;
 	private Matrice Matrix;
 	private int zoom=10;
-	
+	private int lastXPos;
+	private int lastYPos;
+
 	public FModelisation() throws SegmentException {
 		try {
-
+			this.addMouseMotionListener(this);
 			this.addMouseWheelListener(this);
-			gts = new GtsReader("tie.gts");
+			this.addMouseListener(this);
+			gts = new GtsReader("x_wing.gts");
 			infos = gts.getInfos();
 			numsgmts = gts.getNumsgmts();
 			numfces = gts.getNumfces();
@@ -38,6 +47,7 @@ public class FModelisation extends JPanel implements MouseWheelListener {
 			sgmts = gts.getSegments();
 			fces = gts.getFaces();
 			setTranslation();
+			setRotationY(30);
 		} catch(Exception e){
 			e.printStackTrace();
 		}
@@ -57,7 +67,9 @@ public class FModelisation extends JPanel implements MouseWheelListener {
 				x[j]= (int)(f.get(i).xpoints[j]*zoom+xSize/2);
 				y[j]= (int)(f.get(i).ypoints[j]*zoom+ySize/2);
 			}
+			
 			g.drawPolygon(x, y, x.length);
+		
 			//g.fillPolygon(x, y, x.length);
 		}
 	}
@@ -77,9 +89,9 @@ public class FModelisation extends JPanel implements MouseWheelListener {
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
 		int zoom = e.getWheelRotation();
-
+		
 		if(zoom < 0){	
-			this.zoom=this.zoom*2;		
+			this.zoom=this.zoom*2-(this.zoom/2);		
 		}
 		else{
 			this.zoom=this.zoom/2+1;
@@ -169,5 +181,84 @@ public class FModelisation extends JPanel implements MouseWheelListener {
 		for(int i=0; i < infos[2]; i++){
 			fces[i] = new Face(sgmts[numfces[i][0] - 1], sgmts[numfces[i][1] - 1], sgmts[numfces[i][2] - 1]);
 		}
+	}
+
+
+	@Override
+	public void mouseDragged(MouseEvent e){
+		
+		
+		
+		
+		System.out.println("x:"+lastXPos+"y:"+lastYPos);
+		
+		try {
+		
+			if(e.getX()<lastXPos){
+				setRotationY(0.05);				
+			}
+			else{
+				setRotationY(-0.05);			
+			}
+			if(e.getY()<lastYPos){
+				setRotationX(-0.05);
+		}
+			else{
+				setRotationX(0.05);
+			}
+			lastXPos=e.getX();
+			lastYPos=e.getY();
+			
+			repaint();
+		} catch (MatriceNotCorrespondingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (SegmentException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+	}
+
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+	
+	}
+
+
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		System.out.println("PRESSED");
+		lastXPos=e.getX();
+		lastYPos=e.getY();
+	}
+
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+	//	clicked=false;
+		
 	}
 }
