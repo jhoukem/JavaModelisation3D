@@ -39,7 +39,7 @@ public class FModelisation extends JPanel implements MouseWheelListener,MouseLis
 			this.addMouseMotionListener(this);
 			this.addMouseWheelListener(this);
 			this.addMouseListener(this);
-			gts = new GtsReader("x_wing.gts");
+			gts = new GtsReader("goblet.gts");
 			infos = gts.getInfos();
 			numsgmts = gts.getNumsgmts();
 			numfces = gts.getNumfces();
@@ -197,13 +197,14 @@ public class FModelisation extends JPanel implements MouseWheelListener,MouseLis
 			if(e.getX()<lastXPos){
 				setRotationY(0.05);				
 			}
-			else{
+			else if(e.getX()>lastXPos){
 				setRotationY(-0.05);			
 			}
 			if(e.getY()<lastYPos){
 				setRotationX(-0.05);
-		}
-			else{
+				System.out.println("rot");
+			}
+			else if(e.getY()>lastYPos){
 				setRotationX(0.05);
 			}
 			lastXPos=e.getX();
