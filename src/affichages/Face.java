@@ -23,7 +23,7 @@ public class Face implements Comparable<Face> {
 		zpoints[0] =  s1.getDebut().getZ();
 		zpoints[1] =  s1.getFin().getZ();
 
-		if(s2.getDebut().equalsCoord(s1.getDebut()) && s2.getDebut().equalsCoord(s1.getFin()) ){
+		if(s2.getDebut().equalsCoord(s1.getDebut()) || s2.getDebut().equalsCoord(s1.getFin()) ){
 			xpoints[2]= s2.getFin().getX();
 			ypoints[2]= s2.getFin().getY();
 			zpoints[2]= s2.getFin().getZ();
