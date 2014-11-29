@@ -1,11 +1,6 @@
 package affichages;
-import java.awt.Polygon;
-
-import javax.swing.JPanel;
-
 import exceptions.SegmentException;
 
-@SuppressWarnings("serial")
 public class Face implements Comparable<Face> {
 	
 	double[] xpoints=new double[3];
@@ -90,7 +85,7 @@ public class Face implements Comparable<Face> {
 
 	@Override
 	public int compareTo(Face a) {
-		return (int)(this.distanceToCamera() - a.distanceToCamera());
+		return (int) a.barycentre().getZ();
 	}
 
 

@@ -7,7 +7,6 @@ public class Main {
 
 	public static void main(String[] args) throws SegmentException {
 		Fenetre3D f = new Fenetre3D();
-		
 		f.setSize(1000, 800);
 		f.setLocationRelativeTo(null);
 		f.setResizable(true);
