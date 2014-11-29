@@ -1,5 +1,5 @@
 package tests;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertEquals; 
 import maths_package.Matrice;
 
 import org.junit.Test;
@@ -37,8 +37,23 @@ public class MatriceTest {
 	}
 	
 	@Test
-	public void testTranslationMatrice() throws VectorException {
+	public void testGetTranslation() throws VectorException {
 		Matrice m1= new Matrice(new double[][] {{1.0},{2.0},{3.0}});
 		assertEquals(Matrice.getTranslation(m1).toString()," 1.0 0.0 0.0 1.0\n 0.0 1.0 0.0 2.0\n 0.0 0.0 1.0 3.0\n 0.0 0.0 0.0 1.0\n");
+	}
+	
+	@Test 
+	public void testGetRotationX(){
+		assertEquals(Matrice.getRotationX(0).toString()," 1.0 0.0 0.0 0.0\n 0.0 1.0 -0.0 0.0\n 0.0 0.0 1.0 0.0\n 0.0 0.0 0.0 1.0\n");
+	}
+	
+	@Test
+	public void testGetRotationY(){
+		assertEquals(Matrice.getRotationY(0).toString()," 1.0 0.0 0.0 0.0\n 0.0 1.0 0.0 0.0\n -0.0 0.0 1.0 0.0\n 0.0 0.0 0.0 1.0\n");
+	}
+	
+	@Test
+	public void testGetRotationZ(){
+		assertEquals(Matrice.getRotationZ(0).toString()," 1.0 -0.0 0.0 0.0\n 0.0 1.0 0.0 0.0\n 0.0 0.0 1.0 0.0\n 0.0 0.0 0.0 1.0\n");
 	}
 }

@@ -4,10 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-import maths_package.Matrice;
-import exceptions.MatriceNotCorrespondingException;
 import exceptions.SegmentException;
-import exceptions.VectorException;
 
 /**
  * @author Jean-Hugo Oukem & Benoit Barbe
@@ -15,12 +12,15 @@ import exceptions.VectorException;
  */
 public class GtsReader {
 	private int[] infos;
+	public void setInfos(int[] infos) {
+		this.infos = infos;
+	}
+
 	private Point[] pts;
 	private Segment[] sgmts;
 	private int[][] numsgmts;
 	private Face[] fces;
 	private int[][] numfces;
-	private Matrice Matrix;
 	private FileReader flux;
 	private BufferedReader entry;
 	private String path = "./gts_files/";
@@ -42,12 +42,7 @@ public class GtsReader {
 			initInfos();
 			extractPoints();
 			extractSegments();
-			setSegments();
 			extractFaces();
-			setFaces();
-			setPtsToMatrix();
-			Matrix = setTranslation();
-			setMatrixToPts();
 			setSegments();
 			setFaces();
 		} catch (Exception e) {
@@ -88,15 +83,6 @@ public class GtsReader {
 		}
 	}
 	
-	public void setSegments() throws SegmentException{
-		sgmts = new Segment[infos[1]];
-		for(int i=0; i < infos[1]; i++){
-			sgmts[i]=new Segment(pts[numsgmts[i][0]-1], pts[numsgmts[i][1]-1]);
-		}
-	}
-	
-
-	
 	public void extractFaces() throws IOException, SegmentException {
 		numfces = new int[infos[2]][3];
 		String line = entry.readLine();
@@ -110,6 +96,13 @@ public class GtsReader {
 			numfces[i][1]=seg2;
 			numfces[i][2]=seg3;
 			line = entry.readLine();
+		}
+	}
+	
+	public void setSegments() throws SegmentException{
+		sgmts = new Segment[infos[1]];
+		for(int i=0; i < infos[1]; i++){
+			sgmts[i]=new Segment(pts[numsgmts[i][0]-1], pts[numsgmts[i][1]-1]);
 		}
 	}
 	
@@ -137,61 +130,29 @@ public class GtsReader {
 			infos[i] = Integer.parseInt(n);
 		}
 	}
+	
+	public int[] getInfos() {
+		return infos;
+	}
 
 	public Point[] getPoints() {
 		return pts;
 	}
-
-	public Segment[] getSegments() {
+	
+	public Segment[] getSegments(){
 		return sgmts;
 	}
 
 	public Face[] getFaces() {
 		return fces;
 	}
-	
-	public void setPts(Point[] pts) {
-		this.pts = pts;
+
+	public int[][] getNumsgmts() {
+		return numsgmts;
 	}
 
-	public void setSgmts(Segment[] sgmts) {
-		this.sgmts = sgmts;
-	}
-
-	public void setFces(Face[] fces) {
-		this.fces = fces;
-	}
-
-	public void setPtsToMatrix(){
-		Matrix = new Matrice(4,pts.length);
-		for(int i=0; i<pts.length; i++){
-			Matrix.setElem(0,i,pts[i].getX());
-			Matrix.setElem(1,i,pts[i].getY());
-			Matrix.setElem(2,i,pts[i].getZ());
-			Matrix.setElem(3,i,1.0);
-		}
-	}
-	
-	public void setMatrixToPts(){
-		for(int i=0; i<Matrix.getnColonnes(); i++){
-			pts[i]= new Point(Matrix.getElem(0,i),Matrix.getElem(1,i),Matrix.getElem(2,i));
-		}
-	}
-
-	public Matrice getVecteurTranslation(){
-		double x=0.0;
-		double y=0.0;
-		double z=0.0;
-		for(int i=0; i<fces.length; i++){
-			x+=fces[i].barycentre().getX();
-			y+=fces[i].barycentre().getY();
-			z+=fces[i].barycentre().getZ();
-		}
-		return new Matrice(new double[][] {{x/fces.length},{y/fces.length},{z/fces.length}});
-	}
-	
-	public Matrice setTranslation() throws VectorException, MatriceNotCorrespondingException{
-		return Matrice.multiplier(Matrice.getTranslation(getVecteurTranslation()), Matrix);
+	public int[][] getNumfces() {
+		return numfces;
 	}
 	
 	@Override

@@ -12,5 +12,4 @@ public class Main {
 		f.setResizable(true);
 		f.setVisible(true);
 	}
-
 }

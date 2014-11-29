@@ -8,7 +8,7 @@ public class Matrice {
 	private int nLignes;
 	private int nColonnes;
 	private double[][] elem;
-	
+
 	//initilaise une matrice a 0
 	public Matrice(int l, int c) {
 		this.nLignes = l;
@@ -53,7 +53,7 @@ public class Matrice {
 	public void setElem(int l, int c, double x) {
 		this.elem[l][c] = x;
 	}
-	
+
 	//permet de récupérer la valeur d'uen case de la matrice
 	public double getElem(int l, int c){
 		return this.elem[l][c];
@@ -116,7 +116,7 @@ public class Matrice {
 		}
 		return res;
 	}
-	
+
 	//permet d'obtenir une matrice de translation a partir d'un vecteur
 	public static Matrice getTranslation(Matrice m1) throws VectorException {
 		if ((m1.nLignes != 3) || (m1.nColonnes != 1))
@@ -125,12 +125,48 @@ public class Matrice {
 		for (int i = 0; i < res.getnLignes(); i++) {
 			for (int j = 0; j < res.getnColonnes(); j++) {
 				if(i==j)
-				res.setElem(i, j, 1.0);
+					res.setElem(i, j, 1.0);
 			}
 		}
 		res.setElem(0,res.nColonnes-1,m1.getElem(0, 0));
 		res.setElem(1,res.nColonnes-1,m1.getElem(1, 0));
 		res.setElem(2,res.nColonnes-1,m1.getElem(2, 0));
+		return res;
+	}
+
+	//permet d'obtenir une matrice de rotation à partir d'un angle autour des l'axe des x
+	public static Matrice getRotationX(double r){
+		Matrice res = new Matrice(4,4);
+		res.setElem(0, 0, 1.0);
+		res.setElem(1, 1, Math.cos(r));
+		res.setElem(1, 2, -Math.sin(r));
+		res.setElem(2, 1, Math.sin(r));
+		res.setElem(2, 2, Math.cos(r));
+		res.setElem(3, 3, 1.0);
+		return res;
+	}
+
+	//permet d'obtenir une matrice de rotation à partir d'un angle autour des l'axe des y
+	public static Matrice getRotationY(double r){
+		Matrice res = new Matrice(4,4);
+		res.setElem(1, 1, 1.0);
+		res.setElem(0, 0, Math.cos(r));
+		res.setElem(2, 0, -(Math.sin(r)));
+		res.setElem(0, 2, Math.sin(r));
+		res.setElem(2, 2, Math.cos(r));
+		res.setElem(3, 3, 1.0);
+		return res;
+	}
+
+	//permet d'obtenir une matrice de rotation à partir d'un angle autour des l'axe des z
+	public static Matrice getRotationZ(double r){
+		Matrice res = new Matrice(4,4);
+		res.setElem(2, 2, 1.0);
+		res.setElem(0, 0, Math.cos(r));
+		res.setElem(0, 1, -Math.sin(r));
+		res.setElem(1, 0, Math.sin(r));
+		res.setElem(1, 1, Math.cos(r));
+		res.setElem(3, 3, 1.0);
 		return res;
 	}
 }
