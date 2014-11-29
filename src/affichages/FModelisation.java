@@ -22,7 +22,7 @@ public class FModelisation extends JPanel implements MouseWheelListener {
 	Face[] fces;
 	Point[] pts;
 	Segment[] sgmts;
-	public static int zoom=10;
+	int zoom=10;
 	public FModelisation() throws SegmentException {
 		try {
 			
@@ -75,23 +75,14 @@ public class FModelisation extends JPanel implements MouseWheelListener {
 
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
-		int zoom= e.getWheelRotation();
-		System.out.println("entree");
-		if(zoom<0){
-			if(this.zoom+10 != 0)
-				this.zoom+=10;	
-			else
-				this.zoom+=8;	
+		int zoom = e.getWheelRotation();
+		
+		if(zoom < 0){	
+				this.zoom=this.zoom*2;		
 		}
 		else{
-			if(this.zoom-10 != 0)
-				this.zoom+=-10;
-			else
-				this.zoom+=-8;	
-		}
-			
-		
-		this.repaint();
-			
+			this.zoom=this.zoom/2+1;
+		}	
+		this.repaint();		
 	}
 }
