@@ -1,7 +1,6 @@
 package affichages;
 
 import java.awt.Graphics;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -34,12 +33,12 @@ public class FModelisation extends JPanel implements MouseWheelListener,MouseLis
 	private int lastXPos;
 	private int lastYPos;
 
-	public FModelisation() throws SegmentException {
+	public FModelisation(String fichier) throws SegmentException {
 		try {
 			this.addMouseMotionListener(this);
 			this.addMouseWheelListener(this);
 			this.addMouseListener(this);
-			gts = new GtsReader("tie.gts");
+			gts = new GtsReader(fichier);
 			infos = gts.getInfos();
 			numsgmts = gts.getNumsgmts();
 			numfces = gts.getNumfces();

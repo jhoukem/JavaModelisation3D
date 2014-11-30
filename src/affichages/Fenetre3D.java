@@ -9,11 +9,11 @@ import javax.swing.JFrame;
 public class Fenetre3D extends JFrame{
 
 
-	public Fenetre3D() {
+	public Fenetre3D(String fichier) {
 		super("3D Project");
 		FModelisation md;
 		try {
-			md = new FModelisation();
+			md = new FModelisation(fichier);
 			Librairie lib = new Librairie();
 			Descripteur d = new Descripteur();
 			this.setLayout(new BorderLayout());
