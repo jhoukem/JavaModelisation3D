@@ -130,7 +130,7 @@ public class Face implements Comparable<Face> {
 
 	@Override
 	public int compareTo(Face a) {
-		return (int) a.barycentre().getZ();
+		return (int) ((this.distanceToCamera()*1000000)-(a.distanceToCamera()*1000000));
 	}
 
 

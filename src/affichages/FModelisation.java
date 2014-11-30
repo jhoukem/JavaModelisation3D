@@ -1,5 +1,6 @@
 package affichages;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -65,8 +66,8 @@ public class FModelisation extends JPanel implements MouseWheelListener,MouseLis
 				x[j]= (int)(f.get(i).xpoints[j]*zoom+xSize/2);
 				y[j]= (int)(f.get(i).ypoints[j]*zoom+ySize/2);
 			}
-
-			g.drawPolygon(x, y, x.length);
+		//	g.setColor(new Color(0,0,0));
+			//g.drawPolygon(x, y, x.length);
 			g.setColor(f.get(i).getCouleur());
 			g.fillPolygon(x, y, x.length);
 		}
@@ -87,11 +88,11 @@ public class FModelisation extends JPanel implements MouseWheelListener,MouseLis
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
 		int zoom = e.getWheelRotation();
-
+//si la roulette avance, on zoom
 		if(zoom < 0){	
 			this.zoom=this.zoom*2-(this.zoom/2);		
 		}
-		else{
+		else{//sinon on dezoom
 			this.zoom=this.zoom/2+1;
 		}	
 		this.repaint();		
@@ -102,16 +103,16 @@ public class FModelisation extends JPanel implements MouseWheelListener,MouseLis
 	public void mouseDragged(MouseEvent e){
 		try {
 			if(e.getX()<lastXPos){
-				setRotationY(0.05);				
+				setRotationY(0.09);				
 			}
 			else if(e.getX()>lastXPos){
-				setRotationY(-0.05);			
+				setRotationY(-0.09);			
 			}
 			if(e.getY()<lastYPos){
-				setRotationX(-0.05);
+				setRotationX(-0.09);
 			}
 			else if(e.getY()>lastYPos){
-				setRotationX(0.05);
+				setRotationX(0.09);
 			}
 			lastXPos=e.getX();
 			lastYPos=e.getY();
@@ -163,7 +164,11 @@ public class FModelisation extends JPanel implements MouseWheelListener,MouseLis
 		for(int i=0;i<fces.length;i++){
 			f.add(fces[i]);
 		}
+		
 		Collections.sort(f);
+	/*Sert a voir le tri	for(int i=0;i<f.size();i++){
+			System.out.println(f.get(i).barycentre().getZ());
+		}*/
 	}
 
 	public void setPtsToMatrix(){
