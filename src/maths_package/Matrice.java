@@ -169,4 +169,15 @@ public class Matrice {
 		res.setElem(3, 3, 1.0);
 		return res;
 	}
+	
+	//permet d'obtenir le produit vectoriel de 2 vecteurs
+	public static Matrice getProduitVectoriel(Matrice m1, Matrice m2) throws VectorException{
+		if(m1.nLignes != 3 || m1.nColonnes != 1 || m2.nLignes != 3 || m1.nColonnes != 1)
+			throw new VectorException();
+		Matrice res = new Matrice(3,1);
+		res.setElem(0, 0, m1.getElem(1, 0) * m2.getElem(2, 0) - m1.getElem(2, 0) * m2.getElem(1, 0));
+		res.setElem(1, 0, m1.getElem(2, 0) * m2.getElem(0, 0) - m1.getElem(0, 0) * m2.getElem(2, 0));
+		res.setElem(2, 0, m1.getElem(0, 0) * m2.getElem(1, 0) - m1.getElem(1, 0) * m2.getElem(0, 0));
+		return res;
+	}
 }

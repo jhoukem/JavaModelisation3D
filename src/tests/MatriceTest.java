@@ -56,4 +56,11 @@ public class MatriceTest {
 	public void testGetRotationZ(){
 		assertEquals(Matrice.getRotationZ(0).toString()," 1.0 -0.0 0.0 0.0\n 0.0 1.0 0.0 0.0\n 0.0 0.0 1.0 0.0\n 0.0 0.0 0.0 1.0\n");
 	}
+	
+	@Test
+	public void testGetProduitVectoriel() throws VectorException{
+		Matrice m1 = new Matrice(new double[][] {{0.0},{-1.0},{1.0}});
+		Matrice m2 = new Matrice(new double[][] {{-1.0},{0.0},{1.0}});
+		assertEquals(Matrice.getProduitVectoriel(m1, m2).toString()," -1.0\n -1.0\n -1.0\n");
+	}
 }

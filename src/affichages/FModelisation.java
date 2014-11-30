@@ -1,7 +1,7 @@
 package affichages;
 
-import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -39,7 +39,7 @@ public class FModelisation extends JPanel implements MouseWheelListener,MouseLis
 			this.addMouseMotionListener(this);
 			this.addMouseWheelListener(this);
 			this.addMouseListener(this);
-			gts = new GtsReader("goblet.gts");
+			gts = new GtsReader("tie.gts");
 			infos = gts.getInfos();
 			numsgmts = gts.getNumsgmts();
 			numfces = gts.getNumfces();
@@ -47,7 +47,6 @@ public class FModelisation extends JPanel implements MouseWheelListener,MouseLis
 			sgmts = gts.getSegments();
 			fces = gts.getFaces();
 			setTranslation();
-			setRotationY(30);
 		} catch(Exception e){
 			e.printStackTrace();
 		}
@@ -67,14 +66,14 @@ public class FModelisation extends JPanel implements MouseWheelListener,MouseLis
 				x[j]= (int)(f.get(i).xpoints[j]*zoom+xSize/2);
 				y[j]= (int)(f.get(i).ypoints[j]*zoom+ySize/2);
 			}
-			
+
 			g.drawPolygon(x, y, x.length);
-		
-			//g.fillPolygon(x, y, x.length);
+			g.setColor(f.get(i).getCouleur());
+			g.fillPolygon(x, y, x.length);
 		}
 	}
 
-	
+
 	public String ptsToString(){
 		String res="";
 		if(pts.length>0)
@@ -85,11 +84,11 @@ public class FModelisation extends JPanel implements MouseWheelListener,MouseLis
 		res+="]";
 		return res;
 	}
-
+	
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
 		int zoom = e.getWheelRotation();
-		
+
 		if(zoom < 0){	
 			this.zoom=this.zoom*2-(this.zoom/2);		
 		}
@@ -99,6 +98,67 @@ public class FModelisation extends JPanel implements MouseWheelListener,MouseLis
 		this.repaint();		
 	}
 
+
+	@Override
+	public void mouseDragged(MouseEvent e){
+		try {
+			if(e.getX()<lastXPos){
+				setRotationY(0.05);				
+			}
+			else if(e.getX()>lastXPos){
+				setRotationY(-0.05);			
+			}
+			if(e.getY()<lastYPos){
+				setRotationX(-0.05);
+			}
+			else if(e.getY()>lastYPos){
+				setRotationX(0.05);
+			}
+			lastXPos=e.getX();
+			lastYPos=e.getY();
+
+			repaint();
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+	}
+
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+	}
+
+
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+	}
+
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+	}
+
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		lastXPos=e.getX();
+		lastYPos=e.getY();
+	}
+
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		//	clicked=false;
+	}
 	public void triFaces(){
 		f=new ArrayList<Face>();
 		for(int i=0;i<fces.length;i++){
@@ -106,7 +166,7 @@ public class FModelisation extends JPanel implements MouseWheelListener,MouseLis
 		}
 		Collections.sort(f);
 	}
-	
+
 	public void setPtsToMatrix(){
 		Matrix = new Matrice(4,pts.length);
 		for(int i=0; i<pts.length; i++){
@@ -125,21 +185,27 @@ public class FModelisation extends JPanel implements MouseWheelListener,MouseLis
 
 	public void setTranslation() throws VectorException, MatriceNotCorrespondingException, SegmentException{
 		setPtsToMatrix();
-		double x=0.0;
-		double y=0.0;
-		double z=0.0;
-		Matrice Vecteur;
-		for(int i=0; i<fces.length; i++){
-			x+=fces[i].barycentre().getX();
-			y+=fces[i].barycentre().getY();
-			z+=fces[i].barycentre().getZ();
-		}
-		Vecteur = new Matrice(new double[][] {{x/fces.length},{y/fces.length},{z/fces.length}});
+		double x = getFigureCenter().getX();
+		double y = getFigureCenter().getY();
+		double z = getFigureCenter().getZ();
+		Matrice Vecteur = new Matrice(new double[][] {{x},{y},{z}});
 		Matrix = Matrice.multiplier(Matrice.getTranslation(Vecteur), Matrix);
 		setMatrixToPts();
 		setSegments();
 		setFaces();
 		triFaces();
+	}
+	
+	public Point getFigureCenter(){
+		double x = 0;
+		double y = 0;
+		double z = 0;
+		for(int i=0; i<fces.length; i++){
+			x+=fces[i].barycentre().getX();
+			y+=fces[i].barycentre().getY();
+			z+=fces[i].barycentre().getZ();
+		}
+		return new Point(x/fces.length,y/fces.length,z/fces.length);
 	}
 
 	public void setRotationX(double r) throws MatriceNotCorrespondingException, SegmentException {
@@ -183,83 +249,4 @@ public class FModelisation extends JPanel implements MouseWheelListener,MouseLis
 		}
 	}
 
-
-	@Override
-	public void mouseDragged(MouseEvent e){
-		
-		
-		
-		
-		System.out.println("x:"+lastXPos+"y:"+lastYPos);
-		
-		try {
-		
-			if(e.getX()<lastXPos){
-				setRotationY(0.05);				
-			}
-			else if(e.getX()>lastXPos){
-				setRotationY(-0.05);			
-			}
-			if(e.getY()<lastYPos){
-				setRotationX(-0.05);
-				System.out.println("rot");
-			}
-			else if(e.getY()>lastYPos){
-				setRotationX(0.05);
-			}
-			lastXPos=e.getX();
-			lastYPos=e.getY();
-			
-			repaint();
-		} catch (MatriceNotCorrespondingException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SegmentException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-	}
-
-
-	@Override
-	public void mouseMoved(MouseEvent e) {
-	
-	}
-
-
-	@Override
-	public void mouseClicked(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		System.out.println("PRESSED");
-		lastXPos=e.getX();
-		lastYPos=e.getY();
-	}
-
-
-	@Override
-	public void mouseReleased(MouseEvent arg0) {
-	//	clicked=false;
-		
-	}
 }

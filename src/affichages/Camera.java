@@ -39,9 +39,9 @@ public class Camera extends JPanel {
 
 	
 	private Camera() {
-		x=this.getWidth()/2;
+		x= this.getWidth()/2;
 		y= this.getHeight()/2;
-		z=100000;
+		z= 100000;
 	}
 	
 	static public Camera getInstance() {
