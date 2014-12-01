@@ -23,4 +23,24 @@ public class FaceTest  {
 		Face f = new Face(s1,s2,s3);
 		assertEquals(f.barycentre().toString(), new Point(1,1,1).toString());
 	}
+	
+	@Test
+	public void distanceToCamera(){
+	
+	}
+	
+	@Test
+	public void testGetVecteurNormal(){
+		
+	}
+	
+	@Test 
+	public void testGetRadian(){
+		
+	}
+	
+	@Test
+	public void testSetPolygonColor(){
+		
+	}
 }

@@ -7,6 +7,7 @@ import exceptions.VectorException;
 
 public class Face implements Comparable<Face> {
 
+	Segment s1, s2, s3;
 	double[] xpoints=new double[3];
 	double[] ypoints=new double[3];
 	double[] zpoints=new double[3];
@@ -14,7 +15,9 @@ public class Face implements Comparable<Face> {
 
 	public Face(Segment s1, Segment s2, Segment s3) throws SegmentException {
 
-
+		this.s1=s1;
+		this.s2=s2;
+		this.s3=s3;
 		couleur = new Color(255,255,255);
 		xpoints[0] =  s1.getDebut().getX();
 		xpoints[1] =  s1.getFin().getX();
@@ -42,6 +45,11 @@ public class Face implements Comparable<Face> {
 		}
 
 	}
+	
+	public String toString() {
+		return "["+ s1.toString() + ", " + s2.toString() + ", " + s3.toString() + "]";
+	}
+	
 	//methode de math pour calculer la distance entre deux pts a voir avec benoit
 
 	public double distanceToCamera() {

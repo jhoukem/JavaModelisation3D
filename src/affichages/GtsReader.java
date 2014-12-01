@@ -7,15 +7,11 @@ import java.io.IOException;
 import exceptions.SegmentException;
 
 /**
- * @author Jean-Hugo Oukem & Benoit Barbe
+ * @author Jean-Hugo Oukem, Benoit Barbe & Pierre-Edouard Liagre
  * 
  */
 public class GtsReader {
 	private int[] infos;
-	public void setInfos(int[] infos) {
-		this.infos = infos;
-	}
-
 	private Point[] pts;
 	private Segment[] sgmts;
 	private int[][] numsgmts;
@@ -51,6 +47,7 @@ public class GtsReader {
 
 	}
 
+	
 	public void extractPoints() throws IOException {
 		this.pts = new Point[infos[0]];
 		String line = entry.readLine();

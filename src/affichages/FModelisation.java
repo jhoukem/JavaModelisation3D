@@ -1,6 +1,5 @@
 package affichages;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -66,8 +65,6 @@ public class FModelisation extends JPanel implements MouseWheelListener,MouseLis
 				x[j]= (int)(f.get(i).xpoints[j]*zoom+xSize/2);
 				y[j]= (int)(f.get(i).ypoints[j]*zoom+ySize/2);
 			}
-		//	g.setColor(new Color(0,0,0));
-			//g.drawPolygon(x, y, x.length);
 			g.setColor(f.get(i).getCouleur());
 			g.fillPolygon(x, y, x.length);
 		}
