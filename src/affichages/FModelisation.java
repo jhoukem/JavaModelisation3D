@@ -1,6 +1,8 @@
 package affichages;
 
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -16,9 +18,10 @@ import exceptions.MatriceNotCorrespondingException;
 import exceptions.SegmentException;
 import exceptions.VectorException;
 
-public class FModelisation extends JPanel implements MouseWheelListener,MouseListener,MouseMotionListener{
+public class FModelisation extends JPanel implements KeyListener, MouseWheelListener,MouseListener,MouseMotionListener{
 
 	private static final long serialVersionUID = 1L;
+	private String fichier;
 	private int xSize, ySize;
 	private GtsReader gts;
 	private ArrayList<Face> f;
@@ -32,12 +35,20 @@ public class FModelisation extends JPanel implements MouseWheelListener,MouseLis
 	private int zoom=10;
 	private int lastXPos;
 	private int lastYPos;
-
+	private final Matrice UP = new Matrice(new double[][] {{0},{-1},{0}}); ;
+	private final Matrice DOWN = new Matrice(new double[][] {{0},{1},{0}}); ;
+	private final Matrice LEFT = new Matrice(new double[][] {{-1},{0},{0}}); ;
+	private final Matrice RIGHT = new Matrice(new double[][] {{1},{0},{0}}); ;
+	
 	public FModelisation(String fichier) throws SegmentException {
 		try {
+			setFocusable(true);
+			this.requestFocusInWindow(true);
 			this.addMouseMotionListener(this);
 			this.addMouseWheelListener(this);
 			this.addMouseListener(this);
+			this.addKeyListener(this);
+			this.fichier = fichier;
 			gts = new GtsReader(fichier);
 			infos = gts.getInfos();
 			numsgmts = gts.getNumsgmts();
@@ -45,13 +56,13 @@ public class FModelisation extends JPanel implements MouseWheelListener,MouseLis
 			pts = gts.getPoints();
 			sgmts = gts.getSegments();
 			fces = gts.getFaces();
-			setTranslation();
+			setTranslation(getVectorCenter());
 		} catch(Exception e){
 			e.printStackTrace();
 		}
 	}
 
-
+	//fonction dessinant les faces de la figure
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);	
@@ -82,28 +93,30 @@ public class FModelisation extends JPanel implements MouseWheelListener,MouseLis
 		return res;
 	}
 	
+	//fonction permettant le zoom a l'aide de la molette
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
 		int zoom = e.getWheelRotation();
-//si la roulette avance, on zoom
+        //si la roulette avance, on zoom
 		if(zoom < 0){	
 			this.zoom=this.zoom*2-(this.zoom/2);		
 		}
-		else{//sinon on dezoom
+		else{
+			//sinon on dezoom
 			this.zoom=this.zoom/2+1;
 		}	
 		this.repaint();		
 	}
 
-
+	//fonction permettant la rotation a l'aide de la souris
 	@Override
 	public void mouseDragged(MouseEvent e){
 		try {
 			if(e.getX()<lastXPos){
-				setRotationY(0.09);				
+				setRotationY(0.09);
 			}
 			else if(e.getX()>lastXPos){
-				setRotationY(-0.09);			
+				setRotationY(-0.09);
 			}
 			if(e.getY()<lastYPos){
 				setRotationX(-0.09);
@@ -156,6 +169,50 @@ public class FModelisation extends JPanel implements MouseWheelListener,MouseLis
 	public void mouseReleased(MouseEvent arg0) {
 		//	clicked=false;
 	}
+	
+	@Override
+	public void keyTyped(KeyEvent e) {
+		int key = e.getKeyChar();
+		try {
+			if(key == 'q' ){
+				setTranslation(LEFT);
+			}
+			else if(key == 'd'){
+				setTranslation(RIGHT);
+			}
+			else if(key == 'z'){
+				setTranslation(UP);
+			}
+			else if(key == 's'){
+				setTranslation(DOWN);
+			}
+			else if(key=='c'){
+			
+				gts = new GtsReader(fichier);
+				infos = gts.getInfos();
+				numsgmts = gts.getNumsgmts();
+				numfces = gts.getNumfces();
+				pts = gts.getPoints();
+				sgmts = gts.getSegments();
+				fces = gts.getFaces();
+				setTranslation(getVectorCenter());
+			}
+			repaint();
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+	
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+	}
+	
+	//fonction triant les faces de la plus éloignée a la plus proche
 	public void triFaces(){
 		f=new ArrayList<Face>();
 		for(int i=0;i<fces.length;i++){
@@ -163,11 +220,9 @@ public class FModelisation extends JPanel implements MouseWheelListener,MouseLis
 		}
 		
 		Collections.sort(f);
-	/*Sert a voir le tri	for(int i=0;i<f.size();i++){
-			System.out.println(f.get(i).barycentre().getZ());
-		}*/
 	}
 
+	//fonction de créer la matrice homogène des points de la figure
 	public void setPtsToMatrix(){
 		Matrix = new Matrice(4,pts.length);
 		for(int i=0; i<pts.length; i++){
@@ -177,27 +232,25 @@ public class FModelisation extends JPanel implements MouseWheelListener,MouseLis
 			Matrix.setElem(3,i,1.0);
 		}
 	}
-
+	//fonction permettant de récupérer les points dans la matrice
 	public void setMatrixToPts(){
 		for(int i=0; i<Matrix.getnColonnes(); i++){
 			pts[i]= new Point(Matrix.getElem(0,i),Matrix.getElem(1,i),Matrix.getElem(2,i));
 		}
 	}
 
-	public void setTranslation() throws VectorException, MatriceNotCorrespondingException, SegmentException{
+	//fonction permettant de translater la figure par rapport a un vecteur
+	public void setTranslation(Matrice vector) throws VectorException, MatriceNotCorrespondingException, SegmentException{
 		setPtsToMatrix();
-		double x = getFigureCenter().getX();
-		double y = getFigureCenter().getY();
-		double z = getFigureCenter().getZ();
-		Matrice Vecteur = new Matrice(new double[][] {{x},{y},{z}});
-		Matrix = Matrice.multiplier(Matrice.getTranslation(Vecteur), Matrix);
+		Matrix = Matrice.multiplier(Matrice.getTranslation(vector), Matrix);
 		setMatrixToPts();
 		setSegments();
 		setFaces();
 		triFaces();
 	}
 	
-	public Point getFigureCenter(){
+	//fonction permettant d'obtenir le barycentre de la figure
+	public Matrice getVectorCenter(){
 		double x = 0;
 		double y = 0;
 		double z = 0;
@@ -206,9 +259,10 @@ public class FModelisation extends JPanel implements MouseWheelListener,MouseLis
 			y+=fces[i].barycentre().getY();
 			z+=fces[i].barycentre().getZ();
 		}
-		return new Point(x/fces.length,y/fces.length,z/fces.length);
+		return new Matrice(new double[][]{{x/fces.length},{y/fces.length},{z/fces.length}});
 	}
 
+	//fonction permettant d'obtenir une rotation d'angle r autour de l'axe des X
 	public void setRotationX(double r) throws MatriceNotCorrespondingException, SegmentException {
 		setPtsToMatrix();
 		Matrix = Matrice.multiplier(Matrice.getRotationX(r), Matrix);
@@ -218,6 +272,7 @@ public class FModelisation extends JPanel implements MouseWheelListener,MouseLis
 		triFaces();
 	}
 
+	//fonction permettant d'obtenir une rotation d'angle r autour de l'axe des Y
 	public void setRotationY(double r) throws MatriceNotCorrespondingException, SegmentException {
 		setPtsToMatrix();
 		Matrix = Matrice.multiplier(Matrice.getRotationY(r), Matrix);
@@ -227,6 +282,7 @@ public class FModelisation extends JPanel implements MouseWheelListener,MouseLis
 		triFaces();
 	}
 
+	//fonction permettant d'obtenir une rotation d'angle r autour de l'axe des Z
 	public void setRotationZ(double r) throws MatriceNotCorrespondingException, SegmentException {
 		setPtsToMatrix();
 		Matrix = Matrice.multiplier(Matrice.getRotationZ(r), Matrix);
@@ -236,6 +292,7 @@ public class FModelisation extends JPanel implements MouseWheelListener,MouseLis
 		triFaces();
 	}
 
+	//fonction stockant les segments de la figure
 	public void setSegments() throws SegmentException{
 		sgmts = new Segment[infos[1]];
 		for(int i=0; i < infos[1]; i++){
@@ -243,6 +300,7 @@ public class FModelisation extends JPanel implements MouseWheelListener,MouseLis
 		}
 	}
 
+	//fonction stockant les faces de la figure
 	public void setFaces() throws SegmentException{
 		fces = new Face[infos[2]];
 		for(int i=0; i < infos[2]; i++){
