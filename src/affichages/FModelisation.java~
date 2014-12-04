@@ -36,16 +36,6 @@ public class FModelisation extends JPanel implements KeyListener{
 	private Segment[] sgmts;
 	private Matrice Matrix;
 	private int zoom=10;
-	private boolean isRot = true;
-	
-	public boolean isRot() {
-		return isRot;
-	}
-
-	public void setRot(boolean isRot) {
-		this.isRot = isRot;
-	}
-
 	public int getZoom() {
 		return zoom;
 	}
