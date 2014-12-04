@@ -14,34 +14,36 @@ public class MyMouseMotionListener implements MouseMotionListener{
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		try {
-			if(e.getX()<fM.getLastXPos()){
-				fM.setRotationY(0.05);
-			}
-			else if(e.getX()>fM.getLastXPos()){
-				fM.setRotationY(-0.05);
-			}
-			if(e.getY()<fM.getLastYPos()){
-				fM.setRotationX(-0.05);
-			}
-			else if(e.getY()>fM.getLastYPos()){
-				fM.setRotationX(0.05);
-			}
-			fM.setLastXPos(e.getX());
-			fM.setLastYPos(e.getY());
-	
+		if(fM.isRot()){
+			try {
+				if(e.getX()<fM.getLastXPos()){
+					fM.setRotationY(0.05);
+				}
+				else if(e.getX()>fM.getLastXPos()){
+					fM.setRotationY(-0.05);
+				}
+				if(e.getY()<fM.getLastYPos()){
+					fM.setRotationX(-0.05);
+				}
+				else if(e.getY()>fM.getLastYPos()){
+					fM.setRotationX(0.05);
+				}
+				fM.setLastXPos(e.getX());
+				fM.setLastYPos(e.getY());
 
-			fM.repaint();
-		} catch (Exception e1) {
-			e1.printStackTrace();
+
+				fM.repaint();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
 		}
-		
+
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

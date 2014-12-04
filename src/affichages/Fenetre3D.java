@@ -25,8 +25,7 @@ public class Fenetre3D extends JFrame{
 		
 		try {
 			md = new FModelisation(fichier);
-			Librairie lib = new Librairie();
-			Descripteur d = new Descripteur();
+			
 			this.setLayout(new BorderLayout());
 
 			

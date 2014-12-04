@@ -3,11 +3,7 @@
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -21,7 +17,7 @@ import exceptions.MatriceNotCorrespondingException;
 import exceptions.SegmentException;
 import exceptions.VectorException;
 
-public class FModelisation extends JPanel implements KeyListener{
+public class FModelisation extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private String fichier;
@@ -84,15 +80,14 @@ public class FModelisation extends JPanel implements KeyListener{
 			this.addMouseMotionListener(new MyMouseMotionListener(this));
 			this.addMouseWheelListener(new MyMouseWheelListener(this));
 			this.addMouseListener(new MyMouseListener(this));
-			this.addKeyListener(this);
-			this.fichier = fichier;
-			gts = new GtsReader(fichier);
-			infos = gts.getInfos();
-			numsgmts = gts.getNumsgmts();
-			numfces = gts.getNumfces();
-			pts = gts.getPoints();
-			sgmts = gts.getSegments();
-			fces = gts.getFaces();
+			this.setFichier(fichier);
+			setGts(new GtsReader(fichier));
+			setInfos(getGts().getInfos());
+			setNumsgmts(getGts().getNumsgmts());
+			setNumfces(getGts().getNumfces());
+			setPts(getGts().getPoints());
+			setSgmts(getGts().getSegments());
+			setFces(getGts().getFaces());
 			setTranslation(getVectorCenter());
 		} catch(Exception e){
 			e.printStackTrace();
@@ -121,10 +116,10 @@ public class FModelisation extends JPanel implements KeyListener{
 
 	public String ptsToString(){
 		String res="";
-		if(pts.length>0)
-			res+="["+ pts[0].toString();
-		for(int i=0; i<pts.length; i++){
-			res+=", "+ pts[i].toString();
+		if(getPts().length>0)
+			res+="["+ getPts()[0].toString();
+		for(int i=0; i<getPts().length; i++){
+			res+=", "+ getPts()[i].toString();
 		}
 		res+="]";
 		return res;
@@ -132,53 +127,13 @@ public class FModelisation extends JPanel implements KeyListener{
 	
 
 	
-	@Override
-	public void keyTyped(KeyEvent e) {
-		int key = e.getKeyChar();
-		try {
-			if(key == 'q' ){
-				setTranslation(LEFT);
-			}
-			else if(key == 'd'){
-				setTranslation(RIGHT);
-			}
-			else if(key == 'z'){
-				setTranslation(UP);
-			}
-			else if(key == 's'){
-				setTranslation(DOWN);
-			}
-			else if(key=='c'){
-			
-				gts = new GtsReader(fichier);
-				infos = gts.getInfos();
-				numsgmts = gts.getNumsgmts();
-				numfces = gts.getNumfces();
-				pts = gts.getPoints();
-				sgmts = gts.getSegments();
-				fces = gts.getFaces();
-				setTranslation(getVectorCenter());
-			}
-			repaint();
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
 	
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-	}
 	
 	//fonction triant les faces de la plus éloignée a la plus proche
 	public void triFaces(){
 		f=new ArrayList<Face>();
-		for(int i=0;i<fces.length;i++){
-			f.add(fces[i]);
+		for(int i=0;i<getFces().length;i++){
+			f.add(getFces()[i]);
 		}
 		
 		Collections.sort(f);
@@ -186,18 +141,18 @@ public class FModelisation extends JPanel implements KeyListener{
 
 	//fonction de créer la matrice homogène des points de la figure
 	public void setPtsToMatrix(){
-		Matrix = new Matrice(4,pts.length);
-		for(int i=0; i<pts.length; i++){
-			Matrix.setElem(0,i,pts[i].getX());
-			Matrix.setElem(1,i,pts[i].getY());
-			Matrix.setElem(2,i,pts[i].getZ());
+		Matrix = new Matrice(4,getPts().length);
+		for(int i=0; i<getPts().length; i++){
+			Matrix.setElem(0,i,getPts()[i].getX());
+			Matrix.setElem(1,i,getPts()[i].getY());
+			Matrix.setElem(2,i,getPts()[i].getZ());
 			Matrix.setElem(3,i,1.0);
 		}
 	}
 	//fonction permettant de récupérer les points dans la matrice
 	public void setMatrixToPts(){
 		for(int i=0; i<Matrix.getnColonnes(); i++){
-			pts[i]= new Point(Matrix.getElem(0,i),Matrix.getElem(1,i),Matrix.getElem(2,i));
+			getPts()[i]= new Point(Matrix.getElem(0,i),Matrix.getElem(1,i),Matrix.getElem(2,i));
 		}
 	}
 
@@ -216,12 +171,12 @@ public class FModelisation extends JPanel implements KeyListener{
 		double x = 0;
 		double y = 0;
 		double z = 0;
-		for(int i=0; i<fces.length; i++){
-			x+=fces[i].barycentre().getX();
-			y+=fces[i].barycentre().getY();
-			z+=fces[i].barycentre().getZ();
+		for(int i=0; i<getFces().length; i++){
+			x+=getFces()[i].barycentre().getX();
+			y+=getFces()[i].barycentre().getY();
+			z+=getFces()[i].barycentre().getZ();
 		}
-		return new Matrice(new double[][]{{x/fces.length},{y/fces.length},{z/fces.length}});
+		return new Matrice(new double[][]{{x/getFces().length},{y/getFces().length},{z/getFces().length}});
 	}
 
 	//fonction permettant d'obtenir une rotation d'angle r autour de l'axe des X
@@ -256,18 +211,98 @@ public class FModelisation extends JPanel implements KeyListener{
 
 	//fonction stockant les segments de la figure
 	public void setSegments() throws SegmentException{
-		sgmts = new Segment[infos[1]];
-		for(int i=0; i < infos[1]; i++){
-			sgmts[i]=new Segment(pts[numsgmts[i][0]-1], pts[numsgmts[i][1]-1]);
+		setSgmts(new Segment[getInfos()[1]]);
+		for(int i=0; i < getInfos()[1]; i++){
+			getSgmts()[i]=new Segment(getPts()[getNumsgmts()[i][0]-1], getPts()[getNumsgmts()[i][1]-1]);
 		}
 	}
 
 	//fonction stockant les faces de la figure
 	public void setFaces() throws SegmentException{
-		fces = new Face[infos[2]];
-		for(int i=0; i < infos[2]; i++){
-			fces[i] = new Face(sgmts[numfces[i][0] - 1], sgmts[numfces[i][1] - 1], sgmts[numfces[i][2] - 1]);
+		setFces(new Face[getInfos()[2]]);
+		for(int i=0; i < getInfos()[2]; i++){
+			getFces()[i] = new Face(getSgmts()[getNumfces()[i][0] - 1], getSgmts()[getNumfces()[i][1] - 1], getSgmts()[getNumfces()[i][2] - 1]);
 		}
+	}
+
+	public Face[] getFces() {
+		return fces;
+	}
+
+	public void setFces(Face[] fces) {
+		this.fces = fces;
+	}
+
+	public GtsReader getGts() {
+		return gts;
+	}
+
+	public void setGts(GtsReader gts) {
+		this.gts = gts;
+	}
+
+	public int[] getInfos() {
+		return infos;
+	}
+
+	public void setInfos(int[] infos) {
+		this.infos = infos;
+	}
+
+	public int[][] getNumsgmts() {
+		return numsgmts;
+	}
+
+	public void setNumsgmts(int[][] numsgmts) {
+		this.numsgmts = numsgmts;
+	}
+
+	public int[][] getNumfces() {
+		return numfces;
+	}
+
+	public void setNumfces(int[][] numfces) {
+		this.numfces = numfces;
+	}
+
+	public Point[] getPts() {
+		return pts;
+	}
+
+	public void setPts(Point[] pts) {
+		this.pts = pts;
+	}
+
+	public Segment[] getSgmts() {
+		return sgmts;
+	}
+
+	public void setSgmts(Segment[] sgmts) {
+		this.sgmts = sgmts;
+	}
+
+	public String getFichier() {
+		return fichier;
+	}
+
+	public void setFichier(String fichier) {
+		this.fichier = fichier;
+	}
+
+	public Matrice getDOWN() {
+		return DOWN;
+	}
+
+	public Matrice getRIGHT() {
+		return RIGHT;
+	}
+
+	public Matrice getUP() {
+		return UP;
+	}
+
+	public Matrice getLEFT() {
+		return LEFT;
 	}
 
 }
