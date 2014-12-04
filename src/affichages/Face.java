@@ -130,7 +130,7 @@ public class Face implements Comparable<Face> {
 	}
 
 	public void setPolygonColor() throws VectorException{
-		int x = (int) (255 - 255*(this.getRadian()));
+		int x = (int) (255*(this.getRadian()));
 		Color c = new Color(x, x, x);
 		setCouleur(c);
 	}
