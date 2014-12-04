@@ -1,4 +1,4 @@
-package affichages;
+﻿package affichages;
 
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
@@ -13,12 +13,15 @@ import java.util.Collections;
 
 import javax.swing.JPanel;
 
+import listener_package.MyMouseListener;
+import listener_package.MyMouseMotionListener;
+import listener_package.MyMouseWheelListener;
 import maths_package.Matrice;
 import exceptions.MatriceNotCorrespondingException;
 import exceptions.SegmentException;
 import exceptions.VectorException;
 
-public class FModelisation extends JPanel implements KeyListener, MouseWheelListener,MouseListener,MouseMotionListener{
+public class FModelisation extends JPanel implements KeyListener{
 
 	private static final long serialVersionUID = 1L;
 	private String fichier;
@@ -33,8 +36,32 @@ public class FModelisation extends JPanel implements KeyListener, MouseWheelList
 	private Segment[] sgmts;
 	private Matrice Matrix;
 	private int zoom=10;
+	public int getZoom() {
+		return zoom;
+	}
+
+	public void setZoom(int zoom) {
+		this.zoom = zoom;
+	}
+
 	private int lastXPos;
+	public int getLastXPos() {
+		return lastXPos;
+	}
+
+	public void setLastXPos(int lastXPos) {
+		this.lastXPos = lastXPos;
+	}
+
 	private int lastYPos;
+	public int getLastYPos() {
+		return lastYPos;
+	}
+
+	public void setLastYPos(int lastYPos) {
+		this.lastYPos = lastYPos;
+	}
+
 	private final Matrice UP = new Matrice(new double[][] {{0},{-1},{0}}); ;
 	private final Matrice DOWN = new Matrice(new double[][] {{0},{1},{0}}); ;
 	private final Matrice LEFT = new Matrice(new double[][] {{-1},{0},{0}}); ;
@@ -44,9 +71,9 @@ public class FModelisation extends JPanel implements KeyListener, MouseWheelList
 		try {
 			setFocusable(true);
 			this.requestFocusInWindow(true);
-			this.addMouseMotionListener(this);
-			this.addMouseWheelListener(this);
-			this.addMouseListener(this);
+			this.addMouseMotionListener(new MyMouseMotionListener(this));
+			this.addMouseWheelListener(new MyMouseWheelListener(this));
+			this.addMouseListener(new MyMouseListener(this));
 			this.addKeyListener(this);
 			this.fichier = fichier;
 			gts = new GtsReader(fichier);
@@ -93,82 +120,7 @@ public class FModelisation extends JPanel implements KeyListener, MouseWheelList
 		return res;
 	}
 	
-	//fonction permettant le zoom a l'aide de la molette
-	@Override
-	public void mouseWheelMoved(MouseWheelEvent e) {
-		int zoom = e.getWheelRotation();
-        //si la roulette avance, on zoom
-		if(zoom < 0){	
-			this.zoom=this.zoom*2-(this.zoom/2);		
-		}
-		else{
-			//sinon on dezoom
-			this.zoom=this.zoom/2+1;
-		}	
-		this.repaint();		
-	}
 
-	//fonction permettant la rotation a l'aide de la souris
-	@Override
-	public void mouseDragged(MouseEvent e){
-		try {
-			if(e.getX()<lastXPos){
-				setRotationY(0.09);
-			}
-			else if(e.getX()>lastXPos){
-				setRotationY(-0.09);
-			}
-			if(e.getY()<lastYPos){
-				setRotationX(-0.09);
-			}
-			else if(e.getY()>lastYPos){
-				setRotationX(0.09);
-			}
-			lastXPos=e.getX();
-			lastYPos=e.getY();
-
-			repaint();
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
-	}
-
-
-	@Override
-	public void mouseMoved(MouseEvent e) {
-	}
-
-
-	@Override
-	public void mouseClicked(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-	}
-
-
-	@Override
-	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
-
-	@Override
-	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-	}
-
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		lastXPos=e.getX();
-		lastYPos=e.getY();
-	}
-
-
-	@Override
-	public void mouseReleased(MouseEvent arg0) {
-		//	clicked=false;
-	}
 	
 	@Override
 	public void keyTyped(KeyEvent e) {
