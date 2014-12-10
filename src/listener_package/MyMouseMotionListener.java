@@ -4,6 +4,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 
 import affichages.FModelisation;
+import affichages.GtsReader;
 
 public class MyMouseMotionListener implements MouseMotionListener{
 	protected FModelisation fM;
@@ -28,15 +29,42 @@ public class MyMouseMotionListener implements MouseMotionListener{
 				else if(e.getY()>fM.getLastYPos()){
 					fM.setRotationX(0.05);
 				}
-				fM.setLastXPos(e.getX());
-				fM.setLastYPos(e.getY());
-
-
-				fM.repaint();
+			
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
 		}
+		else{
+			try{
+				int vitesse;
+				if(e.getX()<fM.getLastXPos()){
+					vitesse = fM.getLastXPos()-e.getX();
+					fM.setxSize(fM.getxSize()-vitesse*2);
+				}
+				else if(e.getX()>fM.getLastXPos()){
+					vitesse = e.getX()-fM.getLastXPos();
+					fM.setxSize(fM.getxSize()+vitesse*2);
+				}
+				if(e.getY()<fM.getLastYPos()){
+					vitesse = fM.getLastYPos()-e.getY();
+					fM.setySize(fM.getySize()-vitesse*2);
+				}
+				else if(e.getY()>fM.getLastYPos()){
+					vitesse = e.getY()-fM.getLastYPos();
+					fM.setySize(fM.getySize()+vitesse*2);
+				}
+	
+			}
+			catch(Exception e2){
+				e2.printStackTrace();
+			}
+			
+			
+		}
+		fM.setLastXPos(e.getX());
+		fM.setLastYPos(e.getY());
+
+		fM.repaint();
 
 	}
 

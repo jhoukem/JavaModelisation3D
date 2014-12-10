@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 
 import affichages.FModelisation;
+import affichages.GtsReader;
 
 public class MyButtonRotListener implements ActionListener {
 
@@ -20,10 +21,17 @@ public class MyButtonRotListener implements ActionListener {
 		this.rot=rot;
 	}
 	@Override
-	public void actionPerformed(ActionEvent e) {			
+	public void actionPerformed(ActionEvent e) {	
+		try{
 			this.fM.setRot(true);		
 			rot.setEnabled(false);
 			trans.setEnabled(true);
+			
+			fM.repaint();
+		}
+		catch(Exception e1){
+			e1.printStackTrace();
+		}
 	}
 	
 	

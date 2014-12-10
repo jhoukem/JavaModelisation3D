@@ -33,6 +33,24 @@ public class FModelisation extends JPanel {
 	private Matrice Matrix;
 	private int zoom=10;
 	private boolean isRot = true;
+	private int k=0;
+	
+	
+	public int getxSize() {
+		return xSize;
+	}
+
+	public void setxSize(int xSize) {
+		this.xSize = xSize;
+	}
+
+	public int getySize() {
+		return ySize;
+	}
+
+	public void setySize(int ySize) {
+		this.ySize = ySize;
+	}
 	
 	public boolean isRot() {
 		return isRot;
@@ -89,6 +107,7 @@ public class FModelisation extends JPanel {
 			setSgmts(getGts().getSegments());
 			setFces(getGts().getFaces());
 			setTranslation(getVectorCenter());
+			
 		} catch(Exception e){
 			e.printStackTrace();
 		}
@@ -97,10 +116,12 @@ public class FModelisation extends JPanel {
 	//fonction dessinant les faces de la figure
 	@Override
 	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);	
+		super.paintComponent(g);
+		if(k==0){
 		xSize = this.getWidth();
 		ySize = this.getHeight();	
-
+		k++;
+		}
 		for(int i=0;i<f.size();i++){
 			int[] x= new int[3];
 			int [] y= new int[3];
