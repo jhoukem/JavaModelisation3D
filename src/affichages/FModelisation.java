@@ -69,6 +69,7 @@ public class FModelisation extends JPanel {
 	}
 
 	private int lastXPos;
+	
 	public int getLastXPos() {
 		return lastXPos;
 	}
@@ -98,25 +99,30 @@ public class FModelisation extends JPanel {
 			this.addMouseMotionListener(new MyMouseMotionListener(this));
 			this.addMouseWheelListener(new MyMouseWheelListener(this));
 			this.addMouseListener(new MyMouseListener(this));
-			this.setFichier(fichier);
-			setGts(new GtsReader(fichier));
-			setInfos(getGts().getInfos());
-			setNumsgmts(getGts().getNumsgmts());
-			setNumfces(getGts().getNumfces());
-			setPts(getGts().getPoints());
-			setSgmts(getGts().getSegments());
-			setFces(getGts().getFaces());
-			setTranslation(getVectorCenter());
+			setFigure(fichier);
 			
 		} catch(Exception e){
 			e.printStackTrace();
 		}
 	}
 
+	public void setFigure(String fichier) throws SegmentException,
+			VectorException, MatriceNotCorrespondingException {
+		this.setFichier(fichier);
+		setGts(new GtsReader(fichier));
+		setInfos(getGts().getInfos());
+		setNumsgmts(getGts().getNumsgmts());
+		setNumfces(getGts().getNumfces());
+		setPts(getGts().getPoints());
+		setSgmts(getGts().getSegments());
+		setFces(getGts().getFaces());
+		setTranslation(getVectorCenter());
+	}
+
 	//fonction dessinant les faces de la figure
 	@Override
 	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
+		super.paintComponent(g);	
 		if(k==0){
 		xSize = this.getWidth();
 		ySize = this.getHeight();	

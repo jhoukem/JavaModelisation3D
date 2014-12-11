@@ -35,6 +35,7 @@ public class Fenetre3D extends JFrame{
 			this.getContentPane().add(md,BorderLayout.CENTER);
 			
 			this.add(new Menu(md), BorderLayout.NORTH);
+			this.add(new Librairie(md),BorderLayout.WEST);
 			//this.getContentPane().add(lib,BorderLayout.WEST);
 			//this.getContentPane().add(d,BorderLayout.NORTH);
 			this.pack();
