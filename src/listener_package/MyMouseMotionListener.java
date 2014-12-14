@@ -29,6 +29,7 @@ public class MyMouseMotionListener implements MouseMotionListener{
 				else if(e.getY()>fM.getLastYPos()){
 					fM.setRotationX(0.05);
 				}
+				
 			
 			} catch (Exception e1) {
 				e1.printStackTrace();

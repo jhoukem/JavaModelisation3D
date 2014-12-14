@@ -6,39 +6,112 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class AddGts {
-	public static void main(String[] args) throws ClassNotFoundException
-	{
+	Connection connection;
+	Statement statement;
+	
+	public AddGts(){
 		// load the sqlite-JDBC driver using the current class loader
-		Class.forName("org.sqlite.JDBC");
-
-		Connection connection = null;
-		try
-		{
-			// create a database connection
+		try {
+			Class.forName("org.sqlite.JDBC");
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
+		}
+		connection = null;
+		
+	
+	}
+	
+	
+	/*public void addThis(String file){
+		SelectGts gts = new SelectGts("max(id)");
+			
+			int cpt=0;
+			try {				
+				gts.rs.next();
+				if(gts.rs.getString("max(id)")==null){
+				cpt=1;
+				}
+				else{
+				cpt=1+Integer.parseInt(gts.rs.getString("max(id)"));	
+				}
+				
+				System.out.println(cpt);
+			} catch (SQLException e) {
+				e.printStackTrace();
+							
+			}
+			gts = new SelectGts("*",file);
+			
+			try {
+				if(gts.rs.next())						
+					System.out.println("Fichier existant: "+file);
+				
+				else{
+					try {
+						gts.close();
+						System.out.println("OKI");
+						
+						open();
+						statement.execute("insert into FichiersGts values('"+cpt+"','"+file+"')");
+						System.out.println("Le fichier "+file+" à bien été ajouté");
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}					
+				}
+					
+					
+			} catch (SQLException e) {
+				e.printStackTrace();				
+			
+			}
+			finally{
+				gts.close();
+			}			
+	}*/
+	
+	public void addThis(String file){
+					try {
+					
+					
+						
+						open();
+						statement.execute("insert into FichiersGts values(4,'"+file+"')");
+						System.out.println("Le fichier "+file+" à bien été ajouté");
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}					
+			
+	}
+		
+	
+	
+	public void open(){
+		try {
 			connection = DriverManager.getConnection("jdbc:sqlite:test.sqlite");
-			Statement statement = connection.createStatement();
-			statement.setQueryTimeout(30);  // set timeout to 30 sec.
-			statement.executeUpdate("insert into FichiersGts values('3','x_wing.gts')");
+			statement = connection.createStatement();
+			statement.setQueryTimeout(5);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		catch(SQLException e)
-		{
-			// if the error message is "out of memory", 
-			// it probably means no database file is found
-			System.err.println(e.getMessage());
-		}
-		finally
-		{
+	}
+	
+	public void close(){
 			try
 			{
-				if(connection != null)
+				if(connection != null){
+					statement.close();
 					connection.close();
+				}
+					
 			}
 			catch(SQLException e)
 			{
-				// connection close failed.
 				System.err.println(e);
-			}
-		}
+			}		
 	}
+	
 
 }
+
+

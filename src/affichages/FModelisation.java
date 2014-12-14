@@ -1,9 +1,9 @@
-ï»¿package affichages;
+package affichages;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -87,15 +87,14 @@ public class FModelisation extends JPanel {
 		this.lastYPos = lastYPos;
 	}
 
-	private final Matrice UP = new Matrice(new double[][] {{0},{-1},{0}}); ;
-	private final Matrice DOWN = new Matrice(new double[][] {{0},{1},{0}}); ;
-	private final Matrice LEFT = new Matrice(new double[][] {{-1},{0},{0}}); ;
-	private final Matrice RIGHT = new Matrice(new double[][] {{1},{0},{0}}); ;
+	
 	
 	public FModelisation(String fichier) throws SegmentException {
 		try {
-			setFocusable(true);
-			this.requestFocusInWindow(true);
+			this.setBackground(new Color(3, 34, 76));
+			//setFocusable(true);
+			
+			//this.requestFocusInWindow(true);
 			this.addMouseMotionListener(new MyMouseMotionListener(this));
 			this.addMouseWheelListener(new MyMouseWheelListener(this));
 			this.addMouseListener(new MyMouseListener(this));
@@ -156,7 +155,7 @@ public class FModelisation extends JPanel {
 	
 	
 	
-	//fonction triant les faces de la plus Ã©loignÃ©e a la plus proche
+	//fonction triant les faces de la plus éloignée a la plus proche
 	public void triFaces(){
 		f=new ArrayList<Face>();
 		for(int i=0;i<getFces().length;i++){
@@ -166,7 +165,7 @@ public class FModelisation extends JPanel {
 		Collections.sort(f);
 	}
 
-	//fonction de crÃ©er la matrice homogÃ¨ne des points de la figure
+	//fonction de créer la matrice homogène des points de la figure
 	public void setPtsToMatrix(){
 		Matrix = new Matrice(4,getPts().length);
 		for(int i=0; i<getPts().length; i++){
@@ -176,7 +175,7 @@ public class FModelisation extends JPanel {
 			Matrix.setElem(3,i,1.0);
 		}
 	}
-	//fonction permettant de rÃ©cupÃ©rer les points dans la matrice
+	//fonction permettant de récupérer les points dans la matrice
 	public void setMatrixToPts(){
 		for(int i=0; i<Matrix.getnColonnes(); i++){
 			getPts()[i]= new Point(Matrix.getElem(0,i),Matrix.getElem(1,i),Matrix.getElem(2,i));
@@ -316,20 +315,6 @@ public class FModelisation extends JPanel {
 		this.fichier = fichier;
 	}
 
-	public Matrice getDOWN() {
-		return DOWN;
-	}
-
-	public Matrice getRIGHT() {
-		return RIGHT;
-	}
-
-	public Matrice getUP() {
-		return UP;
-	}
-
-	public Matrice getLEFT() {
-		return LEFT;
-	}
+	
 
 }

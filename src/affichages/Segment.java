@@ -14,12 +14,14 @@ public class Segment {
 		this.p2=p2;
 	}
 	
-
+	//public void paintComponent(Graphics g){
+		//g.drawLine(x1, y1, x2, y2);
+	//}
 	
 	public String toString() {
 		return "["+p1.toString() + ", " + p2.toString() + "]";
 	}
-	//renvoie le debut du segment
+	//renvoie le début du segment
 	public Point getDebut() {
 		return p1;
 	}

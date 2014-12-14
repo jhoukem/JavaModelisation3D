@@ -4,6 +4,6 @@ package exceptions;
 public class VectorException extends Exception {
 
 	public VectorException(){
-		super("Le paramÃ¨tre n'est pas un vecteur !");
+		super("Le paramètre n'est pas un vecteur !");
 	}
 }

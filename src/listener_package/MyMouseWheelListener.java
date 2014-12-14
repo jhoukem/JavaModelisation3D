@@ -21,11 +21,15 @@ public MyMouseWheelListener(FModelisation f) {
 		int zoom = e.getWheelRotation();
         //si la roulette avance, on zoom
 		if(zoom < 0){	
-			fM.setZoom(fM.getZoom()*2-(fM.getZoom()/2));		
+			if(fM.getZoom()<20000000)
+			fM.setZoom(fM.getZoom()*2-(fM.getZoom()/2));	
+			
 		}
+		
 		else{
 			//sinon on dezoom
 			fM.setZoom(fM.getZoom()/2+1);
+			
 		}	
 		fM.repaint();		
 }

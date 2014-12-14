@@ -25,9 +25,7 @@ public class MyButtonRotListener implements ActionListener {
 		try{
 			this.fM.setRot(true);		
 			rot.setEnabled(false);
-			trans.setEnabled(true);
-			
-			fM.repaint();
+			trans.setEnabled(true);		
 		}
 		catch(Exception e1){
 			e1.printStackTrace();

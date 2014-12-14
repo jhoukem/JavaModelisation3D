@@ -29,7 +29,6 @@ public class MyButtonTransListener implements ActionListener {
 			this.fM.setRot(false);		
 			rot.setEnabled(true);
 			trans.setEnabled(false);
-	
 	}
 	
 	
