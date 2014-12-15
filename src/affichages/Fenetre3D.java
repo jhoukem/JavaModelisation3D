@@ -27,7 +27,7 @@ public class Fenetre3D extends JFrame{
 
 	JTabbedPaneWithCloseIcons jt;
 	JSplitPane sp;
-	public Fenetre3D(String fichier) {
+	public Fenetre3D() {
 		super("3D Project");
 		FModelisation md;
 		jt = new JTabbedPaneWithCloseIcons();
@@ -35,13 +35,14 @@ public class Fenetre3D extends JFrame{
 
 		try {
 			Librairie lib = new Librairie(jt);			
-			md = new FModelisation(fichier);
+			md = new FModelisation();
 			Menu m =new Menu(md,lib);
 			
-			jt.addTab(fichier, md,0);			
+				
 			
 			jt.addChangeListener(new MyTabListener(m,jt));
-			this.setLayout(new BorderLayout());
+			
+			//this.setLayout(new BorderLayout());
 			
 			
 			
@@ -52,6 +53,7 @@ public class Fenetre3D extends JFrame{
 			this.add(m, BorderLayout.NORTH);
 			sp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, lib, jt);
 			sp.resetToPreferredSizes();
+		
 			this.add(sp,BorderLayout.CENTER);
 			
 			

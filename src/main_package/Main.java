@@ -6,7 +6,7 @@ import exceptions.SegmentException;
 public class Main {
 
 	public static void main(String[] args) throws SegmentException {
-	 new Fenetre3D("cube.gts");
+	 new Fenetre3D();
 		
 	}
 }

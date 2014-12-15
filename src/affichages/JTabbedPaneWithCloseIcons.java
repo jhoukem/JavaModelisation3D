@@ -1,130 +1,114 @@
 package affichages;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Graphics;
-import javax.swing.*;
-import javax.swing.plaf.basic.BasicButtonUI;
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.JTabbedPane;
- 
- 
+	//-*- mode:java; encoding:utf-8 -*-
+	//vim:set fileencoding=utf-8:
+	import java.awt.*;
+	import java.awt.event.*;
+	import java.util.ArrayList;
+	import java.util.List;
+	import javax.swing.*;
+	import javax.swing.plaf.UIResource;
+	import javax.swing.plaf.basic.*;
 
-public class JTabbedPaneWithCloseIcons extends JTabbedPane{
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	JTabbedPaneWithCloseIcons moi; //pour avoir acces au l'element this dans les class internes
-	public JTabbedPaneWithCloseIcons() {
-		super();
-        moi =this;
+	public class JTabbedPaneWithCloseIcons extends JTabbedPane {
+	  private List<JButton> closeButtons;
+	  @Override public void updateUI() {
+	      if (closeButtons != null) {
+	          for (JButton b: closeButtons) {
+	              remove(b);
+	          }
+	          closeButtons.clear();
+	      }
+	      super.updateUI();
+	      closeButtons = new ArrayList<JButton>();
+	      setUI(new CloseButtonTabbedPaneUI(closeButtons));
+	  }
 	}
- 
-	public void addTab(String title, Component component,int endroit) {
-            super.addTab(title, component); //on ajoute une Tab à JTabbedPane
-            super.setTabComponentAt(endroit, new CloseTabPanel(title)); //on applique le closeTabPanel a l'element "endroit"
-	}
- 
-		//fonction qui permet d'affiché le bouton close
-        public void afficheIconAt(int endroit){
-            ((CloseTabPanel)moi.getTabComponentAt(endroit)).afficheIcon(true);
-        }
-		//fonction qui permet d'enlever le bouton close
-        public void cacheIconAt(int endroit){
-            ((CloseTabPanel)moi.getTabComponentAt(endroit)).afficheIcon(false);
-        }
- 
- 
- 
-class CloseTabPanel extends JPanel{
-        JButton button; 
- 
-	//constructeur sans boolean  qui de base met un bouton close
-    public CloseTabPanel(String titre) {
-            super(new FlowLayout(FlowLayout.LEFT, 0, 0));
-            setOpaque(false);
-            JLabel label = new JLabel(titre);
-            add(label);
-            button = new TabButton();
-            add(button);
-            setBorder(BorderFactory.createEmptyBorder(2, 0, 0, 0));
-	}
-	//constructeur avec boolean  qui permet de choisir si oui ou non on veux un bouton close
-		public CloseTabPanel(String titre, boolean b){
-            super(new FlowLayout(FlowLayout.LEFT, 0, 0));
-            setOpaque(false);
-            JLabel label = new JLabel(titre);
-            add(label);
-            button = new TabButton();
-            if(b){
-            add(button);
-            }
-            //add more space to the top of the component
-            setBorder(BorderFactory.createEmptyBorder(2, 0, 0, 0));
-        }
-        //permet d'afficher ou cacher le bouton close
-        public void afficheIcon(boolean b){
-            if(b){
-                if(this.getComponentCount()==1)
-                    this.add(button);
-            }else{
-                if(this.getComponentCount()>1)
-                    this.remove(button);
-            }
-        }
-}
 
-class TabButton extends JButton implements ActionListener {
-    public TabButton() {
-            int size = 17;
-            setPreferredSize(new Dimension(size, size));
-            setToolTipText("Fermer cet onglet");
-            //Make the button looks the same for all Laf's
-            setUI(new BasicButtonUI());
-            //Rends le bouton transparent
-            setContentAreaFilled(false);
-            //pas besoin d'avoir le focus
-            setFocusable(false);
-            setBorder(BorderFactory.createEtchedBorder());
-            setBorderPainted(false);
-            addActionListener(this);            
-        }
-		/*
-		* fonction qui ferme l'onglet du bouton close sur lequel on a cliqué
-		*/
-    public void actionPerformed(ActionEvent e) {
-            int X = new Double(((JButton)e.getSource()).getMousePosition().getX()).intValue();
-            int Y = new Double(((JButton)e.getSource()).getMousePosition().getY()).intValue();
- 
-            int i = moi.getUI().tabForCoordinate((JTabbedPane)moi, X,Y);
-            if (i != -1) {
-                moi.remove(i);
-            }
-        }
- 
-        //we don't want to update UI for this button
-        public void updateUI() {
-        }
- 
-        //dessine la croix dans le bouton
-        protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            Graphics2D g2 = (Graphics2D) g.create();
-            //shift the image for pressed buttons
-            if (getModel().isPressed()) {
-                g2.translate(1, 1);
-            } 
-            g2.setStroke(new BasicStroke(2));
-            g2.setColor(Color.BLACK);
-            if (getModel().isRollover()) {
-                g2.setColor(Color.RED);
-            }            
-            int delta = 6;
-            g2.drawLine(delta, delta, getWidth() - delta - 1, getHeight() - delta - 1);
-            g2.drawLine(getWidth() - delta - 1, delta, delta, getHeight() - delta - 1);
-            g2.dispose();
-        }
-    }
-}
+	//Copied from
+	//JTabbedPane with close Icons | Oracle Forums
+	//https://community.oracle.com/thread/1356993
+	class CloseButtonTabbedPaneUI extends BasicTabbedPaneUI {
+	  public final List<JButton> closeButtons; // = new ArrayList<>();
+	  public CloseButtonTabbedPaneUI(List<JButton> closeButtons) {
+	      super();
+	      this.closeButtons = closeButtons;
+	  }
+
+	  @Override protected LayoutManager createLayoutManager() {
+	      return new CloseButtonTabbedPaneLayout();
+	  }
+	  //add 40 to the tab size to allow room for the close button and 2 + 2 to the height
+	  @Override protected Insets getTabInsets(int tabPlacement, int tabIndex) {
+	      //note that the insets that are returned to us are not copies.
+	      Insets defaultInsets = (Insets) super.getTabInsets(tabPlacement, tabIndex).clone();
+	      defaultInsets.right  += 40;
+	      defaultInsets.top    += 2;
+	      defaultInsets.bottom += 2;
+	      return defaultInsets;
+	  }
+	  private class CloseButtonTabbedPaneLayout extends TabbedPaneLayout {
+	      //a list of our close buttons
+	      @Override public void layoutContainer(Container parent) {
+	          super.layoutContainer(parent);
+	          //ensure that there are at least as many close buttons as tabs
+	          while (tabPane.getTabCount() > closeButtons.size()) {
+	              closeButtons.add(new CloseButton(tabPane, closeButtons.size()));
+	          }
+	          Rectangle rect = new Rectangle();
+	          int tabPlacement = tabPane.getTabPlacement();
+	          int i;
+	          for (i = 0; i < tabPane.getTabCount(); i++) {
+	              rect = getTabBounds(i, rect);
+	              JButton closeButton = closeButtons.get(i);
+	              Dimension d = closeButton.getPreferredSize();
+	              boolean isSeleceted = i == tabPane.getSelectedIndex();
+	              int x = getTabLabelShiftX(tabPlacement, i, isSeleceted) + rect.x + rect.width - d.width - 2;
+	              int y = getTabLabelShiftY(tabPlacement, i, isSeleceted) + rect.y + (rect.height - d.height) / 2;
+	              closeButton.setBounds(x, y, d.width, d.height);
+	              tabPane.add(closeButton);
+	          }
+	          for (; i < closeButtons.size(); i++) {
+	              //remove any extra close buttons
+	              tabPane.remove(closeButtons.get(i));
+	          }
+	      }
+	  }
+	}
+
+	class CloseButton extends JButton implements UIResource {
+	  public CloseButton(JTabbedPane tabPane, int index) {
+	      super(new CloseButtonAction(tabPane, index));
+	      setToolTipText("Fermer cet onglet");
+	      //setMargin(new Insets(0, 0, 0, 0));
+	      setBorder(BorderFactory.createEmptyBorder());
+	      setFocusPainted(false);
+	      setBorderPainted(false);
+	      setContentAreaFilled(false);
+	      setRolloverEnabled(false);
+	      addMouseListener(new MouseAdapter() {
+	          @Override public void mouseEntered(MouseEvent e) {
+	              setForeground(Color.RED);
+	          }
+	          @Override public void mouseExited(MouseEvent e) {
+	              setForeground(Color.BLACK);
+	          }
+	      });
+	  }
+	  @Override public Dimension getPreferredSize() {
+	      return new Dimension(16, 16);
+	  }
+	}
+
+	class CloseButtonAction extends AbstractAction {
+	  private final JTabbedPane tabPane;
+	  private final int index;
+	  public CloseButtonAction(JTabbedPane tabPane, int index) {
+	      super("x");
+	      this.tabPane = tabPane;
+	      this.index = index;
+	  }
+	  @Override public void actionPerformed(ActionEvent e) {
+	      tabPane.remove(index);
+	  }
+	}

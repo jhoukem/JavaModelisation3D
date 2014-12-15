@@ -22,7 +22,7 @@ public class AddGts {
 	}
 	
 	
-	/*public void addThis(String file){
+	public void addThis(String file){
 		SelectGts gts = new SelectGts("max(id)");
 			
 			int cpt=0;
@@ -67,8 +67,9 @@ public class AddGts {
 			finally{
 				gts.close();
 			}			
-	}*/
+	}
 	
+	/*
 	public void addThis(String file){
 					try {
 					
@@ -82,7 +83,7 @@ public class AddGts {
 					}					
 			
 	}
-		
+		*/
 	
 	
 	public void open(){

@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 
 import affichages.Librairie;
 import sqlite.AddGts;
+import sqlite.FileCopy;
 
 public class MyButtonAjoutListener  implements ActionListener {
 
@@ -23,11 +24,17 @@ public class MyButtonAjoutListener  implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		
 		JFileChooser chooser = new JFileChooser();
+		
 		int returnVal = chooser.showOpenDialog(null);
 		if (returnVal != JFileChooser.CANCEL_OPTION) {	
 		String s = chooser.getSelectedFile().getName();
-		if (s.substring(s.length()-4).equals(".gts"))
+		File selection = chooser.getSelectedFile();
+		FileCopy f = new FileCopy();
+		
+		if (s.substring(s.length()-4).equals(".gts")){
 			agts.addThis(s);
+			System.out.println(f.copier(selection.getAbsolutePath(), "./gts_files/"+s));
+		}
 		else
 			 JOptionPane.showMessageDialog(null,"Erreur ! "+s+" n'est pas un fichier \"gts\"");
 			 

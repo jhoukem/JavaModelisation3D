@@ -91,7 +91,7 @@ public class FModelisation extends JPanel {
 	
 	public FModelisation(String fichier) throws SegmentException {
 		try {
-			this.setBackground(new Color(3, 34, 76));
+			this.setBackground(new Color(142,162,198));
 			//setFocusable(true);
 			
 			//this.requestFocusInWindow(true);
@@ -104,9 +104,23 @@ public class FModelisation extends JPanel {
 			e.printStackTrace();
 		}
 	}
+	public FModelisation() throws SegmentException {
+		try {
+			this.setBackground(new Color(100, 100, 100));
+			//setFocusable(true);
+			
+			//this.requestFocusInWindow(true);
+			this.addMouseMotionListener(new MyMouseMotionListener(this));
+			this.addMouseWheelListener(new MyMouseWheelListener(this));
+			this.addMouseListener(new MyMouseListener(this));
+			//setFigure(fichier);
+			
+		} catch(Exception e){
+			e.printStackTrace();
+		}
+	}
 
-	public void setFigure(String fichier) throws SegmentException,
-			VectorException, MatriceNotCorrespondingException {
+	public void setFigure(String fichier) throws SegmentException,VectorException, MatriceNotCorrespondingException {
 		this.setFichier(fichier);
 		setGts(new GtsReader(fichier));
 		setInfos(getGts().getInfos());

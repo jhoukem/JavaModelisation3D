@@ -28,6 +28,7 @@ public class CreateTableFichiersGts
 		statement.executeUpdate("drop table FichiersGts"); 
 		statement.executeUpdate("create table FichiersGts (id integer primary key,path text)");
 		statement.executeUpdate("insert into FichiersGts values (1,'cube.gts')");
+		statement.executeUpdate("insert into FichiersGts values (2,'cone.gts')");
 		statement.close();
 		}
 		catch(SQLException e)

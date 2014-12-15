@@ -16,11 +16,12 @@ import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import listener_package.MyListSelectionListener;
 import sqlite.SelectGts;
 import exceptions.SegmentException;
 
 
-public class Librairie extends JPanel implements ListSelectionListener{
+public class Librairie extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	String tab[] ; 
@@ -34,14 +35,16 @@ public class Librairie extends JPanel implements ListSelectionListener{
 
 		this.jt=j;
 		this.setToolTipText("La Librairie permet de choisir un fichier à visualiser");
-	
-		
+
+
 		this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
-		this.setBackground(new Color(103,113,121));
+		this.setBackground(new Color(36,66,124));
 		t = new JLabel("Librairie");
 		t.setForeground(Color.white);
 		this.add(t);
 		getList();	
+		l.setToolTipText("Cliquez sur un fichier pour le charger");
+		l.addListSelectionListener(new MyListSelectionListener(l, jt));
 		this.jsp = new JScrollPane(l); 
 		this.add(jsp);
 	}
@@ -50,33 +53,16 @@ public class Librairie extends JPanel implements ListSelectionListener{
 		sgts=new SelectGts("*");	
 		tab = sgts.getList();	
 		sgts.close();
-		
+
 		l = new JList<String>(tab);
-		l.setToolTipText("Cliquez sur un fichier pour le charger");
-		l.addListSelectionListener(this);
 		
-		/*l.setListData(tab);
-		l.validate();
+
+		l.setListData(tab);
+		/*l.validate();
 		l.revalidate();*/
-		
+
 		l.setVisible(true);	
 	}
 
 
-	@Override
-	public void valueChanged(ListSelectionEvent e) {
-		if(e.getValueIsAdjusting()){
-		try {
-			
-			jt.addTab(l.getSelectedValue().toString(),new FModelisation(l.getSelectedValue().toString()),jt.getTabCount());
-			
-			
-
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
-	}
-	}
 }

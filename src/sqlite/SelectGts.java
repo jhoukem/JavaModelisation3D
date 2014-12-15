@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class SelectGts
 {
 
-	ResultSet rs ;
+	public ResultSet rs ;
 	Connection connection ;
 	Statement statement;
 	String s;

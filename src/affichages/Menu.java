@@ -39,7 +39,7 @@ public class Menu extends JPanel{
 		this.fM=f;
 		this.setLib(l);
 	this.setLayout(new FlowLayout(FlowLayout.LEFT, 4, 4));
-	this.setBackground(new Color(103,113,121));
+	this.setBackground(new Color(36,66,124));
 	ImageIcon img = new ImageIcon("rotation.png");
 	ImageIcon resultat = new ImageIcon(img.getImage().getScaledInstance(15, 15, Image.SCALE_DEFAULT));
 	ajout = new JButton("Ajouter");
