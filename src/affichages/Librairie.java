@@ -5,6 +5,7 @@ package affichages;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.List;
+import java.sql.SQLException;
 
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
@@ -17,6 +18,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import listener_package.MyListSelectionListener;
+import sqlite.GtsBase;
 import sqlite.SelectGts;
 import exceptions.SegmentException;
 
@@ -28,7 +30,7 @@ public class Librairie extends JPanel {
 
 	JLabel t;
 	JList<String> l;
-	SelectGts sgts;
+	GtsBase maBase;
 	JScrollPane jsp;
 	JTabbedPaneWithCloseIcons jt;
 	public Librairie( JTabbedPaneWithCloseIcons j){	
@@ -50,19 +52,50 @@ public class Librairie extends JPanel {
 	}
 
 	public void getList(){
-		sgts=new SelectGts("*");	
-		tab = sgts.getList();	
-		sgts.close();
-
-		l = new JList<String>(tab);
+		maBase = new GtsBase();	
+		maBase.open();
+		try {
+			tab = maBase.getList(maBase.executeQry("select * from FichiersGts"));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+		finally{
+			maBase.close();	
+		}
 		
-
-		l.setListData(tab);
-		/*l.validate();
-		l.revalidate();*/
-
+		l = new JList<String>(tab);		
 		l.setVisible(true);	
+		this.add(l);
 	}
+	
+	public void getListMaj(){
+		maBase = new GtsBase();	
+		maBase.open();
+		try {
+			tab = maBase.getList(maBase.executeQry("select * from FichiersGts"));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+		finally{
+			maBase.close();	
+		}
+		
+		this.remove(l);
+		l = new JList<String>(tab);
+		/*l.setListData(tab);
+		l.validate();
+		l.revalidate();
+		l.repaint();*/
+		
+		l.setVisible(true);	
+		this.add(l);
+	}
+	
+	
+	
+	
 
 
 }
