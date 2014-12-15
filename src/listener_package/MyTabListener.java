@@ -18,6 +18,10 @@ public class MyTabListener implements ChangeListener{
 	}
 	@Override
 	public void stateChanged(ChangeEvent e) {
+		
+		if(jt.getTabCount()==0)
+			m.enableBoutons(false,true);
+		
 		if (jt.getTabCount()>0){
 		m.setfM((FModelisation) jt.getComponentAt(jt.getSelectedIndex()));
 		m.addListener(m.getfM());

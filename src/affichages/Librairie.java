@@ -44,7 +44,7 @@ public class Librairie extends JPanel {
 		this.add(t);
 		getList();	
 		l.setToolTipText("Cliquez sur un fichier pour le charger");
-		l.addListSelectionListener(new MyListSelectionListener(l, jt));
+		//l.addListSelectionListener(new MyListSelectionListener(l, jt));
 		this.jsp = new JScrollPane(l); 
 		this.add(jsp);
 	}

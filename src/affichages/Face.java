@@ -50,7 +50,7 @@ public class Face implements Comparable<Face> {
 		return "["+ s1.toString() + ", " + s2.toString() + ", " + s3.toString() + "]";
 	}
 	
-	//methode de math pour calculer la distance entre deux pts a voir avec benoit
+	//methode de math pour calculer la distance entre les barycentre de deux face nécéssaire pr le tri
 
 	public double distanceToCamera() {
 		Point b= barycentre();
@@ -131,15 +131,15 @@ public class Face implements Comparable<Face> {
 
 	public void setPolygonColor() throws VectorException{
 		int x = (int) (255*(this.getRadian()));
-		Color c = new Color(x, x, x);
+		Color c = new Color(x/2,x/3, x/6);//permet d'obtenir une couleur marron
 		setCouleur(c);
 	}
 
 
-	@Override
+	@Override//compare deux face a et b
 	public int compareTo(Face a) {
-		return (int) ((this.distanceToCamera()*1000000)-(a.distanceToCamera()*1000000));
-	}
+		return (int) ((this.distanceToCamera()*1000000)-(a.distanceToCamera()*1000000));//Le *1000000 sert a augmenter la precision du tri
+	} 																					//afin d'éviter que deux faces aient la même importance
 
 
 }

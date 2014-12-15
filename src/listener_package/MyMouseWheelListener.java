@@ -26,7 +26,7 @@ public MyMouseWheelListener(FModelisation f) {
 			
 		}
 		
-		else{
+		else if (zoom > 0){
 			//sinon on dezoom
 			fM.setZoom(fM.getZoom()/2+1);
 			

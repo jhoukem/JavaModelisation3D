@@ -1,5 +1,6 @@
 package listener_package;
 
+import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -25,8 +26,8 @@ public class MyKeyboardListener implements KeyListener {
 		if(isCtrl){
 			if(e.getKeyCode()==72){
 				if(isHide){
-				lib.show();
-				jp.resetToPreferredSizes();;
+				lib.show();				
+				jp.resetToPreferredSizes();
 				isHide=false;
 				}
 				else{

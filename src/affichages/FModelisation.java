@@ -34,8 +34,26 @@ public class FModelisation extends JPanel {
 	private int zoom=10;
 	private boolean isRot = true;
 	private int k=0;
+	private boolean isIn=true;
+	private int opt =1;
 	
 	
+	public int getOpt() {
+		return opt;
+	}
+
+	public void setOpt(int opt) {
+		this.opt = opt;
+	}
+
+	public boolean isIn() {
+		return isIn;
+	}
+
+	public void setIn(boolean isIn) {
+		this.isIn = isIn;
+	}
+
 	public int getxSize() {
 		return xSize;
 	}
@@ -92,9 +110,6 @@ public class FModelisation extends JPanel {
 	public FModelisation(String fichier) throws SegmentException {
 		try {
 			this.setBackground(new Color(142,162,198));
-			//setFocusable(true);
-			
-			//this.requestFocusInWindow(true);
 			this.addMouseMotionListener(new MyMouseMotionListener(this));
 			this.addMouseWheelListener(new MyMouseWheelListener(this));
 			this.addMouseListener(new MyMouseListener(this));
@@ -104,20 +119,8 @@ public class FModelisation extends JPanel {
 			e.printStackTrace();
 		}
 	}
-	public FModelisation() throws SegmentException {
-		try {
-			this.setBackground(new Color(100, 100, 100));
-			//setFocusable(true);
-			
-			//this.requestFocusInWindow(true);
-			this.addMouseMotionListener(new MyMouseMotionListener(this));
-			this.addMouseWheelListener(new MyMouseWheelListener(this));
-			this.addMouseListener(new MyMouseListener(this));
-			//setFigure(fichier);
-			
-		} catch(Exception e){
-			e.printStackTrace();
-		}
+	public FModelisation() {
+	
 	}
 
 	public void setFigure(String fichier) throws SegmentException,VectorException, MatriceNotCorrespondingException {
@@ -149,7 +152,15 @@ public class FModelisation extends JPanel {
 				y[j]= (int)(f.get(i).ypoints[j]*zoom+ySize/2);
 			}
 			g.setColor(f.get(i).getCouleur());
-			g.fillPolygon(x, y, x.length);
+			if(opt==1)
+				g.fillPolygon(x, y, x.length);
+			else if(opt == 2)
+				g.drawPolygon(x, y,x.length);
+			else{
+				for(int j =0;j<3;j++){
+					g.fillOval(x[j], y[j], 2, 2);
+				}
+			}
 		}
 	}
 
@@ -179,7 +190,7 @@ public class FModelisation extends JPanel {
 		Collections.sort(f);
 	}
 
-	//fonction de créer la matrice homogène des points de la figure
+	//fonction permettant de créer la matrice homogène des points de la figure
 	public void setPtsToMatrix(){
 		Matrix = new Matrice(4,getPts().length);
 		for(int i=0; i<getPts().length; i++){

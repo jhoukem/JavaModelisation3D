@@ -21,16 +21,14 @@ public class MyMouseListener implements MouseListener{
 
 
 	@Override
-	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
+	public void mouseEntered(MouseEvent e) {
+		fM.setIn(true);		
 	}
 
 
 	@Override
 	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
+		fM.setIn(false);		
 	}
 
 

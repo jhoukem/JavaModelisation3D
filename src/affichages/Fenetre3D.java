@@ -8,6 +8,8 @@ import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.Panel;
 import java.awt.Toolkit;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -41,14 +43,7 @@ public class Fenetre3D extends JFrame{
 				
 			
 			jt.addChangeListener(new MyTabListener(m,jt));
-			
-			//this.setLayout(new BorderLayout());
-			
-			
-			
-			
-			
-			
+
 			//this.add(jt,BorderLayout.CENTER);			
 			this.add(m, BorderLayout.NORTH);
 			sp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, lib, jt);
@@ -69,6 +64,16 @@ public class Fenetre3D extends JFrame{
 			this.setVisible(true);
 			this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 			this.requestFocus();
+			this.addFocusListener(new FocusListener() {				
+				@Override
+				public void focusLost(FocusEvent e) {
+					requestFocus();					
+				}
+				@Override
+				public void focusGained(FocusEvent arg0) {	
+				}
+			});
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
