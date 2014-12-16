@@ -4,13 +4,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import affichages.FModelisation;
-import affichages.Menu;
+import affichages.Outils;
 
 public class MyButtonFacesListener implements ActionListener {
 	
 	FModelisation fm;
-	Menu m;
-	public MyButtonFacesListener(FModelisation f, Menu menu){
+	Outils m;
+	public MyButtonFacesListener(FModelisation f, Outils menu){
 	this.fm=f;
 	this.m=menu;
 	}

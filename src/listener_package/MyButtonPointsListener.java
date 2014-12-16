@@ -4,12 +4,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import affichages.FModelisation;
-import affichages.Menu;
+import affichages.Outils;
 
 public class MyButtonPointsListener implements ActionListener{
 	FModelisation fm;
-	Menu m;
-	public MyButtonPointsListener(FModelisation f, Menu menu){
+	Outils m;
+	public MyButtonPointsListener(FModelisation f, Outils menu){
 	this.fm=f;
 	this.m=menu;
 	}

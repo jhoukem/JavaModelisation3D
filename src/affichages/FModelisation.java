@@ -124,7 +124,6 @@ public class FModelisation extends JPanel {
 	}
 
 	public void setFigure(String fichier) throws SegmentException,VectorException, MatriceNotCorrespondingException {
-		System.out.println(fichier);
 		this.setFichier(fichier);
 		setGts(new GtsReader(fichier));
 		setInfos(getGts().getInfos());

@@ -6,14 +6,14 @@ import javax.swing.event.ListSelectionListener;
 
 import affichages.FModelisation;
 import affichages.JTabbedPaneWithCloseIcons;
-import affichages.Menu;
+import affichages.Outils;
 
 
 public class MyListSelectionListener implements ListSelectionListener  {
 	JList l;
 	JTabbedPaneWithCloseIcons jt;
-	Menu m;
-	public MyListSelectionListener(JList lib, JTabbedPaneWithCloseIcons j,Menu me){
+	Outils m;
+	public MyListSelectionListener(JList lib, JTabbedPaneWithCloseIcons j,Outils me){
 		this.l = lib;
 		this.jt = j;
 		this.m=me;
@@ -27,7 +27,6 @@ public class MyListSelectionListener implements ListSelectionListener  {
 		
 		if(e.getValueIsAdjusting()){			
 			try {
-				System.out.println(l.getSelectedValue().toString());
 				jt.addTab(l.getSelectedValue().toString(),new FModelisation(l.getSelectedValue().toString()));
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block

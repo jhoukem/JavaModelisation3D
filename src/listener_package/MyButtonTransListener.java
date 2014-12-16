@@ -9,7 +9,7 @@ import javax.swing.JButton;
 
 
 import affichages.FModelisation;
-import affichages.Menu;
+import affichages.Outils;
 
 public class MyButtonTransListener implements ActionListener {
 

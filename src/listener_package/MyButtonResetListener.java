@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 import affichages.FModelisation;
 import affichages.GtsReader;
-import affichages.Menu;
+import affichages.Outils;
 import exceptions.MatriceNotCorrespondingException;
 import exceptions.SegmentException;
 import exceptions.VectorException;
