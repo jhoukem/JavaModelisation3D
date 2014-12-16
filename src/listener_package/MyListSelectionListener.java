@@ -27,6 +27,7 @@ public class MyListSelectionListener implements ListSelectionListener  {
 		
 		if(e.getValueIsAdjusting()){			
 			try {
+				System.out.println(l.getSelectedValue().toString());
 				jt.addTab(l.getSelectedValue().toString(),new FModelisation(l.getSelectedValue().toString()));
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block

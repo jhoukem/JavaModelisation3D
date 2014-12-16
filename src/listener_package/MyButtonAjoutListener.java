@@ -63,8 +63,7 @@ public class MyButtonAjoutListener  implements ActionListener {
 				finally{
 					maBase.close();
 					
-					//lib.getListMaj();
-				//	lib.repaint();
+					lib.getListMaj();
 				}
 
 				

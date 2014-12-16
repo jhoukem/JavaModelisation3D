@@ -34,63 +34,49 @@ public class Librairie extends JPanel {
 	JScrollPane jsp;
 	JTabbedPaneWithCloseIcons jt;
 	public Librairie( JTabbedPaneWithCloseIcons j){	
-
 		this.jt=j;
+		getList();		
+	}
+
+	public void getList(){
+		
 		this.setToolTipText("La Librairie permet de choisir un fichier à visualiser");
-
-
 		this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
 		this.setBackground(new Color(36,66,124));
 		t = new JLabel("Librairie");
 		t.setForeground(Color.white);
 		this.add(t);
-		getList();	
+		maBase = new GtsBase();	
+		maBase.open();
+		try {
+			tab = maBase.getList(maBase.executeQry("select * from FichiersGts"));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+		finally{
+			maBase.close();	
+		}
+		
+		l = new JList<String>(tab);
+		l.setVisible(true);	
 		l.setToolTipText("Cliquez sur un fichier pour le charger");
-		//l.addListSelectionListener(new MyListSelectionListener(l, jt));
 		this.jsp = new JScrollPane(l); 
 		this.add(jsp);
 	}
-
-	public void getList(){
-		maBase = new GtsBase();	
-		maBase.open();
-		try {
-			tab = maBase.getList(maBase.executeQry("select * from FichiersGts"));
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}	
-		finally{
-			maBase.close();	
-		}
-		
-		l = new JList<String>(tab);		
-		l.setVisible(true);	
-		this.add(l);
-	}
 	
-	public void getListMaj(){
-		maBase = new GtsBase();	
+	public void getListMaj(){	
 		maBase.open();
 		try {
 			tab = maBase.getList(maBase.executeQry("select * from FichiersGts"));
+			l.setListData(tab);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
 		finally{
 			maBase.close();	
-		}
-		
-		this.remove(l);
-		l = new JList<String>(tab);
-		/*l.setListData(tab);
-		l.validate();
-		l.revalidate();
-		l.repaint();*/
-		
-		l.setVisible(true);	
-		this.add(l);
+		}		
 	}
 	
 	
