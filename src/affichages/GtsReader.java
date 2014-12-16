@@ -35,6 +35,7 @@ public class GtsReader {
 		try {
 			flux = new FileReader(path);
 			entry = new BufferedReader(flux);
+			
 			initInfos();
 			extractPoints();
 			extractSegments();
@@ -47,7 +48,16 @@ public class GtsReader {
 
 	}
 
-	
+	public void close(){
+		try {
+			flux.close();
+			entry.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	public void extractPoints() throws IOException {
 		this.pts = new Point[infos[0]];
 		String line = entry.readLine();

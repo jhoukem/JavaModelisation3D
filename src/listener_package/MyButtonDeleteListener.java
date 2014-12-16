@@ -46,6 +46,7 @@ public class MyButtonDeleteListener  implements ActionListener {
 					
 					for(int i = 0 ; i < cpt; i++){//pr chaque onglet
 						if( ( (FModelisation)lib.getJt().getComponentAt(i)).getFichier().equals(s) ){//si il c'est le fichier qu'on veut delete, on ferme l'onglet
+							((FModelisation)lib.getJt().getComponentAt(i)).getGts().close();//on ferme le fichier ouvert en lecture
 							lib.getJt().removeTabAt(i);
 							i--;//si on supprime les tab sont décalées vers la gauches, on en tient compte
 							cpt--;//ici en reculant la taille et le i
