@@ -26,7 +26,8 @@ public class MyButtonDeleteListener  implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 
 		JFileChooser chooser = new JFileChooser("./gts_files");
-
+		chooser.setApproveButtonText("Supprimer");
+		chooser.setApproveButtonToolTipText("Supprime l'élément sélectionné de la base de données");
 		int returnVal = chooser.showOpenDialog(null);
 		if (returnVal != JFileChooser.CANCEL_OPTION) {	
 			String s = chooser.getSelectedFile().getName();
@@ -42,7 +43,7 @@ public class MyButtonDeleteListener  implements ActionListener {
 					rs.getString("path");
 					maBase.executeStmt("delete from FichiersGts where path = '"+s+"'");
 					f.delete(selection.getAbsolutePath());
-					JOptionPane.showMessageDialog(null,"Le fichier '"+s+"' à bien été supprimé de la base !");
+				//	JOptionPane.showMessageDialog(null,"Le fichier '"+s+"' à bien été supprimé de la base !");
 					
 				}
 					

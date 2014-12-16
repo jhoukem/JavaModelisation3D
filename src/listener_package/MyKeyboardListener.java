@@ -26,7 +26,8 @@ public class MyKeyboardListener implements KeyListener {
 		if(isCtrl){
 			if(e.getKeyCode()==72){
 				if(isHide){
-				lib.show();				
+				lib.show();		
+				lib.revalidate();
 				jp.resetToPreferredSizes();
 				isHide=false;
 				}

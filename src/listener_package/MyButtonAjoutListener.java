@@ -26,7 +26,8 @@ public class MyButtonAjoutListener  implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 
 		JFileChooser chooser = new JFileChooser();
-
+		chooser.setApproveButtonText("Importer");
+		chooser.setApproveButtonToolTipText("Importe l'élément sélectionné dans la base de données");
 		int returnVal = chooser.showOpenDialog(null);
 		if (returnVal != JFileChooser.CANCEL_OPTION) {	
 			String s = chooser.getSelectedFile().getName();
@@ -53,7 +54,7 @@ public class MyButtonAjoutListener  implements ActionListener {
 					try {
 						maBase.executeStmt("insert into FichiersGts values('"+cpt+"','"+s+"')");
 						f.copier(selection.getAbsolutePath(), "./gts_files/"+s);
-						JOptionPane.showMessageDialog(null,"Le fichier '"+s+"' à bien été ajouté à la base !");
+					//	JOptionPane.showMessageDialog(null,"Le fichier '"+s+"' à bien été ajouté à la base !");
 					} catch (SQLException e2) {
 						// TODO Auto-generated catch block
 						e2.printStackTrace();
