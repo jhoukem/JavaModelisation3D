@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
+import affichages.FModelisation;
 import affichages.Librairie;
 import sqlite.MyFileManager;
 import sqlite.GtsBase;
@@ -34,20 +35,27 @@ public class MyButtonDeleteListener  implements ActionListener {
 			File selection = chooser.getSelectedFile();
 			MyFileManager f = new MyFileManager();
 
-			if (s.substring(s.length()-4).equals(".gts")){
+			if (s.substring(s.length()-4).equals(".gts")){//si c'est bien un fichier gts
 				this.maBase.open();
 				ResultSet rs;
 				try {
 					rs = maBase.executeQry("select * from FichiersGts where path ='"+s+"'");	
-					rs.next();
+					rs.next();//si on n'a pas d'exception c'est que le resultset a un resultat en donc que l'objet est présent ds la abse
 					rs.getString("path");
-					maBase.executeStmt("delete from FichiersGts where path = '"+s+"'");
-					f.delete(selection.getAbsolutePath());
-				//	JOptionPane.showMessageDialog(null,"Le fichier '"+s+"' à bien été supprimé de la base !");
+					int cpt = lib.getJt().getTabCount();//On regarde le nbre d'onglet ouverts
 					
-				}
-					
-									
+					for(int i = 0 ; i < cpt; i++){//pr chaque onglet
+						if( ( (FModelisation)lib.getJt().getComponentAt(i)).getFichier().equals(s) ){//si il c'est le fichier qu'on veut delete, on ferme l'onglet
+							lib.getJt().removeTabAt(i);
+							i--;//si on supprime les tab sont décalées vers la gauches, on en tient compte
+							cpt--;//ici en reculant la taille et le i
+						}
+					}
+					if(f.delete(selection.getAbsolutePath()))//Si on a réussi a supprimer le fichier phsique on retire sa référence dans la BDD
+						maBase.executeStmt("delete from FichiersGts where path = '"+s+"'");
+					else
+						JOptionPane.showMessageDialog(null,"Erreur ! Le fichier à deja été ouvert relancez le programme et supprimez le sans l'afficher");				
+				}					
 				 catch (SQLException e1) {
 					JOptionPane.showMessageDialog(null,"Erreur ! Le fichier n'apparait pas dans la base de données !");
 				

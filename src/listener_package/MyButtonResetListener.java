@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import affichages.FModelisation;
 import affichages.GtsReader;
+import affichages.JTabbedPaneWithCloseIcons;
 import affichages.Outils;
 import exceptions.MatriceNotCorrespondingException;
 import exceptions.SegmentException;
@@ -12,9 +13,10 @@ import exceptions.VectorException;
 
 public class MyButtonResetListener implements ActionListener{
 	FModelisation fM;
-	
-	public MyButtonResetListener(FModelisation f){
-		this.fM = f;
+	JTabbedPaneWithCloseIcons jt;
+	public MyButtonResetListener(JTabbedPaneWithCloseIcons j){
+		this.fM = ((FModelisation)j.getSelectedComponent());
+		this.jt = j;
 	}
 	
 	
@@ -22,6 +24,7 @@ public class MyButtonResetListener implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 			try {
+				this.fM = ((FModelisation)jt.getSelectedComponent());
 				this.fM.setGts(new GtsReader(this.fM.getFichier()));
 			} catch (SegmentException e2) {
 				// TODO Auto-generated catch block

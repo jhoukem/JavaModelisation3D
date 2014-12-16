@@ -18,10 +18,9 @@ public class MyFileManager {
 		
 	}
 	
-	public boolean delete(String fichier){
-		
-		File f = new File(fichier);
-		return f.delete();	
+	public boolean delete(String fichier){		
+		File f = new File(fichier);		
+		return 	f.delete();
 	}
 	
 	public  boolean copier(String fichier_source, String fichier_dest)

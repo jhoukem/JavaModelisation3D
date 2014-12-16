@@ -8,25 +8,27 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 
 
+
 import affichages.FModelisation;
+import affichages.JTabbedPaneWithCloseIcons;
 import affichages.Outils;
 
 public class MyButtonTransListener implements ActionListener {
 
-	protected FModelisation fM;
 	protected JButton rot;
 	protected JButton trans;
+	JTabbedPaneWithCloseIcons jt;
 	
-	
-	public MyButtonTransListener(JButton trans,JButton rot,FModelisation f) {
-		this.fM= f;
+	public MyButtonTransListener(JButton trans,JButton rot, JTabbedPaneWithCloseIcons j) {
 		this.trans=trans;
 		this.rot=rot;
+		this.jt=j;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-			this.fM.setRot(false);		
+		((FModelisation)jt.getSelectedComponent()).setRot(false);
+			//this.fM.setRot(false);		
 			rot.setEnabled(true);
 			trans.setEnabled(false);
 	}

@@ -21,6 +21,7 @@ import javax.swing.JPanel;
 
 
 
+
 import exceptions.MatriceNotCorrespondingException;
 import exceptions.SegmentException;
 import exceptions.VectorException;
@@ -43,21 +44,23 @@ public class Outils extends JPanel{
 	public JButton point;
 	public JButton segment;
 	public JButton face;
-
+	
+	JTabbedPaneWithCloseIcons j;
 	JFileChooser fc;
 	FModelisation fM ;
 
 	private Librairie lib;
-	public Outils(FModelisation f ,Librairie l){
+	public Outils(FModelisation f ,Librairie l, JTabbedPaneWithCloseIcons jt){
 		this.fM=f;
+		this.j=jt;
 		this.setLib(l);
 		lib.l.addListSelectionListener(new MyListSelectionListener(l.l, l.jt,this));
 		this.setLayout(new FlowLayout(FlowLayout.LEFT, 4, 4));
 		this.setBackground(new Color(36,66,124));
 		Icon img = new ImageIcon(this.getClass().getResource("t.png"));
-		ImageIcon tl = new ImageIcon(((ImageIcon) img).getImage().getScaledInstance(15, 15, Image.SCALE_AREA_AVERAGING));
+		ImageIcon tl = new ImageIcon(((ImageIcon) img).getImage().getScaledInstance(16, 16, Image.SCALE_AREA_AVERAGING));
 		img = new ImageIcon(this.getClass().getResource("r.png"));
-		ImageIcon rt = new ImageIcon(((ImageIcon) img).getImage().getScaledInstance(15, 15, Image.SCALE_AREA_AVERAGING));
+		ImageIcon rt = new ImageIcon(((ImageIcon) img).getImage().getScaledInstance(16, 16, Image.SCALE_AREA_AVERAGING));
 		
 		segment = new JButton("Segments");
 		face = new JButton("Face");
@@ -65,9 +68,8 @@ public class Outils extends JPanel{
 		rot = new JButton(rt);
 		trans = new JButton(tl);
 		reset = new JButton("Reset");
-		//trans.setIcon(resultat);
-		enableBoutons(false,true);
-		addListener(f);
+		enableBoutons();
+		//addListener(f,jt);
 
 
 		this.add(rot);
@@ -79,9 +81,9 @@ public class Outils extends JPanel{
 
 	}
 
-	public void addListener(FModelisation f){
+	public void addListener(FModelisation f, JTabbedPaneWithCloseIcons jt){
 		if(f.getFichier()!=null)	{	// si c'est la premiere FM qui est vide inutile de l'init	
-			reset.addActionListener(new MyButtonResetListener(f));
+			reset.addActionListener(new MyButtonResetListener(jt));
 	
 			if(f.isRot()){
 				rot.setEnabled(false);
@@ -91,11 +93,11 @@ public class Outils extends JPanel{
 				rot.setEnabled(true);
 				trans.setEnabled(false);
 			}
-		trans.addActionListener(new MyButtonTransListener(trans,rot,f));
-		rot.addActionListener(new MyButtonRotListener(trans,rot,f));
-		point.addActionListener(new MyButtonPointsListener(f,this));
-		segment.addActionListener(new MyButtonSegmentsListener(f,this));
-		face.addActionListener(new MyButtonFacesListener(f,this));
+		trans.addActionListener(new MyButtonTransListener(trans,rot,jt));
+		rot.addActionListener(new MyButtonRotListener(trans,rot,jt));
+		point.addActionListener(new MyButtonPointsListener(jt,this));
+		segment.addActionListener(new MyButtonSegmentsListener(jt,this));
+		face.addActionListener(new MyButtonFacesListener(jt,this));
 		}
 	}
 
@@ -114,15 +116,44 @@ public class Outils extends JPanel{
 		this.lib = lib;
 	}
 
-	public void enableBoutons(boolean b, boolean c) {		
-		reset.setEnabled(b);
-		point.setEnabled(b);
-		segment.setEnabled(b);
+	public void enableBoutons() {		
+		reset.setEnabled(false);
+		point.setEnabled(false);
+		segment.setEnabled(false);
+		face.setEnabled(false);	
+		rot.setEnabled(false);
+		trans.setEnabled(false);
 		
-		if(c){//permet de ne pas mettre certains boutons à jour
-			face.setEnabled(b);	
-			rot.setEnabled(b);
-			trans.setEnabled(b);
+	}
+	
+	public void MajButtons(){
+		if(((FModelisation)j.getSelectedComponent()).isRot()){
+			this.rot.setEnabled(false);
+			this.trans.setEnabled(true);
 		}
+		else{
+			this.rot.setEnabled(true);
+			this.trans.setEnabled(false);
+		}
+			
+		if(((FModelisation)j.getSelectedComponent()).getOpt() == 1){
+			this.face.setEnabled(false);
+			this.segment.setEnabled(true);
+			this.point.setEnabled(true);
+		}
+		else if(((FModelisation)j.getSelectedComponent()).getOpt() == 2){
+			this.face.setEnabled(true);
+			this.segment.setEnabled(false);
+			this.point.setEnabled(true);
+		}
+		else {
+			this.face.setEnabled(true);
+			this.segment.setEnabled(true);
+			this.point.setEnabled(false);
+		}
+		this.reset.setEnabled(true);
+		
+		
+		
 	}
 }

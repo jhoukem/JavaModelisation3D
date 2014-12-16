@@ -46,7 +46,7 @@ public class Fenetre3D extends JFrame{
 			jt = new JTabbedPaneWithCloseIcons();
 			Librairie lib = new Librairie(jt);			
 			FModelisation md = new FModelisation();
-			Outils m =new Outils(md,lib);
+			Outils m =new Outils(md,lib,jt);
 			JMenuBar menu = new JMenuBar();
 			JMenu fichier = new JMenu("Fichier");
 			JMenu aide = new JMenu("Aide");
@@ -69,7 +69,6 @@ public class Fenetre3D extends JFrame{
 			sp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, lib, jt);
 			sp.resetToPreferredSizes();
 			
-			inP.add(lib, BorderLayout.WEST);
 			inP.add(m, BorderLayout.NORTH);
 			inP.add(sp, BorderLayout.CENTER);
 			

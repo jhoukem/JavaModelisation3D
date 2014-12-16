@@ -4,20 +4,23 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import affichages.FModelisation;
+import affichages.JTabbedPaneWithCloseIcons;
 import affichages.Outils;
 
 public class MyButtonPointsListener implements ActionListener{
-	FModelisation fm;
+
+	JTabbedPaneWithCloseIcons jt;
 	Outils m;
-	public MyButtonPointsListener(FModelisation f, Outils menu){
-	this.fm=f;
+	
+	public MyButtonPointsListener(JTabbedPaneWithCloseIcons j, Outils menu){
+	this.jt= j;
 	this.m=menu;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		this.fm.setOpt(3);
-		this.fm.repaint();
+		((FModelisation)jt.getSelectedComponent()).setOpt(3);
+		((FModelisation)jt.getSelectedComponent()).repaint();
 		this.m.point.setEnabled(false);
 		this.m.segment.setEnabled(true);
 		this.m.face.setEnabled(true);

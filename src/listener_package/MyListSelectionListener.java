@@ -22,17 +22,20 @@ public class MyListSelectionListener implements ListSelectionListener  {
 	
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
-		if(jt.getTabCount()==1)			
-			m.enableBoutons(true,false);
+		if(jt.getTabCount()==1)	{		
+			m.MajButtons();
+			
+		}
 		
-		if(e.getValueIsAdjusting()){			
+		if(!e.getValueIsAdjusting()){	
 			try {
-				jt.addTab(l.getSelectedValue().toString(),new FModelisation(l.getSelectedValue().toString()));
+				String s = l.getSelectedValue().toString();
+				jt.addTab(s.substring(0,s.length()-4),new FModelisation(s));
 			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				//e1.printStackTrace();
 			}
 		}
+		
 		
 	}
 

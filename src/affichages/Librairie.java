@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
+import javax.swing.JTree;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -27,12 +28,14 @@ public class Librairie extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	String tab[] ; 
-
+	JTree test = new JTree(tab);	
 	JLabel t;
 	JList<String> l;
 	GtsBase maBase;
 	JScrollPane jsp;
 	JTabbedPaneWithCloseIcons jt;
+	
+
 	public Librairie( JTabbedPaneWithCloseIcons j){	
 		this.jt=j;
 		getList();		
@@ -80,8 +83,8 @@ public class Librairie extends JPanel {
 	}
 	
 	
-	
-	
-
+	public JTabbedPaneWithCloseIcons getJt() {
+		return jt;
+	}
 
 }
