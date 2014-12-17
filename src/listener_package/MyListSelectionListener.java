@@ -4,9 +4,11 @@ import javax.swing.JList;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import exceptions.SegmentException;
 import affichages.FModelisation;
 import affichages.JTabbedPaneWithCloseIcons;
 import affichages.Outils;
+import affichages.Progression;
 
 
 public class MyListSelectionListener implements ListSelectionListener  {
@@ -21,20 +23,34 @@ public class MyListSelectionListener implements ListSelectionListener  {
 	
 	
 	@Override
-	public void valueChanged(ListSelectionEvent e) {
-		if(jt.getTabCount()==1)	{		
-			m.MajButtons();
-			
-		}
+	public void valueChanged(final ListSelectionEvent e) {
 		
-		if(!e.getValueIsAdjusting()){	
-			try {
-				String s = l.getSelectedValue().toString();
-				jt.addTab(s.substring(0,s.length()-4),new FModelisation(s));
-			} catch (Exception e1) {
-				//e1.printStackTrace();
-			}
-		}
+		final Progression progress = new Progression();
+	    
+		
+		new Thread(new Runnable() {
+	        public void run(){
+	        	
+	        	if(jt.getTabCount()==1)	{		
+	    			m.MajButtons();
+	    			
+	    		}
+	    		
+	    		if(!e.getValueIsAdjusting()){	
+	    			progress.go();
+	    			try {
+	    				String s = l.getSelectedValue().toString();
+	    				jt.addTab(s.substring(0,s.length()-4),new FModelisation(s));
+	    			} catch (Exception e1) {
+	    				//e1.printStackTrace();
+	    			}
+	    			progress.end();
+	    		}
+	    		
+	        }
+	    }).start();
+		
+		
 		
 		
 	}

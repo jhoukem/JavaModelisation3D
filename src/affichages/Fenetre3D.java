@@ -87,7 +87,7 @@ public class Fenetre3D extends JFrame{
 			this.setVisible(true);
 			this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 			this.requestFocus();
-			this.addFocusListener(new FocusListener() {				
+		/*	this.addFocusListener(new FocusListener() {				
 				@Override
 				public void focusLost(FocusEvent e) {
 					requestFocus();					
@@ -95,7 +95,7 @@ public class Fenetre3D extends JFrame{
 				@Override
 				public void focusGained(FocusEvent arg0) {	
 				}
-			});
+			});*/
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

@@ -62,8 +62,9 @@ public class GtsReader {
 		this.pts = new Point[infos[0]];
 		String line = entry.readLine();
 		double x, y, z;
-
+	
 		for (int i = 0; i < infos[0]; i++) {
+			
 			x = Double.parseDouble(line.substring(0, line.indexOf(" ")));
 			y = Double.parseDouble(line.substring(line.indexOf(" ") + 1,line.lastIndexOf(" ")));
 			z = Double.parseDouble(line.substring(line.lastIndexOf(" ") + 1));
