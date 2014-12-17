@@ -138,7 +138,7 @@ public class Face implements Comparable<Face> {
 
 	@Override//compare deux face a et b
 	public int compareTo(Face a) {
-		return (int) ((this.distanceToCamera()*1000000)-(a.distanceToCamera()*1000000));//Le *1000000 sert a augmenter la precision du tri
+		return (int) ((this.distanceToCamera()*1000000000)-(a.distanceToCamera()*1000000000));//Le *1000000 sert a augmenter la precision du tri
 	} 																					//afin d'éviter que deux faces aient la même importance
 
 
