@@ -35,8 +35,12 @@ public class MyButtonResetListener implements ActionListener{
 			this.fM.setNumsgmts(fM.getGts().getNumsgmts());
 			this.fM.setNumfces(fM.getGts().getNumfces());
 			this.fM.setPts(fM.getGts().getPoints());
-			this.fM.setSgmts(fM.getGts().getSegments());
-			this.fM.setFces(fM.getGts().getFaces());
+			try {
+				this.fM.setFces();
+			} catch (SegmentException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
 			try {
 				fM.setTranslation(fM.getVectorCenter());
 			} catch (VectorException | MatriceNotCorrespondingException

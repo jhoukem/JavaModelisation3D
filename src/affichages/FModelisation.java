@@ -2,10 +2,9 @@ package affichages;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import javax.swing.JPanel;
 
@@ -27,9 +26,7 @@ public class FModelisation extends JPanel {
 	private int[] infos;
 	private int[][] numsgmts;
 	private int[][] numfces;
-	private Face[] fces;
 	private Point[] pts;
-	private Segment[] sgmts;
 	private Matrice Matrix;
 	private int zoom=10;
 	private boolean isRot = true;
@@ -130,8 +127,7 @@ public class FModelisation extends JPanel {
 		setNumsgmts(getGts().getNumsgmts());
 		setNumfces(getGts().getNumfces());
 		setPts(getGts().getPoints());
-		setSgmts(getGts().getSegments());
-		setFces(getGts().getFaces());
+		setFces();
 		setTranslation(getVectorCenter());
 	}
 
@@ -144,6 +140,7 @@ public class FModelisation extends JPanel {
 		ySize = this.getHeight();	
 		k++;
 		}
+		Collections.sort(f);
 		for(int i=0;i<f.size();i++){
 			int[] x= new int[3];
 			int [] y= new int[3];
@@ -175,35 +172,24 @@ public class FModelisation extends JPanel {
 		res+="]";
 		return res;
 	}
-	
 
-	
-	
-	
-	//fonction triant les faces de la plus éloignée a la plus proche
-	public void triFaces(){
-		f=new ArrayList<Face>();
-		for(int i=0;i<getFces().length;i++){
-			f.add(getFces()[i]);
-		}
-		
-		Collections.sort(f);
-	}
-
-	//fonction permettant de créer la matrice homogène des points de la figure
+	//fonction permettant de crï¿½er la matrice homogï¿½ne des points de la figure
 	public void setPtsToMatrix(){
-		Matrix = new Matrice(4,getPts().length);
-		for(int i=0; i<getPts().length; i++){
-			Matrix.setElem(0,i,getPts()[i].getX());
-			Matrix.setElem(1,i,getPts()[i].getY());
-			Matrix.setElem(2,i,getPts()[i].getZ());
+		Matrix = new Matrice(4,pts.length);
+		for(int i=0; i<pts.length; i++){
+			for(int j=0; j<3; j++){
+			Matrix.setElem(0,i,pts[i].getX());
+			Matrix.setElem(1,i,pts[i].getY());
+			Matrix.setElem(2,i,pts[i].getZ());
 			Matrix.setElem(3,i,1.0);
+			}
 		}
 	}
-	//fonction permettant de récupérer les points dans la matrice
+	
+	//fonction permettant de rï¿½cupï¿½rer les points dans la matrice
 	public void setMatrixToPts(){
 		for(int i=0; i<Matrix.getnColonnes(); i++){
-			getPts()[i]= new Point(Matrix.getElem(0,i),Matrix.getElem(1,i),Matrix.getElem(2,i));
+			pts[i]= new Point(Matrix.getElem(0, i), Matrix.getElem(1, i), Matrix.getElem(2, i));
 		}
 	}
 
@@ -212,9 +198,7 @@ public class FModelisation extends JPanel {
 		setPtsToMatrix();
 		Matrix = Matrice.multiplier(Matrice.getTranslation(vector), Matrix);
 		setMatrixToPts();
-		setSegments();
-		setFaces();
-		triFaces();
+		setFces();
 	}
 	
 	//fonction permettant d'obtenir le barycentre de la figure
@@ -222,12 +206,12 @@ public class FModelisation extends JPanel {
 		double x = 0;
 		double y = 0;
 		double z = 0;
-		for(int i=0; i<getFces().length; i++){
-			x+=getFces()[i].barycentre().getX();
-			y+=getFces()[i].barycentre().getY();
-			z+=getFces()[i].barycentre().getZ();
+		for(int i=0; i<getFces().size(); i++){
+			x+=f.get(i).barycentre().getX();
+			y+=f.get(i).barycentre().getY();
+			z+=f.get(i).barycentre().getZ();
 		}
-		return new Matrice(new double[][]{{x/getFces().length},{y/getFces().length},{z/getFces().length}});
+		return new Matrice(new double[][]{{x/getFces().size()},{y/getFces().size()},{z/getFces().size()}});
 	}
 
 	//fonction permettant d'obtenir une rotation d'angle r autour de l'axe des X
@@ -235,9 +219,7 @@ public class FModelisation extends JPanel {
 		setPtsToMatrix();
 		Matrix = Matrice.multiplier(Matrice.getRotationX(r), Matrix);
 		setMatrixToPts();
-		setSegments();
-		setFaces();
-		triFaces();
+		setFces();
 	}
 
 	//fonction permettant d'obtenir une rotation d'angle r autour de l'axe des Y
@@ -245,43 +227,18 @@ public class FModelisation extends JPanel {
 		setPtsToMatrix();
 		Matrix = Matrice.multiplier(Matrice.getRotationY(r), Matrix);
 		setMatrixToPts();
-		setSegments();
-		setFaces();
-		triFaces();
+		setFces();
 	}
 
-	//fonction permettant d'obtenir une rotation d'angle r autour de l'axe des Z
-	public void setRotationZ(double r) throws MatriceNotCorrespondingException, SegmentException {
-		setPtsToMatrix();
-		Matrix = Matrice.multiplier(Matrice.getRotationZ(r), Matrix);
-		setMatrixToPts();
-		setSegments();
-		setFaces();
-		triFaces();
+	public List<Face> getFces() {
+		return f;
 	}
 
-	//fonction stockant les segments de la figure
-	public void setSegments() throws SegmentException{
-		setSgmts(new Segment[getInfos()[1]]);
-		for(int i=0; i < getInfos()[1]; i++){
-			getSgmts()[i]=new Segment(getPts()[getNumsgmts()[i][0]-1], getPts()[getNumsgmts()[i][1]-1]);
-		}
-	}
-
-	//fonction stockant les faces de la figure
-	public void setFaces() throws SegmentException{
-		setFces(new Face[getInfos()[2]]);
-		for(int i=0; i < getInfos()[2]; i++){
-			getFces()[i] = new Face(getSgmts()[getNumfces()[i][0] - 1], getSgmts()[getNumfces()[i][1] - 1], getSgmts()[getNumfces()[i][2] - 1]);
-		}
-	}
-
-	public Face[] getFces() {
-		return fces;
-	}
-
-	public void setFces(Face[] fces) {
-		this.fces = fces;
+	public void setFces() throws SegmentException {
+		f = new ArrayList<Face>();
+		for(int i=0; i< getInfos()[2]; i++)
+			
+			f.add(new Face(new Segment(pts[numsgmts[numfces[i][0]-1][0]-1],pts[numsgmts[numfces[i][0]-1][1]-1]),new Segment(pts[numsgmts[numfces[i][1]-1][0]-1],pts[numsgmts[numfces[i][1]-1][1]-1]),new Segment(pts[numsgmts[numfces[i][2]-1][0]-1],pts[numsgmts[numfces[i][2]-1][1]-1])));
 	}
 
 	public GtsReader getGts() {
@@ -322,14 +279,6 @@ public class FModelisation extends JPanel {
 
 	public void setPts(Point[] pts) {
 		this.pts = pts;
-	}
-
-	public Segment[] getSgmts() {
-		return sgmts;
-	}
-
-	public void setSgmts(Segment[] sgmts) {
-		this.sgmts = sgmts;
 	}
 
 	public String getFichier() {
