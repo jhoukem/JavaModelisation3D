@@ -13,22 +13,22 @@ public class Progression {
     JFrame cadre;
  
     public void go() {
-       // rappidite = rappid;
+ 
     	progress = new JProgressBar(0, 100);
         progress.setIndeterminate(true);
-        // Création de l'interface
+       
         cadre = new JFrame("Chargement");
         JPanel panneau = new JPanel();
         
         panneau.add("Center", progress);
-        cadre.add(BorderLayout.CENTER, panneau);
+        cadre.getContentPane().add(BorderLayout.CENTER, panneau);
         cadre.setSize(230, 53);
         //cadre.pack();
         cadre.setLocationRelativeTo(null);
         cadre.setVisible(true);
         cadre.setResizable(false);
         cadre.setAlwaysOnTop(true);
-        cadre.setDefaultCloseOperation(cadre.DO_NOTHING_ON_CLOSE );
+        cadre.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE );
  
     }
  

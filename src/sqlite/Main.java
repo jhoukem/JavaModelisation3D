@@ -24,6 +24,9 @@ public class Main {
 				// read the result set
 				System.out.println("num = " + lgt.rs.getString("id"));
 				System.out.println("path = " + lgt.rs.getString("path"));
+				System.out.println("num = " + lgt.rs.getString("title"));
+				System.out.println("path = " + lgt.rs.getString("des"));
+				System.out.println("num = " + lgt.rs.getString("keyword"));
 				
 				System.out.println("-------------------------------------");
 			}

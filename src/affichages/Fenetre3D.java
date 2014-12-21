@@ -51,7 +51,7 @@ public class Fenetre3D extends JFrame{
 			JMenu fichier = new JMenu("Fichier");
 			JMenu aide = new JMenu("Aide");
 			JMenuItem add = new JMenuItem("Ajouter un fichier gts");
-			add.addActionListener(new MyButtonAjoutListener(lib));
+			add.addActionListener(new MyButtonAjoutListener(lib,this));
 			JMenuItem rm = new JMenuItem("Supprimer un fichier gts");
 			rm.addActionListener(new MyButtonDeleteListener(lib));
 			JMenuItem rc = new JMenuItem("Ctrl +H pour afficher/masquer la librairie");

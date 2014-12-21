@@ -57,7 +57,7 @@ public class MyTreeSelectionListener implements TreeSelectionListener {
 
 			try {
 				
-				jt.addTab(c.substring(0,c.length()-4),new FModelisation(c));
+				jt.addTab(c.substring(0,c.length()-4),new FModelisation(c,true));
 			} catch (Exception e1) {
 				//e1.printStackTrace();
 			}

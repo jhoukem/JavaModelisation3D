@@ -25,7 +25,7 @@ public class MyButtonResetListener implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 			try {
 				this.fM = ((FModelisation)jt.getSelectedComponent());
-				this.fM.setGts(new GtsReader(this.fM.getFichier()));
+				this.fM.setGts(new GtsReader(this.fM.getFichier(),true));
 			} catch (SegmentException e2) {
 				// TODO Auto-generated catch block
 				e2.printStackTrace();

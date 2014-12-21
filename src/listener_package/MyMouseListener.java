@@ -7,7 +7,7 @@ import affichages.FModelisation;
 
 public class MyMouseListener implements MouseListener{
 	protected FModelisation fM;
-
+	int lastOpt=0;
 	public MyMouseListener(FModelisation f) {
 		this.fM= f;
 	}
@@ -36,13 +36,17 @@ public class MyMouseListener implements MouseListener{
 	public void mousePressed(MouseEvent e) {
 		fM.setLastXPos(e.getX());
 		fM.setLastYPos(e.getY());
+		lastOpt = fM.getOpt();
+		if(fM.needPerf())
+			fM.setOpt(3);
+		fM.repaint();
 	}
 
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
+		fM.setOpt(lastOpt);
+		fM.repaint();
 	}
 
 
