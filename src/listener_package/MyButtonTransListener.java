@@ -7,11 +7,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
-
-
 import affichages.FModelisation;
 import affichages.JTabbedPaneWithCloseIcons;
-import affichages.Outils;
 
 public class MyButtonTransListener implements ActionListener {
 

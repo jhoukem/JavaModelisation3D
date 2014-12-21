@@ -4,8 +4,6 @@ package affichages;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -13,19 +11,6 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 
-
-
-
-
-
-
-
-
-
-import exceptions.MatriceNotCorrespondingException;
-import exceptions.SegmentException;
-import exceptions.VectorException;
-import listener_package.MyButtonAjoutListener;
 import listener_package.MyButtonFacesListener;
 import listener_package.MyButtonPointsListener;
 import listener_package.MyButtonResetListener;

@@ -20,6 +20,7 @@ import exceptions.VectorException;
 
 public class FModelisation extends JPanel {
 
+	private boolean aliasing=false;
 	private boolean initialisation = true;
 	private static final int AFFICHE_SEGMENTS = 2;
 	public static final int AFFICHE_FACES = 1;
@@ -138,15 +139,23 @@ public class FModelisation extends JPanel {
 		setFces();
 	}
 
-	//fonction dessinant les faces de la figure
+	//fonction dessinant les faces, les segments et les points de la figure
 	@Override
 	protected void paintComponent(Graphics g2) {
 		super.paintComponent(g2);
 		Graphics2D g = (Graphics2D) g2;
-		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
-		g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_SPEED);
-		g.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_SPEED);
-		g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
+		if(aliasing){
+			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+			g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
+			g.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
+			g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+
+			}else{
+			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+			g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_SPEED);
+			g.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_SPEED);
+			g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
+			}
 		if(k==0){
 			xSize = this.getWidth();
 			ySize = this.getHeight();
@@ -156,7 +165,7 @@ public class FModelisation extends JPanel {
 			initZoom();
 			initialisation = false;
 		}
-		System.out.println("x:" +xSize+" y :" +ySize);
+		System.out.println(zoom);
 		if(opt==AFFICHE_FACES) {
 			try {
 				setFces();
@@ -178,20 +187,12 @@ public class FModelisation extends JPanel {
 			}	
 		}
 		else if(opt == AFFICHE_SEGMENTS){
-			try {
-				setFces();
-			} catch (SegmentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			Collections.sort(f);
-			System.out.println("Faces triées");
-			for(int i=0;i<f.size();i++){
-				int[] x= new int[3];
-				int [] y= new int[3];
-				for(int j =0;j<3;j++){
-					x[j]= (int)(f.get(i).xpoints[j]*zoom+xSize/2);
-					y[j]= (int)(f.get(i).ypoints[j]*zoom+ySize/2);
+			for(int i=0;i<numsgmts.length;i++){
+				int[] x= new int[2];
+				int[] y= new int[2];
+				for(int j=0; j<numsgmts[0].length; j++){
+					x[j]= (int)(Matrix.getElem(0, numsgmts[i][j]-1)*zoom+xSize/2);
+					y[j]= (int)(Matrix.getElem(1, numsgmts[i][j]-1)*zoom+ySize/2);
 				}
 				g.drawPolygon(x, y,x.length);
 			}
@@ -204,6 +205,14 @@ public class FModelisation extends JPanel {
 		System.out.println("Affiché");
 	}
 
+
+	public boolean isInitialisation() {
+		return initialisation;
+	}
+
+	public void setInitialisation(boolean initialisation) {
+		this.initialisation = initialisation;
+	}
 
 	public String ptsToString(){
 		String res="";
@@ -257,34 +266,32 @@ public class FModelisation extends JPanel {
 				maxY = p.getY();
 			}
 		}
-		System.out.println("minx : " + minX + " minY : " + maxX + " maxX : "+ maxX+ " maxY : "+ maxY);
 		return new Point((minX+maxX)/2,(minY+maxY)/2,0);
 	}
 
+	//fonction initialisant le zoom
 	public void initZoom(){
-		while(((maxX-minX)*zoom+xSize/2) < 0.9*xSize && ((maxY-minY)*zoom+ySize/2) <0.9*ySize){
-			System.out.println("minx : " + minX + " minY : " + maxX + " maxX : "+ maxX+ " maxY : "+ maxY);
-			System.out.println("zoom : "+zoom);
+		while(((maxX-minX)*zoom+xSize/2) < 0.95*xSize && ((maxY-minY)*zoom+ySize/2) <0.95 * ySize){
 			zoom++;
 		}
+		System.out.println("zoom initialisé");
 	}
 	
 	//fonction permettant d'obtenir une rotation d'angle r autour de l'axe des X
 	public void setRotationX(double r) throws MatriceNotCorrespondingException, SegmentException {
 		Matrix = Matrice.multiplier(Matrice.getRotationX(r), Matrix);
-		System.out.println("Calculée");
 	}
 
 	//fonction permettant d'obtenir une rotation d'angle r autour de l'axe des Y
 	public void setRotationY(double r) throws MatriceNotCorrespondingException, SegmentException {
 		Matrix = Matrice.multiplier(Matrice.getRotationY(r), Matrix);
-		System.out.println("Calculée");
 	}
 
 	public List<Face> getFces() {
 		return f;
 	}
 
+	//fonction initialisant les faces
 	public void setFces() throws SegmentException {
 		f = new ArrayList<Face>();
 		for(int i=0; i< getInfos()[2]; i++){
