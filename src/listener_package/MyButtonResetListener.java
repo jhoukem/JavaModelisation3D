@@ -30,7 +30,7 @@ public class MyButtonResetListener implements ActionListener{
 				// TODO Auto-generated catch block
 				e2.printStackTrace();
 			}
-			this.fM.setZoom(10);
+			this.fM.setZoom(0);
 			this.fM.setInfos(fM.getGts().getInfos());
 			this.fM.setNumsgmts(fM.getGts().getNumsgmts());
 			this.fM.setNumfces(fM.getGts().getNumfces());
@@ -40,13 +40,6 @@ public class MyButtonResetListener implements ActionListener{
 			} catch (SegmentException e2) {
 				// TODO Auto-generated catch block
 				e2.printStackTrace();
-			}
-			try {
-				fM.setTranslation(fM.getVectorCenter());
-			} catch (VectorException | MatriceNotCorrespondingException
-					| SegmentException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
 			}
 			
 		

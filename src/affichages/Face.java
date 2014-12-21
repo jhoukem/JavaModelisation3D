@@ -50,7 +50,7 @@ public class Face implements Comparable<Face> {
 		return "["+ s1.toString() + ", " + s2.toString() + ", " + s3.toString() + "]";
 	}
 	
-	//methode de math pour calculer la distance entre les barycentre de deux face nécéssaire pr le tri
+	//methode de math pour calculer la distance entre les barycentre de deux face nï¿½cï¿½ssaire pr le tri
 
 	public double distanceToCamera() {
 		Point b= barycentre();
@@ -138,8 +138,8 @@ public class Face implements Comparable<Face> {
 
 	@Override//compare deux face a et b
 	public int compareTo(Face a) {
-		return (int) ((this.distanceToCamera()*1000000000)-(a.distanceToCamera()*1000000000));//Le *1000000 sert a augmenter la precision du tri
-	} 																					//afin d'éviter que deux faces aient la même importance
+		return -((Double)barycentre().getZ()).compareTo(a.barycentre().getZ()); 
+	} 																				
 
 
 }

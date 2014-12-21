@@ -2,6 +2,8 @@ package affichages;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -18,6 +20,9 @@ import exceptions.VectorException;
 
 public class FModelisation extends JPanel {
 
+	private boolean initialisation = true;
+	private static final int AFFICHE_SEGMENTS = 2;
+	public static final int AFFICHE_FACES = 1;
 	private static final long serialVersionUID = 1L;
 	private String fichier;
 	private int xSize, ySize;
@@ -28,13 +33,15 @@ public class FModelisation extends JPanel {
 	private int[][] numfces;
 	private Point[] pts;
 	private Matrice Matrix;
-	private int zoom=10;
+	private int zoom=0;
 	private boolean isRot = true;
 	private int k=0;
 	private boolean isIn=true;
 	private int opt =1;
-	
-	
+	private Point centre;
+	private double minX, minY, maxX, maxY;
+
+
 	public int getOpt() {
 		return opt;
 	}
@@ -66,7 +73,7 @@ public class FModelisation extends JPanel {
 	public void setySize(int ySize) {
 		this.ySize = ySize;
 	}
-	
+
 	public boolean isRot() {
 		return isRot;
 	}
@@ -84,7 +91,7 @@ public class FModelisation extends JPanel {
 	}
 
 	private int lastXPos;
-	
+
 	public int getLastXPos() {
 		return lastXPos;
 	}
@@ -102,8 +109,8 @@ public class FModelisation extends JPanel {
 		this.lastYPos = lastYPos;
 	}
 
-	
-	
+
+
 	public FModelisation(String fichier) throws SegmentException {
 		try {
 			this.setBackground(new Color(142,162,198));
@@ -111,13 +118,13 @@ public class FModelisation extends JPanel {
 			this.addMouseWheelListener(new MyMouseWheelListener(this));
 			this.addMouseListener(new MyMouseListener(this));
 			setFigure(fichier);
-			
+
 		} catch(Exception e){
 			e.printStackTrace();
 		}
 	}
 	public FModelisation() {
-	
+
 	}
 
 	public void setFigure(String fichier) throws SegmentException,VectorException, MatriceNotCorrespondingException {
@@ -127,38 +134,74 @@ public class FModelisation extends JPanel {
 		setNumsgmts(getGts().getNumsgmts());
 		setNumfces(getGts().getNumfces());
 		setPts(getGts().getPoints());
+		setPtsToMatrix();
 		setFces();
-		setTranslation(getVectorCenter());
 	}
 
 	//fonction dessinant les faces de la figure
 	@Override
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);	
+	protected void paintComponent(Graphics g2) {
+		super.paintComponent(g2);
+		Graphics2D g = (Graphics2D) g2;
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+		g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_SPEED);
+		g.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_SPEED);
+		g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
 		if(k==0){
-		xSize = this.getWidth();
-		ySize = this.getHeight();	
-		k++;
+			xSize = this.getWidth();
+			ySize = this.getHeight();
+			k++;
 		}
-		Collections.sort(f);
-		for(int i=0;i<f.size();i++){
-			int[] x= new int[3];
-			int [] y= new int[3];
-			for(int j =0;j<3;j++){
-				x[j]= (int)(f.get(i).xpoints[j]*zoom+xSize/2);
-				y[j]= (int)(f.get(i).ypoints[j]*zoom+ySize/2);
+		if(initialisation){
+			initZoom();
+			initialisation = false;
+		}
+		System.out.println("x:" +xSize+" y :" +ySize);
+		if(opt==AFFICHE_FACES) {
+			try {
+				setFces();
+			} catch (SegmentException e) {
+				e.printStackTrace();
 			}
-			g.setColor(f.get(i).getCouleur());
-			if(opt==1)
-				g.fillPolygon(x, y, x.length);
-			else if(opt == 2)
-				g.drawPolygon(x, y,x.length);
-			else{
+			Collections.sort(f);
+			System.out.println("Faces triées");
+			for(int i=0;i<f.size();i++){
+				int[] x= new int[3];
+				int [] y= new int[3];
 				for(int j =0;j<3;j++){
-					g.fillOval(x[j], y[j], 2, 2);
+					x[j]= (int)(f.get(i).xpoints[j]*zoom+xSize/2);
+					y[j]= (int)(f.get(i).ypoints[j]*zoom+ySize/2);
 				}
+				g.setColor(f.get(i).getCouleur());
+				g.drawPolygon(x, y,x.length);
+				g.fillPolygon(x, y, x.length);
+			}	
+		}
+		else if(opt == AFFICHE_SEGMENTS){
+			try {
+				setFces();
+			} catch (SegmentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			Collections.sort(f);
+			System.out.println("Faces triées");
+			for(int i=0;i<f.size();i++){
+				int[] x= new int[3];
+				int [] y= new int[3];
+				for(int j =0;j<3;j++){
+					x[j]= (int)(f.get(i).xpoints[j]*zoom+xSize/2);
+					y[j]= (int)(f.get(i).ypoints[j]*zoom+ySize/2);
+				}
+				g.drawPolygon(x, y,x.length);
+			}
+		}		
+		else{
+			for(int i =0;i<Matrix.getnColonnes();i++){
+				g.fillOval((int)(Matrix.getElem(0, i)*zoom+xSize/2), (int) (Matrix.getElem(1, i)*zoom+ySize/2), 2, 2);
 			}
 		}
+		System.out.println("Affiché");
 	}
 
 
@@ -176,16 +219,17 @@ public class FModelisation extends JPanel {
 	//fonction permettant de cr�er la matrice homog�ne des points de la figure
 	public void setPtsToMatrix(){
 		Matrix = new Matrice(4,pts.length);
+		centre = getCenter();
 		for(int i=0; i<pts.length; i++){
 			for(int j=0; j<3; j++){
-			Matrix.setElem(0,i,pts[i].getX());
-			Matrix.setElem(1,i,pts[i].getY());
-			Matrix.setElem(2,i,pts[i].getZ());
-			Matrix.setElem(3,i,1.0);
+				Matrix.setElem(0,i,pts[i].getX()-centre.getX());
+				Matrix.setElem(1,i,pts[i].getY()-centre.getY());
+				Matrix.setElem(2,i,pts[i].getZ());
+				Matrix.setElem(3,i,1.0);
 			}
 		}
 	}
-	
+
 	//fonction permettant de r�cup�rer les points dans la matrice
 	public void setMatrixToPts(){
 		for(int i=0; i<Matrix.getnColonnes(); i++){
@@ -193,41 +237,48 @@ public class FModelisation extends JPanel {
 		}
 	}
 
-	//fonction permettant de translater la figure par rapport a un vecteur
-	public void setTranslation(Matrice vector) throws VectorException, MatriceNotCorrespondingException, SegmentException{
-		setPtsToMatrix();
-		Matrix = Matrice.multiplier(Matrice.getTranslation(vector), Matrix);
-		setMatrixToPts();
-		setFces();
-	}
-	
-	//fonction permettant d'obtenir le barycentre de la figure
-	public Matrice getVectorCenter(){
-		double x = 0;
-		double y = 0;
-		double z = 0;
-		for(int i=0; i<getFces().size(); i++){
-			x+=f.get(i).barycentre().getX();
-			y+=f.get(i).barycentre().getY();
-			z+=f.get(i).barycentre().getZ();
+	//fonction permettant d'obtenir le centre de la figure
+	public Point getCenter(){
+		minX = pts[0].getX();
+		minY = pts[0].getY();
+	    maxX = pts[0].getX();
+		maxY = pts[0].getY();
+		for(Point p : pts){
+			if(p.getX() < minX){
+				minX = p.getX();
+			}
+			if(p.getY() < minY){
+				minY = p.getY();
+			}
+			if(p.getX() > maxX){
+				maxX = p.getX();
+			}
+			if(p.getY() > maxY){
+				maxY = p.getY();
+			}
 		}
-		return new Matrice(new double[][]{{x/getFces().size()},{y/getFces().size()},{z/getFces().size()}});
+		System.out.println("minx : " + minX + " minY : " + maxX + " maxX : "+ maxX+ " maxY : "+ maxY);
+		return new Point((minX+maxX)/2,(minY+maxY)/2,0);
 	}
 
+	public void initZoom(){
+		while(((maxX-minX)*zoom+xSize/2) < 0.9*xSize && ((maxY-minY)*zoom+ySize/2) <0.9*ySize){
+			System.out.println("minx : " + minX + " minY : " + maxX + " maxX : "+ maxX+ " maxY : "+ maxY);
+			System.out.println("zoom : "+zoom);
+			zoom++;
+		}
+	}
+	
 	//fonction permettant d'obtenir une rotation d'angle r autour de l'axe des X
 	public void setRotationX(double r) throws MatriceNotCorrespondingException, SegmentException {
-		setPtsToMatrix();
 		Matrix = Matrice.multiplier(Matrice.getRotationX(r), Matrix);
-		setMatrixToPts();
-		setFces();
+		System.out.println("Calculée");
 	}
 
 	//fonction permettant d'obtenir une rotation d'angle r autour de l'axe des Y
 	public void setRotationY(double r) throws MatriceNotCorrespondingException, SegmentException {
-		setPtsToMatrix();
 		Matrix = Matrice.multiplier(Matrice.getRotationY(r), Matrix);
-		setMatrixToPts();
-		setFces();
+		System.out.println("Calculée");
 	}
 
 	public List<Face> getFces() {
@@ -236,9 +287,13 @@ public class FModelisation extends JPanel {
 
 	public void setFces() throws SegmentException {
 		f = new ArrayList<Face>();
-		for(int i=0; i< getInfos()[2]; i++)
-			
-			f.add(new Face(new Segment(pts[numsgmts[numfces[i][0]-1][0]-1],pts[numsgmts[numfces[i][0]-1][1]-1]),new Segment(pts[numsgmts[numfces[i][1]-1][0]-1],pts[numsgmts[numfces[i][1]-1][1]-1]),new Segment(pts[numsgmts[numfces[i][2]-1][0]-1],pts[numsgmts[numfces[i][2]-1][1]-1])));
+		for(int i=0; i< getInfos()[2]; i++){
+			Segment s1 = new Segment(new Point(Matrix.getElem(0, numsgmts[numfces[i][0]-1][0]-1),Matrix.getElem(1, numsgmts[numfces[i][0]-1][0]-1),Matrix.getElem(2, numsgmts[numfces[i][0]-1][0]-1)),new Point(Matrix.getElem(0, numsgmts[numfces[i][0]-1][1]-1),Matrix.getElem(1, numsgmts[numfces[i][0]-1][1]-1),Matrix.getElem(2, numsgmts[numfces[i][0]-1][1]-1)));
+			Segment s2 = new Segment(new Point(Matrix.getElem(0, numsgmts[numfces[i][1]-1][0]-1),Matrix.getElem(1, numsgmts[numfces[i][1]-1][0]-1),Matrix.getElem(2, numsgmts[numfces[i][1]-1][0]-1)),new Point(Matrix.getElem(0, numsgmts[numfces[i][1]-1][1]-1),Matrix.getElem(1, numsgmts[numfces[i][1]-1][1]-1),Matrix.getElem(2, numsgmts[numfces[i][1]-1][1]-1)));
+			Segment s3 = new Segment(new Point(Matrix.getElem(0, numsgmts[numfces[i][2]-1][0]-1),Matrix.getElem(1, numsgmts[numfces[i][2]-1][0]-1),Matrix.getElem(2, numsgmts[numfces[i][2]-1][0]-1)),new Point(Matrix.getElem(0, numsgmts[numfces[i][2]-1][1]-1),Matrix.getElem(1, numsgmts[numfces[i][2]-1][1]-1),Matrix.getElem(2, numsgmts[numfces[i][2]-1][1]-1)));
+			f.add(new Face(s1,s2,s3));
+		}
+		System.out.println("Faces rangées");
 	}
 
 	public GtsReader getGts() {
@@ -288,7 +343,4 @@ public class FModelisation extends JPanel {
 	public void setFichier(String fichier) {
 		this.fichier = fichier;
 	}
-
-	
-
 }
