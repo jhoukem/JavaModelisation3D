@@ -4,6 +4,7 @@ import javax.swing.JList;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import exceptions.SegmentException;
 import affichages.FModelisation;
 import affichages.JTabbedPaneWithCloseIcons;
 import affichages.Outils;
@@ -39,7 +40,7 @@ public class MyListSelectionListener implements ListSelectionListener  {
 	    			progress.go();
 	    			try {
 	    				String s = l.getSelectedValue().toString();
-	    				jt.addTab(s.substring(0,s.length()-4),new FModelisation(s));
+	    				jt.addTab(s.substring(0,s.length()-4),new FModelisation(s,true));
 	    			} catch (Exception e1) {
 	    				//e1.printStackTrace();
 	    			}

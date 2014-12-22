@@ -87,8 +87,8 @@ public class FaceTest  {
 		Segment s5 = new Segment(p5, p6);
 		Segment s6 = new Segment(p6, p4);
 		Face f2 = new Face (s4, s5, s6);
-		Color c2 = new Color(0,0,0);
-		Color c = new Color(255/2,255/3,255/6);
+		Color c = new Color(0,0,0);
+		Color c2 = new Color(255,255,255);
 		assertEquals(f.getCouleur(), c);
 		assertEquals(f2.getCouleur(), c2);
 	}

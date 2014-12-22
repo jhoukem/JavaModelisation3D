@@ -3,6 +3,8 @@ package affichages;
 
 
 import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.List;
 import java.sql.SQLException;
 
 import javax.swing.BoxLayout;
@@ -10,9 +12,16 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
 import javax.swing.JTree;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
+import listener_package.MyListSelectionListener;
 import sqlite.GtsBase;
+import sqlite.SelectGts;
+import exceptions.SegmentException;
 
 
 public class Librairie extends JPanel {
@@ -34,7 +43,7 @@ public class Librairie extends JPanel {
 
 	public void getList(){
 		
-		this.setToolTipText("La Librairie permet de choisir un fichier ï¿½ visualiser");
+		this.setToolTipText("La Librairie permet de choisir un fichier à visualiser");
 		this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
 		this.setBackground(new Color(36,66,124));
 		t = new JLabel("Librairie");

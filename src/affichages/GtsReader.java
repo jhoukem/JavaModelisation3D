@@ -28,10 +28,13 @@ public class GtsReader {
 	 *            The name of the .gts file, contained in the folder "gts_files"
 	 * @throws SegmentException 
 	 */
-	public GtsReader(String filename) throws SegmentException {
+	public GtsReader(String filename,boolean b) throws SegmentException {
 		infos = new int[3];
 		// TODO exceptions a traiter si fichier non trouve
+		if(b)
 		path += filename;
+		else
+			path = filename;
 		try {
 			flux = new FileReader(path);
 			entry = new BufferedReader(flux);
@@ -47,6 +50,7 @@ public class GtsReader {
 		}
 
 	}
+
 
 	public void close(){
 		try {

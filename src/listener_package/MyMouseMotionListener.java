@@ -15,6 +15,7 @@ public class MyMouseMotionListener implements MouseMotionListener{
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
+		
 		if(fM.isIn()){//si on est dans la fenetre
 			if(fM.isRot()){//si on est en mode rotation
 				try {

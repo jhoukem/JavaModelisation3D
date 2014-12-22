@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 
 import affichages.FModelisation;
+import affichages.GtsReader;
 import affichages.JTabbedPaneWithCloseIcons;
 
 public class MyButtonRotListener implements ActionListener {

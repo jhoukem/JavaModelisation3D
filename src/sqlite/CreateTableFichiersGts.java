@@ -26,7 +26,7 @@ public class CreateTableFichiersGts
 		statement = connection.createStatement();
 		statement.setQueryTimeout(30);  // set timeout to 30 sec.
 		statement.executeUpdate("drop table FichiersGts"); 
-		statement.executeUpdate("create table FichiersGts (id integer primary key,path text)");
+		statement.executeUpdate("create table FichiersGts (id integer primary key,path text, title text, des text, keyword text)");
 		//statement.executeUpdate("insert into FichiersGts values (1,'cube.gts')");
 		//statement.executeUpdate("insert into FichiersGts values (2,'x_wing.gts')");
 		statement.close();
