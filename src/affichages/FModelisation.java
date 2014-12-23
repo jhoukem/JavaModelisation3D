@@ -20,6 +20,7 @@ import exceptions.VectorException;
 
 public class FModelisation extends JPanel {
 
+	private boolean aliasing =false;
 	private boolean initialisation = true;
 	private static final int AFFICHE_SEGMENTS = 2;
 	public static final int AFFICHE_FACES = 1;
@@ -145,12 +146,19 @@ public class FModelisation extends JPanel {
 	//fonction dessinant les faces de la figure
 	@Override
 	protected void paintComponent(Graphics g2) {
-		super.paintComponent(g2);
 		Graphics2D g = (Graphics2D) g2;
-		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
-		g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_SPEED);
-		g.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_SPEED);
-		g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
+		if(aliasing){
+			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+			g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
+			g.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
+			g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+
+			}else{
+			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+			g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_SPEED);
+			g.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_SPEED);
+			g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
+			}
 		if(k==0){
 			xSize = this.getWidth();
 			ySize = this.getHeight();
@@ -182,28 +190,18 @@ public class FModelisation extends JPanel {
 			}	
 		}
 		else if(opt == AFFICHE_SEGMENTS){
-			try {
-				setFces();
-			} catch (SegmentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			Collections.sort(f);
-		//	System.out.println("Faces triées");
-			for(int i=0;i<f.size();i++){
-				int[] x= new int[3];
-				int [] y= new int[3];
-				for(int j =0;j<3;j++){
-					x[j]= (int)(f.get(i).xpoints[j]*zoom+xSize/2);
-					y[j]= (int)(f.get(i).ypoints[j]*zoom+ySize/2);
+			for(int i=0;i<numsgmts.length;i++){
+				int[] x= new int[2];
+				int [] y= new int[2];
+				for(int j =0;j<2;j++){
+					x[j]= (int)(Matrix.getElem(0, numsgmts[i][j]-1)*zoom+xSize/2);
+					y[j]= (int)(Matrix.getElem(1, numsgmts[i][j]-1)*zoom+ySize/2);
 				}
-				g.setColor(f.get(i).getCouleur());
 				g.drawPolygon(x, y,x.length);
 			}
 		}		
 		else{
 			for(int i =0;i<Matrix.getnColonnes();i++){
-				g.setColor(f.get(i).getCouleur());
 				g.fillOval((int)(Matrix.getElem(0, i)*zoom+xSize/2), (int) (Matrix.getElem(1, i)*zoom+ySize/2), 2, 2);
 			}
 		}
