@@ -20,7 +20,6 @@ import exceptions.VectorException;
 
 public class FModelisation extends JPanel {
 
-	private boolean aliasing =true;
 	private boolean initialisation = true;
 	private static final int AFFICHE_SEGMENTS = 2;
 	public static final int AFFICHE_FACES = 1;
@@ -114,12 +113,12 @@ public class FModelisation extends JPanel {
 
 	public FModelisation(String fichier, boolean b) throws SegmentException {
 		try {
-
+			
 			this.setBackground(new Color(142,162,198));
 			if(b){//permet de savoir si c'est un visualisation avant l'import ou apres
-				this.addMouseMotionListener(new MyMouseMotionListener(this));
-				this.addMouseWheelListener(new MyMouseWheelListener(this));
-				this.addMouseListener(new MyMouseListener(this));
+			this.addMouseMotionListener(new MyMouseMotionListener(this));
+			this.addMouseWheelListener(new MyMouseWheelListener(this));
+			this.addMouseListener(new MyMouseListener(this));
 			}
 			setFigure(fichier,b);
 
@@ -131,7 +130,7 @@ public class FModelisation extends JPanel {
 
 	}
 
-
+	
 	public void setFigure(String fichier, boolean b) throws SegmentException,VectorException, MatriceNotCorrespondingException {
 		this.setFichier(fichier);
 		setGts(new GtsReader(fichier,b));
@@ -148,19 +147,10 @@ public class FModelisation extends JPanel {
 	protected void paintComponent(Graphics g2) {
 		super.paintComponent(g2);
 		Graphics2D g = (Graphics2D) g2;
-		//Pour jh : crée un bouton permettant d'activer ou désactiver cette option 
-		if(aliasing){
-			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-			g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
-			g.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
-			g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-
-		}else{
-			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
-			g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_SPEED);
-			g.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_SPEED);
-			g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
-		}
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+		g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_SPEED);
+		g.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_SPEED);
+		g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
 		if(k==0){
 			xSize = this.getWidth();
 			ySize = this.getHeight();
@@ -170,7 +160,7 @@ public class FModelisation extends JPanel {
 			initZoom();
 			initialisation = false;
 		}
-		//	System.out.println("x:" +xSize+" y :" +ySize);
+	//	System.out.println("x:" +xSize+" y :" +ySize);
 		if(opt==AFFICHE_FACES) {
 			try {
 				setFces();
@@ -187,26 +177,37 @@ public class FModelisation extends JPanel {
 					y[j]= (int)(f.get(i).ypoints[j]*zoom+ySize/2);
 				}
 				g.setColor(f.get(i).getCouleur());
+				
 				g.fillPolygon(x, y, x.length);
 			}	
 		}
 		else if(opt == AFFICHE_SEGMENTS){
-			for(int i=0;i<numsgmts.length;i++){
-				int[] x = new int[2];
-				int[] y = new int[2];
-				for(int j=0; j<2; j++){
-					x[j]= (int) (Matrix.getElem(0, numsgmts[i][j]-1)*zoom+xSize/2);	
-					y[j]= (int) (Matrix.getElem(1, numsgmts[i][j]-1)*zoom+ySize/2);	
+			try {
+				setFces();
+			} catch (SegmentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			Collections.sort(f);
+		//	System.out.println("Faces triées");
+			for(int i=0;i<f.size();i++){
+				int[] x= new int[3];
+				int [] y= new int[3];
+				for(int j =0;j<3;j++){
+					x[j]= (int)(f.get(i).xpoints[j]*zoom+xSize/2);
+					y[j]= (int)(f.get(i).ypoints[j]*zoom+ySize/2);
 				}
+				g.setColor(f.get(i).getCouleur());
 				g.drawPolygon(x, y,x.length);
 			}
 		}		
 		else{
 			for(int i =0;i<Matrix.getnColonnes();i++){
+				g.setColor(f.get(i).getCouleur());
 				g.fillOval((int)(Matrix.getElem(0, i)*zoom+xSize/2), (int) (Matrix.getElem(1, i)*zoom+ySize/2), 2, 2);
 			}
 		}
-		//	System.out.println("Affiché");
+	//	System.out.println("Affiché");
 	}
 
 
@@ -246,7 +247,7 @@ public class FModelisation extends JPanel {
 	public Point getCenter(){
 		minX = pts[0].getX();
 		minY = pts[0].getY();
-		maxX = pts[0].getX();
+	    maxX = pts[0].getX();
 		maxY = pts[0].getY();
 		for(Point p : pts){
 			if(p.getX() < minX){
@@ -262,18 +263,18 @@ public class FModelisation extends JPanel {
 				maxY = p.getY();
 			}
 		}
-		//	System.out.println("minx : " + minX + " minY : " + maxX + " maxX : "+ maxX+ " maxY : "+ maxY);
+	//	System.out.println("minx : " + minX + " minY : " + maxX + " maxX : "+ maxX+ " maxY : "+ maxY);
 		return new Point((minX+maxX)/2,(minY+maxY)/2,0);
 	}
 
 	public void initZoom(){
 		while(((maxX-minX)*zoom+xSize/2) < 0.9*xSize && ((maxY-minY)*zoom+ySize/2) <0.9*ySize){
-			//	System.out.println("minx : " + minX + " minY : " + maxX + " maxX : "+ maxX+ " maxY : "+ maxY);
+		//	System.out.println("minx : " + minX + " minY : " + maxX + " maxX : "+ maxX+ " maxY : "+ maxY);
 			//System.out.println("zoom : "+zoom);
 			zoom++;
 		}
 	}
-
+	
 	//fonction permettant d'obtenir une rotation d'angle r autour de l'axe des X
 	public void setRotationX(double r) throws MatriceNotCorrespondingException, SegmentException {
 		Matrix = Matrice.multiplier(Matrice.getRotationX(r), Matrix);
@@ -283,7 +284,7 @@ public class FModelisation extends JPanel {
 	//fonction permettant d'obtenir une rotation d'angle r autour de l'axe des Y
 	public void setRotationY(double r) throws MatriceNotCorrespondingException, SegmentException {
 		Matrix = Matrice.multiplier(Matrice.getRotationY(r), Matrix);
-		//	System.out.println("Calculée");
+	//	System.out.println("Calculée");
 	}
 
 	public List<Face> getFces() {
@@ -348,7 +349,7 @@ public class FModelisation extends JPanel {
 	public void setFichier(String fichier) {
 		this.fichier = fichier;
 	}
-
+	
 	public boolean needPerf(){
 		if(this.getFces().size() > 30000)
 			return true;

@@ -22,6 +22,8 @@ import javax.swing.JPanel;
 
 
 
+import javax.swing.JToolBar;
+
 import exceptions.MatriceNotCorrespondingException;
 import exceptions.SegmentException;
 import exceptions.VectorException;
@@ -33,8 +35,9 @@ import listener_package.MyButtonRotListener;
 import listener_package.MyButtonSegmentsListener;
 import listener_package.MyButtonTransListener;
 import listener_package.MyListSelectionListener;
+import listener_package.MyTreeSelectionListener;
 
-public class Outils extends JPanel{
+public class Outils extends JToolBar{
 
 	private static final long serialVersionUID = 1L;
 
@@ -46,7 +49,6 @@ public class Outils extends JPanel{
 	public JButton face;
 	
 	JTabbedPaneWithCloseIcons j;
-	JFileChooser fc;
 	FModelisation fM ;
 
 	private Librairie lib;
@@ -54,7 +56,8 @@ public class Outils extends JPanel{
 		this.fM=f;
 		this.j=jt;
 		this.setLib(l);
-		lib.l.addListSelectionListener(new MyListSelectionListener(l.l, l.jt,this));
+		//lib.l.addListSelectionListener(new MyListSelectionListener(l.l, l.jt,this));
+		lib.tree.addTreeSelectionListener(new MyTreeSelectionListener(lib.tree, jt, this));
 		this.setLayout(new FlowLayout(FlowLayout.LEFT, 4, 4));
 		this.setBackground(new Color(36,66,124));
 		Icon img = new ImageIcon(this.getClass().getResource("t.png"));

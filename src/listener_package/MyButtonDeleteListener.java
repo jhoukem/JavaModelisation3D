@@ -47,23 +47,28 @@ public class MyButtonDeleteListener  implements ActionListener {
 					for(int i = 0 ; i < cpt; i++){//pr chaque onglet
 						if( ( (FModelisation)lib.getJt().getComponentAt(i)).getFichier().equals(s) ){//si il c'est le fichier qu'on veut delete, on ferme l'onglet
 							((FModelisation)lib.getJt().getComponentAt(i)).getGts().close();//on ferme le fichier ouvert en lecture
-							lib.getJt().removeTabAt(i);
-							i--;//si on supprime les tab sont décalées vers la gauches, on en tient compte
-							cpt--;//ici en reculant la taille et le i
 						}
 					}
-					if(f.delete(selection.getAbsolutePath()))//Si on a réussi a supprimer le fichier phsique on retire sa référence dans la BDD
+					if(f.delete(selection.getAbsolutePath())){//Si on a réussi a supprimer le fichier phsique on retire sa référence dans la BDD
 						maBase.executeStmt("delete from FichiersGts where path = '"+s+"'");
+						for(int i = 0 ; i < cpt; i++){//pr chaque onglet
+							if( ( (FModelisation)lib.getJt().getComponentAt(i)).getFichier().equals(s) ){//si il c'est le fichier qu'on veut delete, on ferme l'onglet
+								lib.getJt().removeTabAt(i);
+								i--;//si on supprime les tab sont décalées vers la gauches, on en tient compte
+								cpt--;//ici en reculant la taille et le i
+							}
+						}
+					}
 					else
-						JOptionPane.showMessageDialog(null,"Erreur ! Le fichier à deja été ouvert relancez le programme et supprimez le sans l'afficher");				
+						JOptionPane.showMessageDialog(null,"Le fichier à deja été ouvert relancez le programme et supprimez le sans l'afficher","Attention",JOptionPane.WARNING_MESSAGE);				
 				}					
 				 catch (SQLException e1) {
-					JOptionPane.showMessageDialog(null,"Erreur ! Le fichier n'apparait pas dans la base de données !");
+					JOptionPane.showMessageDialog(null,"Le fichier n'apparait pas dans la base de données !","Erreur",JOptionPane.ERROR_MESSAGE);
 				
 				}
 				finally{
 					maBase.close();				
-					lib.getListMaj();
+					lib.majTree();
 				}
 
 				

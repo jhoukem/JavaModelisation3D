@@ -42,7 +42,7 @@ public class Formulaire extends JDialog implements ActionListener{
 		valide.addActionListener(this);
 		title = new JTextField("titre");
 		des = new JTextArea("description");
-	
+		
 		new JTextField("Motcle");
 		JPanel textFieldPanel = new JPanel();
 		JPanel all = new JPanel();
@@ -83,7 +83,7 @@ public class Formulaire extends JDialog implements ActionListener{
 		this.setVisible(true);
 		// this.setResizable(false);
 		this.setAlwaysOnTop(true);
-		
+		this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 	}
 
 	public String getTitle(){

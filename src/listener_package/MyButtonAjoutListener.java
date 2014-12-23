@@ -8,6 +8,7 @@ import java.sql.SQLException;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 import affichages.Fenetre3D;
 import affichages.Formulaire;
@@ -44,14 +45,17 @@ public class MyButtonAjoutListener  implements ActionListener {
 				try {
 					rs = maBase.executeQry("select * from FichiersGts where path ='"+s+"'");			
 					rs.getString("path");
-					JOptionPane.showMessageDialog(null,"Erreur ! Le fichier '"+s+"' existe déjà !");				
+					JOptionPane.showMessageDialog(null,"Le fichier '"+s+"' existe déjà !","Erreur",JOptionPane.ERROR_MESSAGE);				
 				} catch (SQLException e1) {
 					try {
 						int cpt = getMaxValue(rs);
 						form = new Formulaire(fenetre,selection.getAbsolutePath());
 						if(form.isValid){
-						maBase.executeStmt("insert into FichiersGts values('"+cpt+"','"+s+"','"+form.getTitle()+"','"+form.getDes()+"','"+form.getKeyWord()+"')");
-						f.copier(selection.getAbsolutePath(), "./gts_files/"+s);
+
+							if(f.copier(selection.getAbsolutePath(), "./gts_files/"+s))
+								maBase.executeStmt("insert into FichiersGts values('"+cpt+"','"+s+"','"+form.getTitle()+"','"+form.getDes()+"','"+form.getKeyWord()+"')");
+							else
+								JOptionPane.showMessageDialog(null,"Impossible de copier le fichier'"+s+"' vérifiez qu'il n'est pas ouvert ou utilisé par une autre application","Erreur",JOptionPane.ERROR_MESSAGE);
 						}
 					} catch (SQLException e2) {
 						e2.printStackTrace();
@@ -59,11 +63,11 @@ public class MyButtonAjoutListener  implements ActionListener {
 				}
 				finally{
 					maBase.close();				
-					lib.getListMaj();
+					lib.majTree();
 				}	
 			}
 			else	
-				JOptionPane.showMessageDialog(null,"Erreur ! "+s+" n'est pas un fichier 'gts'");		
+				JOptionPane.showMessageDialog(null,"Le fichier '"+s+"' n'est pas un fichier 'gts'","Erreur",JOptionPane.ERROR_MESSAGE);		
 		}
 	}
 
@@ -78,13 +82,13 @@ public class MyButtonAjoutListener  implements ActionListener {
 			else{
 				cpt=1+Integer.parseInt(rs.getString("max(id)"));	
 			}
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return cpt;
 	}
-	
+
 }
 

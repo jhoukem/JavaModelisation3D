@@ -49,12 +49,12 @@ public class Matrice {
 		this.elem = elem;
 	}
 
-	//permet d'insï¿½rer une valeur dans une case de la matrice 
+	//permet d'insérer une valeur dans une case de la matrice 
 	public void setElem(int l, int c, double x) {
 		this.elem[l][c] = x;
 	}
 
-	//permet de rï¿½cupï¿½rer la valeur d'uen case de la matrice
+	//permet de récupérer la valeur d'uen case de la matrice
 	public double getElem(int l, int c){
 		return this.elem[l][c];
 	}
@@ -106,7 +106,7 @@ public class Matrice {
 		return res;
 	}
 
-	// permet de multiplier une matrice par un rï¿½el
+	// permet de multiplier une matrice par un réel
 	public static Matrice multiplierParReel(Matrice m1, int x) {
 		Matrice res = new Matrice(m1.nLignes, m1.nColonnes);
 		for (int i = 0; i < m1.nLignes; i++) {
@@ -134,7 +134,7 @@ public class Matrice {
 		return res;
 	}
 
-	//permet d'obtenir une matrice de rotation ï¿½ partir d'un angle autour des l'axe des x
+	//permet d'obtenir une matrice de rotation à partir d'un angle autour des l'axe des x
 	public static Matrice getRotationX(double r){
 		Matrice res = new Matrice(4,4);
 		res.setElem(0, 0, 1.0);
@@ -146,7 +146,7 @@ public class Matrice {
 		return res;
 	}
 
-	//permet d'obtenir une matrice de rotation ï¿½ partir d'un angle autour des l'axe des y
+	//permet d'obtenir une matrice de rotation à partir d'un angle autour des l'axe des y
 	public static Matrice getRotationY(double r){
 		Matrice res = new Matrice(4,4);
 		res.setElem(1, 1, 1.0);
@@ -158,7 +158,7 @@ public class Matrice {
 		return res;
 	}
 
-	//permet d'obtenir une matrice de rotation ï¿½ partir d'un angle autour des l'axe des z
+	//permet d'obtenir une matrice de rotation à partir d'un angle autour des l'axe des z
 	public static Matrice getRotationZ(double r){
 		Matrice res = new Matrice(4,4);
 		res.setElem(2, 2, 1.0);
@@ -179,12 +179,5 @@ public class Matrice {
 		res.setElem(1, 0, m1.getElem(2, 0) * m2.getElem(0, 0) - m1.getElem(0, 0) * m2.getElem(2, 0));
 		res.setElem(2, 0, m1.getElem(0, 0) * m2.getElem(1, 0) - m1.getElem(1, 0) * m2.getElem(0, 0));
 		return res;
-	}
-	
-	public static double getDet(Matrice m1) throws MatriceNotCorrespondingException{
-		if(m1.nLignes!=3 || m1.nColonnes!=3)
-			throw new MatriceNotCorrespondingException();
-		return m1.getElem(0, 0)*(m1.getElem(2, 2)*m1.getElem(1, 1)-m1.getElem(2, 1)*m1.getElem(1, 2))-m1.getElem(1, 0)*(m1.getElem(2, 2)*m1.getElem(0, 1)-m1.getElem(2, 1)*m1.getElem(0, 2))+m1.getElem(2, 0)*(m1.getElem(1, 2)*m1.getElem(0, 1)-m1.getElem(1, 1)*m1.getElem(0, 2));
-		
 	}
 }
