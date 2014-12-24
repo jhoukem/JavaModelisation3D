@@ -41,7 +41,7 @@ public class MyListSelectionListener implements ListSelectionListener  {
 	    				String s = l.getSelectedValue().toString();
 	    				jt.addTab(s.substring(0,s.length()-4),new FModelisation(s,true));
 	    			} catch (Exception e1) {
-	    				//e1.printStackTrace();
+	    				e1.printStackTrace();
 	    			}
 	    			progress.end();
 	    		}

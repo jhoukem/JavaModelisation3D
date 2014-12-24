@@ -15,6 +15,7 @@ import javax.swing.JSplitPane;
 
 import listener_package.MyButtonAjoutListener;
 import listener_package.MyButtonDeleteListener;
+import listener_package.MyButtonRcheListener;
 import listener_package.MyKeyboardListener;
 import listener_package.MyTabListener;
 
@@ -48,6 +49,8 @@ public class Fenetre3D extends JFrame{
 			add.addActionListener(new MyButtonAjoutListener(lib,this));
 			JMenuItem rm = new JMenuItem("Supprimer un fichier gts");
 			rm.addActionListener(new MyButtonDeleteListener(lib));
+			JMenuItem rche = new JMenuItem("Rechercher un fichier gts");
+			rche.addActionListener(new MyButtonRcheListener(lib));
 			JMenuItem rc = new JMenuItem("Ctrl +H pour afficher/masquer la librairie");
 			fichier.add(add);
 			fichier.add(rm);

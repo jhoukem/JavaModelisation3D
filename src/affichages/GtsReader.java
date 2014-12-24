@@ -28,6 +28,9 @@ public class GtsReader {
 	 *            The name of the .gts file, contained in the folder "gts_files"
 	 * @throws SegmentException 
 	 */
+	public GtsReader(){
+		
+	}
 	public GtsReader(String filename,boolean b) throws SegmentException {
 		infos = new int[3];
 		// TODO exceptions a traiter si fichier non trouve
@@ -182,5 +185,25 @@ public class GtsReader {
 		}
 		return str;
 	}
-	
+	public boolean isValid(String filename){
+		boolean isValid = true;
+		infos = new int[3];
+		// TODO exceptions a traiter si fichier non trouve
+			path = filename;
+		try {
+			flux = new FileReader(path);
+			entry = new BufferedReader(flux);
+			
+			initInfos();
+			extractPoints();
+			extractSegments();
+			extractFaces();
+			setSegments();
+			setFaces();
+		} catch (Exception e) {
+			//e.printStackTrace();
+			isValid = false;
+		}
+		return isValid;
+	}
 }

@@ -20,7 +20,7 @@ import exceptions.VectorException;
 
 public class FModelisation extends JPanel {
 
-	private boolean aliasing =false;
+	private boolean aliasing = false;
 	private boolean initialisation = true;
 	private static final int AFFICHE_SEGMENTS = 2;
 	public static final int AFFICHE_FACES = 1;
