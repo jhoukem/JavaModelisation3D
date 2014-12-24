@@ -8,13 +8,12 @@ import java.sql.SQLException;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.tree.DefaultMutableTreeNode;
 
+import sqlite.GtsBase;
+import sqlite.MyFileManager;
 import affichages.Fenetre3D;
 import affichages.Formulaire;
 import affichages.Librairie;
-import sqlite.MyFileManager;
-import sqlite.GtsBase;
 
 public class MyButtonAjoutListener  implements ActionListener {
 

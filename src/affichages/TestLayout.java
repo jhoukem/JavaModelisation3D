@@ -15,6 +15,11 @@ import exceptions.SegmentException;
 
 public class TestLayout extends JFrame{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public TestLayout(){
 		FModelisation f = null;
 		try {

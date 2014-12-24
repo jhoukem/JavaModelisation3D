@@ -4,7 +4,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 
 import affichages.FModelisation;
-import affichages.GtsReader;
 
 public class MyMouseMotionListener implements MouseMotionListener{
 	protected FModelisation fM;

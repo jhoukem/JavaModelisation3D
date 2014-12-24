@@ -26,10 +26,12 @@ public class MyFileManager {
 	public  boolean copier(String fichier_source, String fichier_dest)
 	{
 		boolean isCopy=false;
-		FileInputStream src;
+		
+		FileInputStream src = null;
+		FileOutputStream dest = null;
 		try {
 			src = new FileInputStream(fichier_source);
-			FileOutputStream dest = new FileOutputStream(fichier_dest);
+			dest = new FileOutputStream(fichier_dest);
 			inChannel = src.getChannel();
 			outChannel = dest.getChannel();
 			for (ByteBuffer buffer = ByteBuffer.allocate(1024*1024);
@@ -51,6 +53,8 @@ public class MyFileManager {
 			try {
 				inChannel.close();
 				outChannel.close();
+				src.close();
+				dest.close();
 			} catch (IOException e) {
 				isCopy=false;
 				e.printStackTrace();

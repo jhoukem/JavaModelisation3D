@@ -2,16 +2,31 @@ package affichages;
 
 	//-*- mode:java; encoding:utf-8 -*-
 	//vim:set fileencoding=utf-8:
-	import java.awt.*;
-	import java.awt.event.*;
-	import java.util.ArrayList;
-	import java.util.List;
-	import javax.swing.*;
-	import javax.swing.plaf.UIResource;
-	import javax.swing.plaf.basic.*;
+	import java.awt.Color;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Insets;
+import java.awt.LayoutManager;
+import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.AbstractAction;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JTabbedPane;
+import javax.swing.plaf.UIResource;
+import javax.swing.plaf.basic.BasicTabbedPaneUI;
 
 	public class JTabbedPaneWithCloseIcons extends JTabbedPane {
-	  private List<JButton> closeButtons;
+	  /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+	private List<JButton> closeButtons;
 	  @Override public void updateUI() {
 	      if (closeButtons != null) {
 	          for (JButton b: closeButtons) {
@@ -77,7 +92,11 @@ package affichages;
 	}
 
 	class CloseButton extends JButton implements UIResource {
-	  public CloseButton(JTabbedPane tabPane, int index) {
+	  /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+	public CloseButton(JTabbedPane tabPane, int index) {
 	      super(new CloseButtonAction(tabPane, index));
 	      setToolTipText("Fermer cet onglet");
 	      //setMargin(new Insets(0, 0, 0, 0));
@@ -101,7 +120,11 @@ package affichages;
 	}
 
 	class CloseButtonAction extends AbstractAction {
-	  private final JTabbedPane tabPane;
+	  /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+	private final JTabbedPane tabPane;
 	  private final int index;
 	  public CloseButtonAction(JTabbedPane tabPane, int index) {
 	      super("x");

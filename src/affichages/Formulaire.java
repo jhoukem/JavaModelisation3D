@@ -9,16 +9,18 @@ import java.awt.event.ActionListener;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import listener_package.MyButtonAjoutListener;
 import exceptions.SegmentException;
 
 public class Formulaire extends JDialog implements ActionListener{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	JButton annule = new JButton("Annuler");
 	JButton valide = new JButton("Valider");
 	JTextField title = new JTextField("titre");

@@ -4,7 +4,6 @@ import javax.swing.JList;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import exceptions.SegmentException;
 import affichages.FModelisation;
 import affichages.JTabbedPaneWithCloseIcons;
 import affichages.Outils;
@@ -12,10 +11,10 @@ import affichages.Progression;
 
 
 public class MyListSelectionListener implements ListSelectionListener  {
-	JList l;
+	JList<String> l;
 	JTabbedPaneWithCloseIcons jt;
 	Outils m;
-	public MyListSelectionListener(JList lib, JTabbedPaneWithCloseIcons j,Outils me){
+	public MyListSelectionListener(JList<String> lib, JTabbedPaneWithCloseIcons j,Outils me){
 		this.l = lib;
 		this.jt = j;
 		this.m=me;

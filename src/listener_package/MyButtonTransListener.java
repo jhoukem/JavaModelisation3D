@@ -7,11 +7,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
-
-
 import affichages.FModelisation;
 import affichages.JTabbedPaneWithCloseIcons;
-import affichages.Outils;
 
 public class MyButtonTransListener implements ActionListener {
 
@@ -27,8 +24,7 @@ public class MyButtonTransListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		((FModelisation)jt.getSelectedComponent()).setRot(false);
-			//this.fM.setRot(false);		
+		((FModelisation)jt.getSelectedComponent()).setRot(false);		
 			rot.setEnabled(true);
 			trans.setEnabled(false);
 	}

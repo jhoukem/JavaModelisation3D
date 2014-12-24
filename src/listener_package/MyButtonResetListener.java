@@ -6,10 +6,7 @@ import java.awt.event.ActionListener;
 import affichages.FModelisation;
 import affichages.GtsReader;
 import affichages.JTabbedPaneWithCloseIcons;
-import affichages.Outils;
-import exceptions.MatriceNotCorrespondingException;
 import exceptions.SegmentException;
-import exceptions.VectorException;
 
 public class MyButtonResetListener implements ActionListener{
 	FModelisation fM;
