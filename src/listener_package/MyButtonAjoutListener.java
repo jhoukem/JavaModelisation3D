@@ -52,7 +52,7 @@ public class MyButtonAjoutListener  implements ActionListener {
 					} catch (SQLException e1) {
 						try {
 							int cpt = getMaxValue(rs);
-							new Formulaire(fenetre,selection.getAbsolutePath());
+							form = new Formulaire(fenetre,selection.getAbsolutePath());
 							if(form.isValid){
 
 								if(f.copier(selection.getAbsolutePath(), "./gts_files/"+s))
