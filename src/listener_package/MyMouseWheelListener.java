@@ -20,13 +20,13 @@ public MyMouseWheelListener(FModelisation f) {
         //si la roulette avance, on zoom
 		if(zoom < 0){	
 			if(fM.getZoom()<20000000)
-			fM.setZoom(fM.getZoom()*1.5);	
+			fM.setZoom(fM.getZoom()*1.1);	
 			
 		}
 		
 		else if (zoom > 0){
 			//sinon on dezoom
-			fM.setZoom(fM.getZoom()*0.5);
+			fM.setZoom(fM.getZoom()*0.9);
 			
 		}	
 		fM.repaint();		
