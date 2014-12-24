@@ -34,7 +34,7 @@ public class FModelisation extends JPanel {
 	private int[][] numfces;
 	private Point[] pts;
 	private Matrice Matrix;
-	private int zoom=0;
+	private double zoom=0;
 	private boolean isRot = true;
 	private int k=0;
 	private boolean isIn=true;
@@ -83,11 +83,11 @@ public class FModelisation extends JPanel {
 		this.isRot = isRot;
 	}
 
-	public int getZoom() {
+	public double getZoom() {
 		return zoom;
 	}
 
-	public void setZoom(int zoom) {
+	public void setZoom(double zoom) {
 		this.zoom = zoom;
 	}
 
