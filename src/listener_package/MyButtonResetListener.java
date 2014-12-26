@@ -27,7 +27,7 @@ public class MyButtonResetListener implements ActionListener{
 				// TODO Auto-generated catch block
 				e2.printStackTrace();
 			}
-			this.fM.setZoom(0);
+			this.fM.initZoom();
 			this.fM.setInfos(fM.getGts().getInfos());
 			this.fM.setNumsgmts(fM.getGts().getNumsgmts());
 			this.fM.setNumfces(fM.getGts().getNumfces());

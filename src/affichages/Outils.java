@@ -68,7 +68,7 @@ public class Outils extends JToolBar{
 	public void addListener(FModelisation f, JTabbedPaneWithCloseIcons jt){
 		if(f.getFichier()!=null)	{	// si c'est la premiere FM qui est vide inutile de l'init	
 			reset.addActionListener(new MyButtonResetListener(jt));
-	
+	/*
 			if(f.isRot()){
 				rot.setEnabled(false);
 				trans.setEnabled(true);
@@ -76,7 +76,7 @@ public class Outils extends JToolBar{
 			else{
 				rot.setEnabled(true);
 				trans.setEnabled(false);
-			}
+			}*/
 		trans.addActionListener(new MyButtonTransListener(trans,rot,jt));
 		rot.addActionListener(new MyButtonRotListener(trans,rot,jt));
 		point.addActionListener(new MyButtonPointsListener(jt,this));

@@ -5,36 +5,41 @@ import java.awt.event.KeyListener;
 
 import javax.swing.JSplitPane;
 
+import affichages.Descripteur;
 import affichages.Librairie;
 
 public class MyKeyboardListener implements KeyListener {
 	private boolean isCtrl = false;
-	private boolean isHide = false;
 	private Librairie lib;
 	private JSplitPane jp;
-	public MyKeyboardListener(Librairie l, JSplitPane s){
-		this.lib=l;
-		this.jp=s;
+	Descripteur des;
+	public MyKeyboardListener(Librairie l, JSplitPane s, Descripteur d){
+		this.lib = l;
+		this.jp = s;
+		this.des = d;
 	}
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
-	
 		if(e.getKeyCode()==17)
 				isCtrl=true;				
 		if(isCtrl){
-			if(e.getKeyCode()==72){
-				if(isHide){
-				lib.show();		
+			if(e.getKeyCode()==76){
+				if(!lib.isVisible()){
+				lib.setVisible(true);		
 				lib.revalidate();
 				jp.resetToPreferredSizes();
-				isHide=false;
 				}
-				else{
-					lib.hide();
-					isHide=true;				
-				}
-			}				
+				else
+					lib.setVisible(false);
+			}	
+			
+			else if(e.getKeyCode()==68){
+				if(des.isVisible())
+					des.setVisible(false);
+				else
+					des.setVisible(true);
+			}
 			
 		}
 		

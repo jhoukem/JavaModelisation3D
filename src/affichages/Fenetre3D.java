@@ -16,6 +16,7 @@ import javax.swing.JSplitPane;
 import listener_package.MyButtonAjoutListener;
 import listener_package.MyButtonDeleteListener;
 import listener_package.MyButtonRcheListener;
+import listener_package.MyButtonSaveListener;
 import listener_package.MyKeyboardListener;
 import listener_package.MyTabListener;
 
@@ -35,11 +36,13 @@ public class Fenetre3D extends JFrame{
 		try {
 			JPanel p= new JPanel();
 			JPanel inP=new JPanel();
+			JPanel mode = new JPanel();
 			p.setLayout(new BorderLayout());
 			inP.setLayout(new BorderLayout());
 			
 			jt = new JTabbedPaneWithCloseIcons();
-			Librairie lib = new Librairie(jt);			
+			Librairie lib = new Librairie(jt);	
+			Descripteur des = new Descripteur();
 			FModelisation md = new FModelisation();
 			Outils m =new Outils(md,lib,jt);
 			JMenuBar menu = new JMenuBar();
@@ -51,19 +54,27 @@ public class Fenetre3D extends JFrame{
 			rm.addActionListener(new MyButtonDeleteListener(lib));
 			JMenuItem rche = new JMenuItem("Rechercher un fichier gts");
 			rche.addActionListener(new MyButtonRcheListener(lib));
-			JMenuItem rc = new JMenuItem("Ctrl +H pour afficher/masquer la librairie");
+			JMenuItem save = new JMenuItem("Sauvegarder un fichier gts");
+			save.addActionListener(new MyButtonSaveListener(lib));
+			JMenuItem rc1 = new JMenuItem("Ctrl+L pour afficher/masquer la librairie");
+			JMenuItem rc2 = new JMenuItem("Ctrl+D pour afficher/masquer la description");
 			fichier.add(add);
 			fichier.add(rm);
-			aide.add(rc);
-			
+			fichier.add(rche);
+			fichier.add(save);
+			aide.add(rc1);
+			aide.add(rc2);
 			menu.add(fichier);
 			menu.add(aide);
 			
 			
-			jt.addChangeListener(new MyTabListener(m,jt));
+			jt.addChangeListener(new MyTabListener(m,jt,des));
 			//this.add(jt,BorderLayout.CENTER);			
 			//this.add(m, BorderLayout.NORTH);
-			sp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, lib, jt);
+			mode.setLayout(new BorderLayout());
+			mode.add(jt,BorderLayout.CENTER);
+			mode.add(des,BorderLayout.SOUTH);
+			sp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, lib, mode);
 			sp.resetToPreferredSizes();
 			
 			inP.add(m, BorderLayout.NORTH);
@@ -73,7 +84,7 @@ public class Fenetre3D extends JFrame{
 			p.add(inP,BorderLayout.CENTER);
 			
 			this.add(p);
-			this.addKeyListener(new MyKeyboardListener(lib,sp));
+			this.addKeyListener(new MyKeyboardListener(lib,sp,des));
 			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 			int width = (int) screenSize.getWidth();
 			int height = (int) screenSize.getHeight();

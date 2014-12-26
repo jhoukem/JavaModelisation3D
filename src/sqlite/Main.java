@@ -27,7 +27,7 @@ public class Main {
 				System.out.println("path = " + rs.getString("path"));
 				System.out.println("num = " + rs.getString("title"));
 				System.out.println("path = " + rs.getString("des"));
-				System.out.println("num = " + rs.getString("keyword"));
+				System.out.println("keyword = " + rs.getString("keyword"));
 				
 				System.out.println("-------------------------------------");
 			}

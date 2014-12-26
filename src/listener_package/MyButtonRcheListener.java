@@ -7,14 +7,14 @@ import affichages.Librairie;
 
 public class MyButtonRcheListener implements ActionListener {
 
-	public MyButtonRcheListener(Librairie lib) {
-		// TODO Auto-generated constructor stub
+	Librairie lib;
+	public MyButtonRcheListener(Librairie l) {
+		this.lib = l;
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
-
+	public void actionPerformed(ActionEvent e) {
+		System.out.println("rche");
 	}
 
 }

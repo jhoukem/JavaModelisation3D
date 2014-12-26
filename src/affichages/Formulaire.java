@@ -27,11 +27,11 @@ public class Formulaire extends JDialog implements ActionListener{
 	JTextArea des= new JTextArea("description");
 	JTextField keyWord= new JTextField("motcle");
 	public boolean isValid = true;
-	
+	FModelisation f;
 
 	public Formulaire(Fenetre3D fenetre, String s){
 		super(fenetre,"test",true);
-		FModelisation f = null;
+		f = null;
 		try {
 			f = new FModelisation(s,false);
 		} catch (SegmentException e) {
@@ -97,6 +97,10 @@ public class Formulaire extends JDialog implements ActionListener{
 
 	public String getKeyWord(){
 	return keyWord.getText();
+	}
+	
+	public int[] getInfos(){
+		return f.getInfos();
 	}
 
 

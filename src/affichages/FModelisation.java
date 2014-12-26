@@ -1,4 +1,4 @@
-﻿package affichages;
+package affichages;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -41,8 +41,12 @@ public class FModelisation extends JPanel {
 	private int opt =1;
 	private Point centre;
 	private double minX, minY, maxX, maxY;
+	private String path;
+	public String getPath() {
+		return path;
+	}
 
-
+	//renvoie un tab de int avec respectivement nbpts nbsgmts et nbfcs
 	public int getOpt() {
 		return opt;
 	}
@@ -114,7 +118,7 @@ public class FModelisation extends JPanel {
 
 	public FModelisation(String fichier, boolean b) throws SegmentException {
 		try {
-			
+			this.path=fichier;
 			this.setBackground(new Color(142,162,198));
 			if(b){//permet de savoir si c'est un visualisation avant l'import ou apres
 			this.addMouseMotionListener(new MyMouseMotionListener(this));
@@ -177,7 +181,7 @@ public class FModelisation extends JPanel {
 				e.printStackTrace();
 			}
 			Collections.sort(f);
-			//System.out.println("Faces triÃ©es");
+			//System.out.println("Faces triées");
 			for(int i=0;i<f.size();i++){
 				int[] x= new int[3];
 				int [] y= new int[3];
@@ -207,7 +211,7 @@ public class FModelisation extends JPanel {
 				g.drawLine((int)(Matrix.getElem(0, i)*zoom+xSize/2), (int) (Matrix.getElem(1, i)*zoom+ySize/2), (int)(Matrix.getElem(0, i)*zoom+xSize/2), (int) (Matrix.getElem(1, i)*zoom+ySize/2));
 			}
 		}
-	//	System.out.println("AffichÃ©");
+	//	System.out.println("Affiché");
 	}
 
 
@@ -222,7 +226,7 @@ public class FModelisation extends JPanel {
 		return res;
 	}
 
-	//fonction permettant de crï¿½er la matrice homogï¿½ne des points de la figure
+	//fonction permettant de cr�er la matrice homog�ne des points de la figure
 	public void setPtsToMatrix(){
 		Matrix = new Matrice(4,pts.length);
 		centre = getCenter();
@@ -236,7 +240,7 @@ public class FModelisation extends JPanel {
 		}
 	}
 
-	//fonction permettant de rï¿½cupï¿½rer les points dans la matrice
+	//fonction permettant de r�cup�rer les points dans la matrice
 	public void setMatrixToPts(){
 		for(int i=0; i<Matrix.getnColonnes(); i++){
 			pts[i]= new Point(Matrix.getElem(0, i), Matrix.getElem(1, i), Matrix.getElem(2, i));
@@ -281,13 +285,13 @@ public class FModelisation extends JPanel {
 	//fonction permettant d'obtenir une rotation d'angle r autour de l'axe des X
 	public void setRotationX(double r) throws MatriceNotCorrespondingException, SegmentException {
 		Matrix = Matrice.multiplier(Matrice.getRotationX(r), Matrix);
-		//System.out.println("CalculÃ©e");
+		//System.out.println("Calculée");
 	}
 
 	//fonction permettant d'obtenir une rotation d'angle r autour de l'axe des Y
 	public void setRotationY(double r) throws MatriceNotCorrespondingException, SegmentException {
 		Matrix = Matrice.multiplier(Matrice.getRotationY(r), Matrix);
-	//	System.out.println("CalculÃ©e");
+	//	System.out.println("Calculée");
 	}
 
 	public List<Face> getFces() {
@@ -302,7 +306,7 @@ public class FModelisation extends JPanel {
 			Segment s3 = new Segment(new Point(Matrix.getElem(0, numsgmts[numfces[i][2]-1][0]-1),Matrix.getElem(1, numsgmts[numfces[i][2]-1][0]-1),Matrix.getElem(2, numsgmts[numfces[i][2]-1][0]-1)),new Point(Matrix.getElem(0, numsgmts[numfces[i][2]-1][1]-1),Matrix.getElem(1, numsgmts[numfces[i][2]-1][1]-1),Matrix.getElem(2, numsgmts[numfces[i][2]-1][1]-1)));
 			f.add(new Face(s1,s2,s3));
 		}
-		//	System.out.println("Faces rangÃ©es");
+		//	System.out.println("Faces rangées");
 	}
 
 	public GtsReader getGts() {

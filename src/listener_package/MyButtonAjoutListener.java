@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -54,9 +55,11 @@ public class MyButtonAjoutListener  implements ActionListener {
 							int cpt = getMaxValue(rs);
 							form = new Formulaire(fenetre,selection.getAbsolutePath());
 							if(form.isValid){
-
-								if(f.copier(selection.getAbsolutePath(), "./gts_files/"+s))
-									maBase.executeStmt("insert into FichiersGts values('"+cpt+"','"+s+"','"+form.getTitle()+"','"+form.getDes()+"','"+form.getKeyWord()+"')");
+								if(f.copier(selection.getAbsolutePath(), "./gts_files/"+s)){
+									maBase.executeStmt("insert into FichiersGts values('"+cpt+"','"+s+"','"+form.getTitle()+
+											"','"+form.getDes()+"','"+form.getKeyWord()+"','"+getTime()+"','"
+											+form.getInfos()[0]+"','"+form.getInfos()[1]+"','"+form.getInfos()[2]+"')");
+								}
 								else
 									JOptionPane.showMessageDialog(null,"Impossible de copier le fichier'"+s+"' vérifiez qu'il n'est pas ouvert ou utilisé par une autre application","Erreur",JOptionPane.ERROR_MESSAGE);
 							}
@@ -99,5 +102,12 @@ public class MyButtonAjoutListener  implements ActionListener {
 		return cpt;
 	}
 
+	public String getTime(){
+		String format = "dd/MM/yy H:mm:ss";
+		SimpleDateFormat formater = new java.text.SimpleDateFormat( format ); 
+		java.util.Date date = new java.util.Date(); 
+		return formater.format( date );
+		//System.out.println( formater.format( date ) ); 
+	}
 }
 

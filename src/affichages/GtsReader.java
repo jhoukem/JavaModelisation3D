@@ -29,19 +29,19 @@ public class GtsReader {
 	 * @throws SegmentException 
 	 */
 	public GtsReader(){
-		
+
 	}
 	public GtsReader(String filename,boolean b) throws SegmentException {
 		infos = new int[3];
 		// TODO exceptions a traiter si fichier non trouve
 		if(b)
-		path += filename;
+			path += filename;
 		else
 			path = filename;
 		try {
 			flux = new FileReader(path);
 			entry = new BufferedReader(flux);
-			
+
 			initInfos();
 			extractPoints();
 			extractSegments();
@@ -63,15 +63,15 @@ public class GtsReader {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 	public void extractPoints() throws IOException {
 		this.pts = new Point[infos[0]];
 		String line = entry.readLine();
 		double x, y, z;
-	
+
 		for (int i = 0; i < infos[0]; i++) {
-			
+
 			x = Double.parseDouble(line.substring(0, line.indexOf(" ")));
 			y = Double.parseDouble(line.substring(line.indexOf(" ") + 1,line.lastIndexOf(" ")));
 			z = Double.parseDouble(line.substring(line.lastIndexOf(" ") + 1));
@@ -82,7 +82,7 @@ public class GtsReader {
 	}
 
 	public void extractSegments() throws IOException, SegmentException {
-		
+
 		numsgmts = new int[infos[1]][2];
 		String line = entry.readLine();
 		int pt1, pt2;
@@ -97,7 +97,7 @@ public class GtsReader {
 				line=entry.readLine();	
 		}
 	}
-	
+
 	public void extractFaces() throws IOException, SegmentException {
 		numfces = new int[infos[2]][3];
 		String line = entry.readLine();
@@ -113,14 +113,14 @@ public class GtsReader {
 			line = entry.readLine();
 		}
 	}
-	
+
 	public void setSegments() throws SegmentException{
 		sgmts = new Segment[infos[1]];
 		for(int i=0; i < infos[1]; i++){
 			sgmts[i]=new Segment(pts[numsgmts[i][0]-1], pts[numsgmts[i][1]-1]);
 		}
 	}
-	
+
 	public void setFaces() throws SegmentException{
 		fces = new Face[infos[2]];
 		for(int i=0; i < infos[2]; i++){
@@ -145,7 +145,7 @@ public class GtsReader {
 			infos[i] = Integer.parseInt(n);
 		}
 	}
-	
+
 	public int[] getInfos() {
 		return infos;
 	}
@@ -153,7 +153,7 @@ public class GtsReader {
 	public Point[] getPoints() {
 		return pts;
 	}
-	
+
 	public Segment[] getSegments(){
 		return sgmts;
 	}
@@ -169,7 +169,7 @@ public class GtsReader {
 	public int[][] getNumfces() {
 		return numfces;
 	}
-	
+
 	@Override
 	public String toString() {
 		String str = "";
@@ -189,11 +189,11 @@ public class GtsReader {
 		boolean isValid = true;
 		infos = new int[3];
 		// TODO exceptions a traiter si fichier non trouve
-			path = filename;
+		path = filename;
 		try {
 			flux = new FileReader(path);
 			entry = new BufferedReader(flux);
-			
+
 			initInfos();
 			extractPoints();
 			extractSegments();
@@ -206,4 +206,5 @@ public class GtsReader {
 		}
 		return isValid;
 	}
+	
 }
