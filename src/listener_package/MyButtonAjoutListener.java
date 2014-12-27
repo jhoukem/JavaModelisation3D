@@ -1,5 +1,7 @@
 package listener_package;
 
+
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -14,6 +16,7 @@ import sqlite.GtsBase;
 import sqlite.MyFileManager;
 import affichages.Fenetre3D;
 import affichages.Formulaire;
+import affichages.FormulaireInfo;
 import affichages.GtsReader;
 import affichages.Librairie;
 
@@ -53,17 +56,18 @@ public class MyButtonAjoutListener  implements ActionListener {
 					} catch (SQLException e1) {
 						try {
 							int cpt = getMaxValue(rs);
-							form = new Formulaire(fenetre,selection.getAbsolutePath());
-							if(form.isValid){
+							form = new Formulaire(fenetre, selection.getAbsolutePath());
+					        FormulaireInfo formInfo = form.showFormulaire(); 
+					        JOptionPane jop = new JOptionPane();
+					        jop.showMessageDialog(null, formInfo.toString(), "Informations sur l'objet", JOptionPane.INFORMATION_MESSAGE);
 								if(f.copier(selection.getAbsolutePath(), "./gts_files/"+s)){
-									maBase.executeStmt("insert into FichiersGts values('"+cpt+"','"+s+"','"+form.getTitle()+
-											"','"+form.getDes()+"','"+form.getKeyWord()+"','"+getTime()+"','"
+									maBase.executeStmt("insert into FichiersGts values('"+cpt+"','"+s+"','"+formInfo.getTitre()+
+											"','"+formInfo.getDescription()+"','"+formInfo.getMotClef()+"','"+getTime() +"','"
 											+form.getInfos()[0]+"','"+form.getInfos()[1]+"','"+form.getInfos()[2]+"')");
-								}
-								else
+								
+								}else
 									JOptionPane.showMessageDialog(null,"Impossible de copier le fichier'"+s+"' vérifiez qu'il n'est pas ouvert ou utilisé par une autre application","Erreur",JOptionPane.ERROR_MESSAGE);
-							}
-
+							
 						} catch (SQLException e2) {
 							e2.printStackTrace();
 						}		

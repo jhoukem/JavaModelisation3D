@@ -29,8 +29,8 @@ public class Fenetre extends JPanel {
 		//g.drawLine(xSize / 2, 0, xSize / 2, ySize);
 
 		for (int i = 0; i < sgmt.length; i++) {
-			g.drawLine((int) (sgmt[i].getDébut().getX() * 20) + xSize / 2,
-					(int) (sgmt[i].getDébut().getY() * 20) + ySize / 2,
+			g.drawLine((int) (sgmt[i].getDebut().getX() * 20) + xSize / 2,
+					(int) (sgmt[i].getDebut().getY() * 20) + ySize / 2,
 					(int) (sgmt[i].getFin().getX() * 20) + xSize / 2,
 					(int) (sgmt[i].getFin().getY() * 20) + ySize / 2);
 		}

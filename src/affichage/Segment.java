@@ -22,7 +22,7 @@ public class Segment {
 		return "["+p1.toString() + ", " + p2.toString() + "]";
 	}
 	//renvoie le début du segment
-	public Point getDébut() {
+	public Point getDebut() {
 		return p1;
 	}
 	
