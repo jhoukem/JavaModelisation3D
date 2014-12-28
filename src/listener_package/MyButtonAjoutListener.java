@@ -58,8 +58,9 @@ public class MyButtonAjoutListener  implements ActionListener {
 							int cpt = getMaxValue(rs);
 							form = new Formulaire(fenetre, selection.getAbsolutePath());
 					        FormulaireInfo formInfo = form.showFormulaire(); 
-					        JOptionPane jop = new JOptionPane();
-					        jop.showMessageDialog(null, formInfo.toString(), "Informations sur l'objet", JOptionPane.INFORMATION_MESSAGE);
+					        //JOptionPane jop = new JOptionPane();
+					       // jop.showMessageDialog(null, formInfo.toString(), "Informations sur l'objet", JOptionPane.INFORMATION_MESSAGE);
+					        if(form.isValid){
 								if(f.copier(selection.getAbsolutePath(), "./gts_files/"+s)){
 									maBase.executeStmt("insert into FichiersGts values('"+cpt+"','"+s+"','"+formInfo.getTitre()+
 											"','"+formInfo.getDescription()+"','"+formInfo.getMotClef()+"','"+getTime() +"','"
@@ -67,7 +68,7 @@ public class MyButtonAjoutListener  implements ActionListener {
 								
 								}else
 									JOptionPane.showMessageDialog(null,"Impossible de copier le fichier'"+s+"' vérifiez qu'il n'est pas ouvert ou utilisé par une autre application","Erreur",JOptionPane.ERROR_MESSAGE);
-							
+					        }
 						} catch (SQLException e2) {
 							e2.printStackTrace();
 						}		
