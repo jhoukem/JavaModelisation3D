@@ -24,7 +24,6 @@ import exceptions.SegmentException;
 public class Formulaire extends JDialog implements ActionListener{
 	private static final long serialVersionUID = 1L;
 	private FormulaireInfo formInfo = new FormulaireInfo();
-	private boolean sendData;
 	private JLabel titreLabel, descriptionLabel, motClefLabel, imageFenetre;
 	private JRadioButton couleur1, couleur2, couleur3, couleur4, couleur5, couleur6, couleur7, couleur8;
 	private JTextField titre, motClef;
@@ -51,7 +50,6 @@ public class Formulaire extends JDialog implements ActionListener{
 	}
 
 	public FormulaireInfo showFormulaire(){
-		this.sendData = false;
 		this.setVisible(true);
 		return this.formInfo;
 	}

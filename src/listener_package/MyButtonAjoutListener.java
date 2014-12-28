@@ -36,6 +36,7 @@ public class MyButtonAjoutListener  implements ActionListener {
 
 		JFileChooser chooser = new JFileChooser();
 		chooser.setApproveButtonText("Importer");
+		chooser.setDialogTitle("Importer");
 		chooser.setApproveButtonToolTipText("Importe l'élément sélectionné dans la base de données");
 		int returnVal = chooser.showOpenDialog(null);
 		if (returnVal != JFileChooser.CANCEL_OPTION) {	

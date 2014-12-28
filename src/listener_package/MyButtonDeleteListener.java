@@ -28,6 +28,7 @@ public class MyButtonDeleteListener  implements ActionListener {
 
 		JFileChooser chooser = new JFileChooser("./gts_files");
 		chooser.setApproveButtonText("Supprimer");
+		chooser.setDialogTitle("Supprimer");
 		chooser.setApproveButtonToolTipText("Supprime l'élément sélectionné de la base de données");
 		int returnVal = chooser.showOpenDialog(null);
 		if (returnVal != JFileChooser.CANCEL_OPTION) {	
