@@ -117,6 +117,7 @@ public class FModelisation extends JPanel {
 
 
 	public FModelisation(String fichier, boolean b) throws SegmentException {
+		
 		try {
 			this.path=fichier;
 			this.setBackground(new Color(142,162,198));
@@ -132,7 +133,7 @@ public class FModelisation extends JPanel {
 		}
 	}
 	public FModelisation() {
-
+		this.setBackground(new Color(142,162,198));
 	}
 
 	

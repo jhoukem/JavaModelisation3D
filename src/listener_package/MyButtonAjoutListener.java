@@ -57,10 +57,9 @@ public class MyButtonAjoutListener  implements ActionListener {
 					} catch (SQLException e1) {
 						try {
 							int cpt = getMaxValue(rs);
-							form = new Formulaire(fenetre, selection.getAbsolutePath());
+							form = new Formulaire(fenetre, selection.getAbsolutePath(), "Enregistrement d'un fichier gts");
 					        FormulaireInfo formInfo = form.showFormulaire(); 
-					        //JOptionPane jop = new JOptionPane();
-					       // jop.showMessageDialog(null, formInfo.toString(), "Informations sur l'objet", JOptionPane.INFORMATION_MESSAGE);
+					      
 					        if(form.isValid){
 								if(f.copier(selection.getAbsolutePath(), "./gts_files/"+s)){
 									maBase.executeStmt("insert into FichiersGts values('"+cpt+"','"+s+"','"+formInfo.getTitre()+

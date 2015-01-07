@@ -13,6 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
@@ -28,20 +29,18 @@ public class Formulaire extends JDialog implements ActionListener{
 	private JRadioButton couleur1, couleur2, couleur3, couleur4, couleur5, couleur6, couleur7, couleur8;
 	private JTextField titre, motClef;
 	private JTextArea description;
-	public boolean isValid = true;
+	public boolean isValid = false;
 	FModelisation f;
 
-	public Formulaire (Fenetre3D fenetre , String title){
+	public Formulaire (Fenetre3D fenetre ,String path, String title){
 		super(fenetre, title, true);
 		this.setSize(750, 350);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
-		this.setDefaultCloseOperation(Formulaire.DO_NOTHING_ON_CLOSE);
-
-		//this.setVisible(true);
+		this.setDefaultCloseOperation(Formulaire.DISPOSE_ON_CLOSE);
 		f = null;
 		try {
-			f = new FModelisation(title,false);
+			f = new FModelisation(path,false);
 		} catch (SegmentException e) {
 			e.printStackTrace(); 
 		}
@@ -67,33 +66,40 @@ public class Formulaire extends JDialog implements ActionListener{
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if(e.getActionCommand().equals("Annuler"))
+		if(e.getActionCommand().equals("Annuler")){
 			this.isValid = false;
-		else{
-			this.isValid = true;
-			formInfo = new FormulaireInfo(titre.getText(), description.getText(), motClef.getText(), getCouleur());
-			System.out.println(titre.getText());
-			System.out.println(description.getText());
-			System.out.println(motClef.getText());
-			//setVisible(false);
+			this.dispose();			
 		}
-		this.dispose();		
+		else{
+			String s = "";
+			if(titre.getText().isEmpty() )
+				s="'Titre' ";
+			if(motClef.getText().isEmpty())
+				s+="'Mot Cle'";
+			if(!s.isEmpty()){
+				s+=".";
+				this.setAlwaysOnTop(false);
+				JOptionPane.showMessageDialog(null,"Enregistrement du fichier impossible ! Le ou les champ(s) suivant(s) sont obligatoire: "+s,"Erreur",JOptionPane.ERROR_MESSAGE);
+				this.setAlwaysOnTop(true);
+			}
+			else {	
+				this.isValid = true;
+				formInfo = new FormulaireInfo(titre.getText(), description.getText(), motClef.getText(), getCouleur());
+				this.dispose();
+			}
+			
+		}
+
 	}
 
 
 	public void initComponent(){
-
-
-		imageFenetre = new JLabel(new ImageIcon("icon/Xwing.png"));
-		imageFenetre.setPreferredSize(new Dimension(120,80));
+		
 		JPanel panImage = new JPanel();
 		panImage.setPreferredSize(new Dimension(150,80));
 		panImage.setBackground(Color.white);
 		panImage.setLayout(new BorderLayout());
-		//panImage.add(imageFenetre);
 		panImage.add(f);
-
-
 
 		JPanel panTitre = new JPanel();
 		panTitre.setBackground(Color.white);
@@ -167,7 +173,7 @@ public class Formulaire extends JDialog implements ActionListener{
 		nord.add(panMotClef);
 		nord.setLayout(new GridLayout(1,1,5,5));
 		content.add(panDescription, BorderLayout.CENTER);
-		content.add(panCouleur, BorderLayout.SOUTH);
+		//content.add(panCouleur, BorderLayout.SOUTH);
 		content.add(nord, BorderLayout.NORTH);
 
 
@@ -185,6 +191,7 @@ public class Formulaire extends JDialog implements ActionListener{
 		this.getContentPane().add(panImage, BorderLayout.WEST);
 		this.getContentPane().add(content, BorderLayout.CENTER);
 		this.getContentPane().add(control, BorderLayout.SOUTH);
+		this.setAlwaysOnTop(true);
 	}
 
 	public int[] getInfos() {

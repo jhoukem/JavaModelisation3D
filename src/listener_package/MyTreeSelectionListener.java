@@ -1,9 +1,12 @@
 package listener_package;
 
+import java.sql.ResultSet;
+
 import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 
+import sqlite.GtsBase;
 import affichages.FModelisation;
 import affichages.JTabbedPaneWithCloseIcons;
 import affichages.Outils;
@@ -40,7 +43,19 @@ public class MyTreeSelectionListener implements TreeSelectionListener {
 						m.MajButtons();
 					}
 					String c = e.getNewLeadSelectionPath().getLastPathComponent().toString();
-					jt.addTab(c.substring(0,c.length()-4),new FModelisation(c,true));
+					GtsBase maBase = new GtsBase();
+					try{
+						maBase.open();
+						ResultSet rs = maBase.executeQry("select * from FichiersGts where path ='"+c+"'");
+						jt.addTab(rs.getString("titre"),new FModelisation(c,true));
+					}
+					catch(Exception e2){
+					e2.printStackTrace();	
+					}
+					finally{
+						maBase.close();
+					}
+					
 					progress.end();
 				}
 			} catch (Exception e1) {

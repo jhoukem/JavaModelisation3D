@@ -18,6 +18,7 @@ import listener_package.MyButtonDeleteListener;
 import listener_package.MyButtonRcheListener;
 import listener_package.MyButtonSaveListener;
 import listener_package.MyKeyboardListener;
+import listener_package.MyMenuAffichageListener;
 import listener_package.MyTabListener;
 
 
@@ -29,6 +30,12 @@ public class Fenetre3D extends JFrame{
 	 */
 	private static final long serialVersionUID = 1L;
 	JTabbedPaneWithCloseIcons jt;
+	public JTabbedPaneWithCloseIcons getJt() {
+		return jt;
+	}
+	public void setJt(JTabbedPaneWithCloseIcons jt) {
+		this.jt = jt;
+	}
 	JSplitPane sp;
 	public Fenetre3D() {
 		super("3D Project");
@@ -47,25 +54,27 @@ public class Fenetre3D extends JFrame{
 			Outils m =new Outils(md,lib,jt);
 			JMenuBar menu = new JMenuBar();
 			JMenu fichier = new JMenu("Fichier");
-			JMenu aide = new JMenu("Aide");
+			JMenu affichage = new JMenu("Affichage");
 			JMenuItem add = new JMenuItem("Ajouter un fichier gts");
 			add.addActionListener(new MyButtonAjoutListener(lib,this));
 			JMenuItem rm = new JMenuItem("Supprimer un fichier gts");
 			rm.addActionListener(new MyButtonDeleteListener(lib));
 			JMenuItem rche = new JMenuItem("Rechercher un fichier gts");
-			rche.addActionListener(new MyButtonRcheListener(lib));
+			rche.addActionListener(new MyButtonRcheListener(lib,this));
 			JMenuItem save = new JMenuItem("Sauvegarder un fichier gts");
 			save.addActionListener(new MyButtonSaveListener(lib));
-			JMenuItem rc1 = new JMenuItem("Ctrl+L pour afficher/masquer la librairie");
-			JMenuItem rc2 = new JMenuItem("Ctrl+D pour afficher/masquer la description");
+			JMenuItem rc1 = new JMenuItem("Afficher/Masquer la librairie     Ctrl+L");
+			JMenuItem rc2 = new JMenuItem("Afficher/Masquer la description   Ctrl+D");
+			
+			
 			fichier.add(add);
 			fichier.add(rm);
 			fichier.add(rche);
 			fichier.add(save);
-			aide.add(rc1);
-			aide.add(rc2);
+			affichage.add(rc1);
+			affichage.add(rc2);
 			menu.add(fichier);
-			menu.add(aide);
+			menu.add(affichage);
 			
 			
 			jt.addChangeListener(new MyTabListener(m,jt,des));
@@ -77,6 +86,9 @@ public class Fenetre3D extends JFrame{
 			sp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, lib, mode);
 			sp.resetToPreferredSizes();
 			
+			
+			rc1.addActionListener(new MyMenuAffichageListener(lib,sp,des));
+			rc2.addActionListener(new MyMenuAffichageListener(lib,sp,des));
 			inP.add(m, BorderLayout.NORTH);
 			inP.add(sp, BorderLayout.CENTER);
 			
