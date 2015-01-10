@@ -36,7 +36,6 @@ public class FModelisation extends JPanel {
 	private Matrice Matrix;
 	private double zoom=0;
 	private boolean isRot = true;
-	private int k=0;
 	private boolean isIn=true;
 	private int opt =1;
 	private Point centre;
@@ -113,6 +112,13 @@ public class FModelisation extends JPanel {
 	public void setLastYPos(int lastYPos) {
 		this.lastYPos = lastYPos;
 	}
+	public boolean isAliasing() {
+		return aliasing;
+	}
+
+	public void setAliasing(boolean aliasing) {
+		this.aliasing = aliasing;
+	}
 
 
 
@@ -140,6 +146,7 @@ public class FModelisation extends JPanel {
 
 	
 	public void setFigure(String fichier, boolean b) throws SegmentException,VectorException, MatriceNotCorrespondingException {
+		this.path =fichier;
 		this.setFichier(fichier);
 		setGts(new GtsReader(fichier,b));
 		setInfos(getGts().getInfos());
@@ -167,16 +174,12 @@ public class FModelisation extends JPanel {
 			g.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_SPEED);
 			g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
 			}
-		if(k==0){
-			xSize = this.getWidth();
-			ySize = this.getHeight();
-			k++;
-		}
 		if(initialisation){
+			xSize = this.getWidth();
+			ySize = this.getHeight();	
 			initZoom();
 			initialisation = false;
 		}
-	//	System.out.println("x:" +xSize+" y :" +ySize);
 		if(opt==AFFICHE_FACES) {
 			try {
 				setFces();

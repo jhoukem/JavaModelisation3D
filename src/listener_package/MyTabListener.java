@@ -24,12 +24,12 @@ public class MyTabListener implements ChangeListener{
 			m.enableBoutons();
 		des.setVisible(false);	
 		}
+	
+		else if(jt.getTabCount()>0){
+			des.setInfos(((FModelisation) jt.getComponentAt(jt.getSelectedIndex())).getPath());
+			m.MajButtons();
+		}
 		
-		if (jt.getTabCount()>0){
-		des.setInfos(((FModelisation) jt.getComponentAt(jt.getSelectedIndex())).getPath());
-		m.addListener((FModelisation) jt.getComponentAt(jt.getSelectedIndex()), jt);
-		m.MajButtons();
-		}		
 	}
 
 }

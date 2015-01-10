@@ -181,7 +181,7 @@ public class FormulaireRecherche extends JDialog implements ActionListener, List
 
 		JButton RechercheBouton2 = new JButton("Rechercher");
 		RechercheBouton2.addActionListener(this);
-
+		
 		control2.add(okBouton2);
 		control2.add(cancelBouton2);
 		control2.add(RechercheBouton2);

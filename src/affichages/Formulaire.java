@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -19,7 +20,10 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import sqlite.GtsBase;
+import exceptions.MatriceNotCorrespondingException;
 import exceptions.SegmentException;
+import exceptions.VectorException;
 
 
 public class Formulaire extends JDialog implements ActionListener{
@@ -45,9 +49,55 @@ public class Formulaire extends JDialog implements ActionListener{
 			e.printStackTrace(); 
 		}
 		this.initComponent();
+		//this.setOldText(path);
 
 	}
+	public Formulaire (Fenetre3D fenetre ,String path, String title, String s){
+		super(fenetre, title, true);
+		this.setSize(750, 350);
+		this.setLocationRelativeTo(null);
+		this.setResizable(false);
+		this.setDefaultCloseOperation(Formulaire.DISPOSE_ON_CLOSE);
+		f = new FModelisation();
+		try {
+			f.setFigure(path, true);
+			f.initZoom();
+			f.repaint();
+			f.setVisible(true);
+			this.initComponent();
+			this.setOldText(path);
+		} catch (SegmentException | VectorException
+				| MatriceNotCorrespondingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 
+	private void setOldText(String path) {
+		String title="";
+		String des="";
+		String motcle="";
+		GtsBase maBase = new GtsBase();
+		try{
+			maBase.open();
+			ResultSet rs = maBase.executeQry("select * from FichiersGts where path ='"+path+"'");
+			while(rs.next()){
+				title = rs.getString("titre");
+				des = rs.getString("des");
+				motcle = rs.getString("motcle");
+			}
+			this.titre.setText(title);
+			this.motClef.setText(motcle);
+			this.description.setText(des);		
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+			maBase.close();
+		}
+	}
 	public FormulaireInfo showFormulaire(){
 		this.setVisible(true);
 		return this.formInfo;
@@ -72,14 +122,24 @@ public class Formulaire extends JDialog implements ActionListener{
 		}
 		else{
 			String s = "";
-			if(titre.getText().isEmpty() )
+			int p = 0;
+			if(titre.getText().isEmpty() ){
 				s="'Titre' ";
-			if(motClef.getText().isEmpty())
+				p++;
+			}
+			if(motClef.getText().isEmpty()){
 				s+="'Mot Cle'";
+			p++;	
+			}
 			if(!s.isEmpty()){
 				s+=".";
 				this.setAlwaysOnTop(false);
-				JOptionPane.showMessageDialog(null,"Enregistrement du fichier impossible ! Le ou les champ(s) suivant(s) sont obligatoire: "+s,"Erreur",JOptionPane.ERROR_MESSAGE);
+				String m = "";
+				if(p==2)
+					m = "Les champs suivants sont obligatoire: "; 
+				else
+					m ="Le champ suivant est obligatoire: ";
+				JOptionPane.showMessageDialog(null,"Enregistrement du fichier impossible ! "+m+s,"Erreur",JOptionPane.ERROR_MESSAGE);
 				this.setAlwaysOnTop(true);
 			}
 			else {	
@@ -92,9 +152,7 @@ public class Formulaire extends JDialog implements ActionListener{
 
 	}
 
-
-	public void initComponent(){
-		
+	public void initComponent(){	
 		JPanel panImage = new JPanel();
 		panImage.setPreferredSize(new Dimension(150,80));
 		panImage.setBackground(Color.white);
@@ -178,7 +236,7 @@ public class Formulaire extends JDialog implements ActionListener{
 
 
 		JPanel control = new JPanel();
-		JButton okBouton = new JButton("Ok");
+		JButton okBouton = new JButton("Enregistrer");
 
 		okBouton.addActionListener(this);
 

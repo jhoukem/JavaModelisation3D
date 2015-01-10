@@ -4,13 +4,16 @@ package affichages;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Image;
+import java.awt.event.ActionListener;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JToolBar;
 
+import listener_package.MyButtonAliasingListener;
 import listener_package.MyButtonFacesListener;
+import listener_package.MyButtonModifierListener;
 import listener_package.MyButtonPointsListener;
 import listener_package.MyButtonResetListener;
 import listener_package.MyButtonRotListener;
@@ -28,16 +31,26 @@ public class Outils extends JToolBar{
 	public JButton point;
 	public JButton segment;
 	public JButton face;
+	public JButton alia;
+	public JButton mod;
 	
+	private ActionListener al;
+	
+	
+
 	JTabbedPaneWithCloseIcons j;
 	FModelisation fM ;
+	Descripteur des;
+	Fenetre3D fenetre3d;
 
 	private Librairie lib;
-	public Outils(FModelisation f ,Librairie l, JTabbedPaneWithCloseIcons jt){
+	public Outils(FModelisation f ,Librairie l, JTabbedPaneWithCloseIcons jt, Descripteur d,Fenetre3D fen){
+		this.des = d;
+		this.fenetre3d = fen;
 		this.fM=f;
 		this.j=jt;
 		this.setLib(l);
-		//lib.l.addListSelectionListener(new MyListSelectionListener(l.l, l.jt,this));
+	
 		lib.tree.addTreeSelectionListener(new MyTreeSelectionListener(lib.tree, jt, this));
 		this.setLayout(new FlowLayout(FlowLayout.LEFT, 4, 4));
 		this.setBackground(new Color(36,66,124));
@@ -52,36 +65,34 @@ public class Outils extends JToolBar{
 		rot = new JButton(rt);
 		trans = new JButton(tl);
 		reset = new JButton("Reset");
+		alia = new JButton("Performance");
+		mod = new JButton("Modifier Infos");
+		
 		enableBoutons();
-		//addListener(f,jt);
-
-
 		this.add(rot);
 		this.add(trans);
 		this.add(reset);
 		this.add(face);
 		this.add(segment);
 		this.add(point);
+		this.add(alia);
+		this.add(mod);
 
 	}
 
 	public void addListener(FModelisation f, JTabbedPaneWithCloseIcons jt){
 		if(f.getFichier()!=null)	{	// si c'est la premiere FM qui est vide inutile de l'init	
-			reset.addActionListener(new MyButtonResetListener(jt));
-	/*
-			if(f.isRot()){
-				rot.setEnabled(false);
-				trans.setEnabled(true);
-			}
-			else{
-				rot.setEnabled(true);
-				trans.setEnabled(false);
-			}*/
+		reset.addActionListener(new MyButtonResetListener(jt));
 		trans.addActionListener(new MyButtonTransListener(trans,rot,jt));
 		rot.addActionListener(new MyButtonRotListener(trans,rot,jt));
 		point.addActionListener(new MyButtonPointsListener(jt,this));
 		segment.addActionListener(new MyButtonSegmentsListener(jt,this));
 		face.addActionListener(new MyButtonFacesListener(jt,this));
+		alia.addActionListener(new MyButtonAliasingListener(jt,this));
+		mod.removeActionListener(al);
+		al = new MyButtonModifierListener(fenetre3d,jt,des);
+		mod.addActionListener(al);
+		
 		}
 	}
 
@@ -107,6 +118,8 @@ public class Outils extends JToolBar{
 		face.setEnabled(false);	
 		rot.setEnabled(false);
 		trans.setEnabled(false);
+		alia.setEnabled(false);
+		mod.setEnabled(false);
 		
 	}
 	
@@ -135,9 +148,14 @@ public class Outils extends JToolBar{
 			this.segment.setEnabled(true);
 			this.point.setEnabled(false);
 		}
-		this.reset.setEnabled(true);
-		
-		
-		
+		if(((FModelisation)j.getSelectedComponent()).isAliasing())	
+			this.alia.setText("Qualité");
+		else
+			this.alia.setText("Performance");
+		this.alia.setEnabled(true);
+		this.mod.setEnabled(true);
+		this.reset.setEnabled(true);	
 	}
+	
+
 }

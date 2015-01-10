@@ -48,6 +48,7 @@ public class MyTreeSelectionListener implements TreeSelectionListener {
 						maBase.open();
 						ResultSet rs = maBase.executeQry("select * from FichiersGts where path ='"+c+"'");
 						jt.addTab(rs.getString("titre"),new FModelisation(c,true));
+						m.addListener((FModelisation) jt.getComponentAt(jt.getTabCount()-1), jt);
 					}
 					catch(Exception e2){
 					e2.printStackTrace();	

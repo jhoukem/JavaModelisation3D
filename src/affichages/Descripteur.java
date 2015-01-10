@@ -47,13 +47,13 @@ public class Descripteur extends JPanel {
 			maBase.open();
 			ResultSet rs = maBase.executeQry("select * from FichiersGts where path='"+path+"'");
 			rs.next();
-			title.setText("Titre: "+rs.getString("titre")); 
-			des.setText("Description "+rs.getString("des")); 
-			motCle.setText("Mot Cle: "+rs.getString("motcle")); 
-			dateAjout.setText("Date d'ajout à la librairie: "+rs.getString("dateajout")); 
-			nbPts.setText("Nombre de points: "+rs.getString("nbpoints")); 
-			nbSgmts.setText("Nombre de segments: "+rs.getString("nbsegments")); 
-			nbFces.setText("Nombre de faces: "+rs.getString("nbfaces")); 
+			title.setText("Titre:                                      "+rs.getString("titre")); 
+			des.setText("Description                          "+rs.getString("des")); 
+			motCle.setText("Mot Clé:                                 "+rs.getString("motcle")); 
+			dateAjout.setText("Date d'ajout à la librairie:  "+rs.getString("dateajout")); 
+			nbPts.setText("Nombre de points:              "+rs.getString("nbpoints")); 
+			nbSgmts.setText("Nombre de segments:       "+rs.getString("nbsegments")); 
+			nbFces.setText("Nombre de faces:               "+rs.getString("nbfaces")); 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -62,5 +62,5 @@ public class Descripteur extends JPanel {
 			this.setVisible(true);
 		}
 		
-	}   
+	}
 }

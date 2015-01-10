@@ -15,6 +15,7 @@ import javax.swing.JSplitPane;
 
 import listener_package.MyButtonAjoutListener;
 import listener_package.MyButtonDeleteListener;
+import listener_package.MyButtonModifierListener;
 import listener_package.MyButtonRcheListener;
 import listener_package.MyButtonSaveListener;
 import listener_package.MyKeyboardListener;
@@ -51,7 +52,8 @@ public class Fenetre3D extends JFrame{
 			Librairie lib = new Librairie(jt);	
 			Descripteur des = new Descripteur();
 			FModelisation md = new FModelisation();
-			Outils m =new Outils(md,lib,jt);
+			Outils m = new Outils(md,lib,jt,des,this);
+			
 			JMenuBar menu = new JMenuBar();
 			JMenu fichier = new JMenu("Fichier");
 			JMenu affichage = new JMenu("Affichage");
@@ -64,11 +66,13 @@ public class Fenetre3D extends JFrame{
 			JMenuItem save = new JMenuItem("Sauvegarder un fichier gts");
 			save.addActionListener(new MyButtonSaveListener(lib));
 			JMenuItem rc1 = new JMenuItem("Afficher/Masquer la librairie     Ctrl+L");
+			
 			JMenuItem rc2 = new JMenuItem("Afficher/Masquer la description   Ctrl+D");
 			
 			
 			fichier.add(add);
 			fichier.add(rm);
+			
 			fichier.add(rche);
 			fichier.add(save);
 			affichage.add(rc1);
@@ -84,11 +88,10 @@ public class Fenetre3D extends JFrame{
 			mode.add(jt,BorderLayout.CENTER);
 			mode.add(des,BorderLayout.SOUTH);
 			sp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, lib, mode);
-			sp.resetToPreferredSizes();
-			
-			
+			sp.resetToPreferredSizes();	
 			rc1.addActionListener(new MyMenuAffichageListener(lib,sp,des));
 			rc2.addActionListener(new MyMenuAffichageListener(lib,sp,des));
+			
 			inP.add(m, BorderLayout.NORTH);
 			inP.add(sp, BorderLayout.CENTER);
 			
