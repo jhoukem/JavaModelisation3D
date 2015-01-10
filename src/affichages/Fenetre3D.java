@@ -15,7 +15,6 @@ import javax.swing.JSplitPane;
 
 import listener_package.MyButtonAjoutListener;
 import listener_package.MyButtonDeleteListener;
-import listener_package.MyButtonModifierListener;
 import listener_package.MyButtonRcheListener;
 import listener_package.MyButtonSaveListener;
 import listener_package.MyKeyboardListener;

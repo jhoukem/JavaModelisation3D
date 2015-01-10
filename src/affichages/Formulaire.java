@@ -10,7 +10,6 @@ import java.sql.ResultSet;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -29,7 +28,7 @@ import exceptions.VectorException;
 public class Formulaire extends JDialog implements ActionListener{
 	private static final long serialVersionUID = 1L;
 	private FormulaireInfo formInfo = new FormulaireInfo();
-	private JLabel titreLabel, descriptionLabel, motClefLabel, imageFenetre;
+	private JLabel titreLabel, descriptionLabel, motClefLabel;
 	private JRadioButton couleur1, couleur2, couleur3, couleur4, couleur5, couleur6, couleur7, couleur8;
 	private JTextField titre, motClef;
 	private JTextArea description;

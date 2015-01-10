@@ -54,6 +54,7 @@ public class Outils extends JToolBar{
 		lib.tree.addTreeSelectionListener(new MyTreeSelectionListener(lib.tree, jt, this));
 		this.setLayout(new FlowLayout(FlowLayout.LEFT, 4, 4));
 		this.setBackground(new Color(36,66,124));
+		
 		Icon img = new ImageIcon(this.getClass().getResource("t.png"));
 		ImageIcon tl = new ImageIcon(((ImageIcon) img).getImage().getScaledInstance(16, 16, Image.SCALE_AREA_AVERAGING));
 		img = new ImageIcon(this.getClass().getResource("r.png"));
