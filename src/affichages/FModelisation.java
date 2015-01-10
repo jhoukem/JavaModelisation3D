@@ -134,6 +134,8 @@ public class FModelisation extends JPanel {
 	}
 	public FModelisation() {
 		this.setBackground(new Color(142,162,198));
+		this.setVisible(false);
+	
 	}
 
 	

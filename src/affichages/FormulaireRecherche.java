@@ -29,7 +29,7 @@ import sqlite.GtsBase;
 
 public class FormulaireRecherche extends JDialog implements ActionListener, ListSelectionListener{
 	private static final long serialVersionUID = 1L;
-	private FormulaireRechercheInfo formRechInfo = new FormulaireRechercheInfo();
+	private FormulaireRechercheInfo formRechInfo;
 	private JLabel  nbrPointLabel,nbrFaceLabel, nbrSegmentLabel, motClefLabel, imageRecherche;
 	private JTextField motClef, nbrFace, nbrSegment, nbrPoint;
 	private JList <String>liste;
@@ -112,13 +112,11 @@ public class FormulaireRecherche extends JDialog implements ActionListener, List
 		panImage2.setPreferredSize(new Dimension(180,70));
 		panImage2.setBackground(Color.white);
 		panImage2.setLayout(new BorderLayout());
-		try {
-			fm = new FModelisation("sphere5.gts",true);
-			panImage2.add(fm);
-		} catch (SegmentException e) {
-			e.printStackTrace();
-		}
-
+		
+		fm = new FModelisation();
+			
+	
+		panImage2.add(fm);
 		JPanel panRechMultiCritere = new JPanel();
 		panRechMultiCritere.setBackground(Color.white);
 		panRechMultiCritere.setPreferredSize(new Dimension(150,75));
@@ -207,11 +205,11 @@ public class FormulaireRecherche extends JDialog implements ActionListener, List
 						if(selected != null ){
 							if(!selected.isEmpty()){
 								try {
-									progress.go();
-									fm.show();
+									progress.go();									
 									fm.setFigure(selected, true);
 									fm.initZoom();
 									fm.repaint();
+									fm.setVisible(true);
 									progress.end();
 								} catch (SegmentException e1) {
 									// TODO Auto-generated catch block
@@ -227,7 +225,7 @@ public class FormulaireRecherche extends JDialog implements ActionListener, List
 							
 						}
 						else
-							fm.hide();
+						fm.setVisible(false);
 					}
 						catch(NullPointerException e2){
 							e2.printStackTrace();
