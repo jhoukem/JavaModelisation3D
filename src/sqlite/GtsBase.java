@@ -44,7 +44,7 @@ public class GtsBase {
 		try
 		{
 			// create a database connection
-			connection = DriverManager.getConnection("jdbc:sqlite:test.sqlite");
+			connection = DriverManager.getConnection("jdbc:sqlite:./data/bddgts.sqlite");
 			statement = connection.createStatement();
 			statement.setQueryTimeout(5); 		
 		}

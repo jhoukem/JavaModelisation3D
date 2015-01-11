@@ -52,7 +52,9 @@ public class GtsReader {
 			e.printStackTrace();
 		}
 		
-
+		finally{
+			close();
+		}
 	}
 
 

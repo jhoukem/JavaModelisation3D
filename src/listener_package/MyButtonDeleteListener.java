@@ -41,15 +41,10 @@ public class MyButtonDeleteListener  implements ActionListener {
 				ResultSet rs;
 				try {
 					rs = maBase.executeQry("select * from FichiersGts where path ='"+s+"'");	
-					rs.next();//si on n'a pas d'exception c'est que le resultset a un resultat en donc que l'objet est présent ds la abse
+					rs.next();//si on n'a pas d'exception c'est que le resultset a un resultat en donc que l'objet est présent ds la base
 					rs.getString("path");
 					int cpt = lib.getJt().getTabCount();//On regarde le nbre d'onglet ouverts
 					
-					for(int i = 0 ; i < cpt; i++){//pr chaque onglet
-						if( ( (FModelisation)lib.getJt().getComponentAt(i)).getFichier().equals(s) ){//si il c'est le fichier qu'on veut delete, on ferme l'onglet
-							((FModelisation)lib.getJt().getComponentAt(i)).getGts().close();//on ferme le fichier ouvert en lecture
-						}
-					}
 					if(f.delete(selection.getAbsolutePath())){//Si on a réussi a supprimer le fichier phsique on retire sa référence dans la BDD
 						maBase.executeStmt("delete from FichiersGts where path = '"+s+"'");
 						for(int i = 0 ; i < cpt; i++){//pr chaque onglet

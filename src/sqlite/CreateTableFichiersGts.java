@@ -21,7 +21,7 @@ public class CreateTableFichiersGts
 		try
 		{
 			// create a database connection
-		connection = DriverManager.getConnection("jdbc:sqlite:test.sqlite");
+		connection = DriverManager.getConnection("jdbc:sqlite:./data/bddgts.sqlite");
 		statement = connection.createStatement();
 		statement.setQueryTimeout(30);  // set timeout to 30 sec.
 		statement.executeUpdate("drop table FichiersGts"); 
