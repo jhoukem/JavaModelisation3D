@@ -66,7 +66,7 @@ public class Outils extends JToolBar{
 		rot = new JButton(rt);
 		trans = new JButton(tl);
 		reset = new JButton("Reset");
-		alia = new JButton("Performance");
+		alia = new JButton("Qualité");
 		mod = new JButton("Modifier Infos");
 		
 		enableBoutons();
@@ -150,9 +150,9 @@ public class Outils extends JToolBar{
 			this.point.setEnabled(false);
 		}
 		if(((FModelisation)j.getSelectedComponent()).isAliasing())	
-			this.alia.setText("Qualité");
-		else
 			this.alia.setText("Performance");
+		else
+			this.alia.setText("Qualité");
 		this.alia.setEnabled(true);
 		this.mod.setEnabled(true);
 		this.reset.setEnabled(true);	

@@ -24,7 +24,7 @@ public class MyButtonSaveListener implements ActionListener {
 		File selection = null ;
 		MyFileManager f = new MyFileManager();
 
-		JFileChooser chooser = new JFileChooser("./gts_files");
+		JFileChooser chooser = new JFileChooser("./data/gts_files");
 		chooser.setApproveButtonText("Selectionner");
 		chooser.setDialogTitle("Selectionner");
 		chooser.setApproveButtonToolTipText("Choisissez l'élément à sauvegarder");

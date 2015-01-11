@@ -21,11 +21,11 @@ public class MyButtonAliasingListener implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand().equals("Performance")){
 			outils.alia.setText("Qualité");
-			((FModelisation)jt.getSelectedComponent()).setAliasing(true);
+			((FModelisation)jt.getSelectedComponent()).setAliasing(false);
 		}
 		else{
 			outils.alia.setText("Performance");
-			((FModelisation)jt.getSelectedComponent()).setAliasing(false);
+			((FModelisation)jt.getSelectedComponent()).setAliasing(true);
 		}
 		((FModelisation)jt.getSelectedComponent()).repaint();
 			
