@@ -37,7 +37,6 @@ public class MyMouseListener implements MouseListener{
 		fM.setLastXPos(e.getX());
 		fM.setLastYPos(e.getY());
 		lastOpt = fM.getOpt();
-		System.out.println(fM.isAliasing());
 		if(fM.needPerf() && !fM.isAliasing())
 			fM.setOpt(3);
 		fM.repaint();

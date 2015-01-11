@@ -19,12 +19,12 @@ public class MyButtonAliasingListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getActionCommand().equals("Performance")){
-			outils.alia.setText("Qualité");
+		if(e.getActionCommand().equals("Aliasing: OFF")){
+			outils.alia.setText("Aliasing: ON");
 			((FModelisation)jt.getSelectedComponent()).setAliasing(false);
 		}
 		else{
-			outils.alia.setText("Performance");
+			outils.alia.setText("Aliasing: OFF");
 			((FModelisation)jt.getSelectedComponent()).setAliasing(true);
 		}
 		((FModelisation)jt.getSelectedComponent()).repaint();
