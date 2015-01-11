@@ -27,7 +27,7 @@ public class CreateTableFichiersGts
 		statement.executeUpdate("drop table FichiersGts"); 
 		statement.executeUpdate("create table FichiersGts (id integer primary key,path text, titre text, des text, motcle text,"
 				+ "dateajout text,nbpoints integer,nbsegments integer,nbfaces integer)");
-		statement.executeUpdate("insert into FichiersGts values (1,'cone.gts','title','des','k','date','pts','sgmts','pts')");
+		//statement.executeUpdate("insert into FichiersGts values (1,'cone.gts','title','des','k','date','pts','sgmts','pts')");
 		//statement.executeUpdate("insert into FichiersGts values (2,'x_wing.gts')");
 		statement.close();
 		}
