@@ -19,7 +19,7 @@ public class GtsReader {
 	private int[][] numfces;
 	private FileReader flux;
 	private BufferedReader entry;
-	private String path = "./gts_files/";
+	private String path = "./data/gts_files/";
 
 	/**
 	 * 
@@ -51,6 +51,7 @@ public class GtsReader {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
 
 	}
 

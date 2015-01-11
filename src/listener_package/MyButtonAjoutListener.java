@@ -61,7 +61,7 @@ public class MyButtonAjoutListener  implements ActionListener {
 					        FormulaireInfo formInfo = form.showFormulaire(); 
 					      
 					        if(form.isValid){
-								if(f.copier(selection.getAbsolutePath(), "./gts_files/"+s)){
+								if(f.copier(selection.getAbsolutePath(), "./data/gts_files/"+s)){
 									maBase.executeStmt("insert into FichiersGts values('"+cpt+"','"+s+"','"+formInfo.getTitre()+
 											"','"+formInfo.getDescription()+"','"+formInfo.getMotClef()+"','"+getTime() +"','"
 											+form.getInfos()[0]+"','"+form.getInfos()[1]+"','"+form.getInfos()[2]+"')");
