@@ -21,8 +21,8 @@ public class Segment {
 	public String toString() {
 		return "["+p1.toString() + ", " + p2.toString() + "]";
 	}
-	//renvoie le début du segment
-	public Point getDébut() {
+	//renvoie le debut du segment
+	public Point getDebut() {
 		return p1;
 	}
 	

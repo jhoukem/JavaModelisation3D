@@ -31,9 +31,9 @@ public class Face extends JPanel {
 
 	//renvoie le barycentre d'une face 
 	public Point barycentre(){
-		double x =  this.s1.getDébut().getX() + this.s2.getDébut().getX() + this.s3.getDébut().getX(); 
-		double y =  this.s1.getDébut().getY() + this.s2.getDébut().getY() + this.s3.getDébut().getY(); 
-		double z =  this.s1.getDébut().getZ() + this.s2.getDébut().getZ() + this.s3.getDébut().getZ(); 
+		double x =  this.s1.getDebut().getX() + this.s2.getDebut().getX() + this.s3.getDebut().getX(); 
+		double y =  this.s1.getDebut().getY() + this.s2.getDebut().getY() + this.s3.getDebut().getY(); 
+		double z =  this.s1.getDebut().getZ() + this.s2.getDebut().getZ() + this.s3.getDebut().getZ(); 
 		return new Point(x/3,y/3,z/3);
 	}
 
